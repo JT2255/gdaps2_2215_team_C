@@ -4,6 +4,9 @@
 _This README contains basic information about the project and its artifacts. If kept up to date, it will act as a primary dashboard for the project._
 
 ## Team Members
+- Joe
+- Kyle Molinaroli
+- Wilson Xia
 - Kendyl Greer
 - MEMBER2
 - MEMBER3
