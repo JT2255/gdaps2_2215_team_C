@@ -8,7 +8,7 @@ _This README contains basic information about the project and its artifacts. If 
 - Kyle Molinaroli
 - Wilson Xia
 - Kendyl Greer
--Tori Schinstine
+- Tori Schinstine
 
 
 ## Repo Organization
