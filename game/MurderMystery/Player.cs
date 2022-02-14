@@ -10,6 +10,7 @@ namespace MurderMystery
         #region Fields
         private string name;
         private List<Item> inventory;
+        private IDictionary<bool, string> clues;
         private float moveSpeed;
         #endregion
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,7 +21,8 @@ namespace MurderMystery
         public Player(string name)
         {
             this.name = name;
-             inventory = new List<Item>();
+            inventory = new List<Item>();
+            clues = new Dictionary<bool, string>();
         }
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

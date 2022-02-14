@@ -40,8 +40,8 @@ namespace MurderMystery
             this.name = name;
             this.isMurderer = isMurderer;
             this.isDead = isDead;
-            this.aliveDialogue = aliveDialogue;
-            this.deadDialogue = deadDialogue;
+            //this.aliveDialogue = aliveDialogue;
+            //this.deadDialogue = deadDialogue;
         }
         #endregion
 
