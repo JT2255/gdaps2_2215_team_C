@@ -1,6 +1,5 @@
 # Team C
 ## IGME-106-SECTION Spring 2022
-https://prod.liveshare.vsengsaas.visualstudio.com/join?A38704E3962770A51DE30E4C31BAA73568E2
 _This README contains basic information about the project and its artifacts. If kept up to date, it will act as a primary dashboard for the project._
 
 ## Team Members
