@@ -3,6 +3,7 @@ _Use this file to document basic instructions for running the game and known bug
 ## Setup
 
 ## Basic Controls
-
+A / Left Arrow - Move Left
+D / Right Arrow - Move Right
 ## Known Issues
 
