@@ -13,6 +13,14 @@ namespace MurderMystery
         EndMenu
     }
 
+    enum CurrentRoom
+    {
+        Room1,
+        Room2,
+        Room3,
+        Room4
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -22,7 +30,13 @@ namespace MurderMystery
         private MouseState mState;
         private MouseState prevMState;
         private CurrentState state;
+        private CurrentRoom room;
         private SpriteFont font;
+        private Player player;
+        private int windowWidth;
+        private int windowHeight;
+        private Rectangle playerPos;
+        private Texture2D playerTexture;
 
         public Game1()
         {
@@ -36,14 +50,19 @@ namespace MurderMystery
             // TODO: Add your initialization logic herew
             //Game starts at the main menu by default
             state = CurrentState.MainMenu;
-
+            room = CurrentRoom.Room1;
+            windowHeight = _graphics.PreferredBackBufferHeight;
+            windowWidth = _graphics.PreferredBackBufferWidth;
+            playerPos = new Rectangle(windowWidth / 2, windowHeight - 100, 50, 50);          
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            playerTexture = Content.Load<Texture2D>("character");
             font = Content.Load<SpriteFont>("font");
+            player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
 
             // TODO: use this.Content to load your game content here
         }
@@ -95,7 +114,25 @@ namespace MurderMystery
                     break;
 
                 case CurrentState.Game:
-                    _spriteBatch.DrawString(font, "You are now playing the game.\nPress M to go back\nor I to go to inventory.", new Vector2(0, 0), Color.White);
+
+                    switch (room)
+                    {
+                        case CurrentRoom.Room1:
+                            _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
+                                $"\n{room}", new Vector2(0, 0), Color.White);
+                            GraphicsDevice.Clear(Color.Navy);
+                            player.Draw(_spriteBatch);
+                            break;
+                        case CurrentRoom.Room2:
+                            _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
+                                $"\n{room}", new Vector2(0, 0), Color.White);
+                            GraphicsDevice.Clear(Color.DarkOliveGreen);
+                            player.Draw(_spriteBatch);
+                            break;
+                        default:
+                            break;
+                    }
+                    
                     break;
 
                 case CurrentState.Inventory:
@@ -160,6 +197,29 @@ namespace MurderMystery
             if (SingleKeyPress(Keys.Escape, kbState))
             {
                 state = CurrentState.PauseMenu;
+            }
+
+            switch (room)
+            {
+                case CurrentRoom.Room1:
+                    if (player.Position.X < 0)
+                    {
+                        room = CurrentRoom.Room2;
+                        player.Right();
+                    }
+
+                    player.Move();
+                    break;
+                case CurrentRoom.Room2:
+                    if (player.Position.X > windowWidth)
+                    {
+                        room = CurrentRoom.Room1;
+                        player.Left();
+                    }
+                    player.Move();
+                    break;
+                default:
+                    break;
             }
         }
 
