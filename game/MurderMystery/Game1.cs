@@ -53,6 +53,7 @@ namespace MurderMystery
             room = CurrentRoom.Room1;
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
+            //position of character
             playerPos = new Rectangle(windowWidth / 2, windowHeight - 100, 50, 50);          
             base.Initialize();
         }
@@ -115,25 +116,35 @@ namespace MurderMystery
 
                 case CurrentState.Game:
 
+                    //when in game state, check for what room state you are in
                     switch (room)
                     {
                         case CurrentRoom.Room1:
+
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
                                 $"\n\n{room}", new Vector2(0, 0), Color.White);
+
                             GraphicsDevice.Clear(Color.Navy);
                             player.Draw(_spriteBatch);
+
                             break;
                         case CurrentRoom.Room2:
+
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
                                 $"\n\n{room}", new Vector2(0, 0), Color.White);
+
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             player.Draw(_spriteBatch);
+
                             break;
                         case CurrentRoom.Room3:
+
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
                                 $"\n\n{room}", new Vector2(0, 0), Color.White);
+
                             GraphicsDevice.Clear(Color.Gray);
                             player.Draw(_spriteBatch);
+
                             break;
                         default:
                             break;
@@ -208,29 +219,32 @@ namespace MurderMystery
             switch (room)
             {
                 case CurrentRoom.Room1:
+                    //if you walk to the left, go to room 2
                     if (player.Position.X < 0)
                     {
                         room = CurrentRoom.Room2;
                         player.Right();
                     }
 
+                    //if you walk to the right, go to room 3
                     if (player.Position.X > windowWidth)
                     {
                         room = CurrentRoom.Room3;
                         player.Left();
                     }
-
                     player.Move();
                     break;
                 case CurrentRoom.Room2:
-                        if (player.Position.X > windowWidth)
-                        {
-                            room = CurrentRoom.Room1;
-                            player.Left();
-                        }                
+                    //if you walk right, go back to room 1
+                    if (player.Position.X > windowWidth)
+                    {
+                        room = CurrentRoom.Room1;
+                        player.Left();
+                    }                
                     player.Move();
                     break;
                 case CurrentRoom.Room3:
+                    //if you walk left, go back to room 1
                     if (player.Position.X < 0)
                     {
                         room = CurrentRoom.Room1;

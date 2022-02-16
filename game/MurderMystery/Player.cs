@@ -23,6 +23,7 @@ namespace MurderMystery
         #endregion
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Properties
+        //return position of player
         public Rectangle Position
         {
             get
@@ -63,21 +64,25 @@ namespace MurderMystery
             }
         }
 
+        //draws character with given sprite and position
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, Color.White);
         }
 
+        //center player in screen
         public void Center()
         {
             position.X = width / 2;
         }
 
+        //put player on right side of screen to simulate walking into room from the right
         public void Right()
         {
             position.X = width;
         }
 
+        //put player on left side of screen to simulate walking into room from the left
         public void Left()
         {
             position.X = 0;
