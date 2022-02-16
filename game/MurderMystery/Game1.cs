@@ -119,13 +119,13 @@ namespace MurderMystery
                     {
                         case CurrentRoom.Room1:
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n{room}", new Vector2(0, 0), Color.White);
+                                $"\n\n{room}", new Vector2(0, 0), Color.White);
                             GraphicsDevice.Clear(Color.Navy);
                             player.Draw(_spriteBatch);
                             break;
                         case CurrentRoom.Room2:
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n{room}", new Vector2(0, 0), Color.White);
+                                $"\n\n{room}", new Vector2(0, 0), Color.White);
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             player.Draw(_spriteBatch);
                             break;
