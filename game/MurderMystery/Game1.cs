@@ -129,6 +129,12 @@ namespace MurderMystery
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             player.Draw(_spriteBatch);
                             break;
+                        case CurrentRoom.Room3:
+                            _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
+                                $"\n\n{room}", new Vector2(0, 0), Color.White);
+                            GraphicsDevice.Clear(Color.Gray);
+                            player.Draw(_spriteBatch);
+                            break;
                         default:
                             break;
                     }
@@ -208,13 +214,27 @@ namespace MurderMystery
                         player.Right();
                     }
 
+                    if (player.Position.X > windowWidth)
+                    {
+                        room = CurrentRoom.Room3;
+                        player.Left();
+                    }
+
                     player.Move();
                     break;
                 case CurrentRoom.Room2:
-                    if (player.Position.X > windowWidth)
+                        if (player.Position.X > windowWidth)
+                        {
+                            room = CurrentRoom.Room1;
+                            player.Left();
+                        }                
+                    player.Move();
+                    break;
+                case CurrentRoom.Room3:
+                    if (player.Position.X < 0)
                     {
                         room = CurrentRoom.Room1;
-                        player.Left();
+                        player.Right();
                     }
                     player.Move();
                     break;
