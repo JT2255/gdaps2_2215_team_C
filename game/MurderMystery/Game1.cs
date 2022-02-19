@@ -33,10 +33,12 @@ namespace MurderMystery
         private CurrentRoom room;
         private SpriteFont font;
         private Player player;
+        private NPC testNPC;
         private int windowWidth;
         private int windowHeight;
         private Rectangle playerPos;
         private Texture2D playerTexture;
+        private Texture2D testNPCTexture;
 
         public Game1()
         {
@@ -54,7 +56,7 @@ namespace MurderMystery
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
             //position of character
-            playerPos = new Rectangle(windowWidth / 2, windowHeight - 100, 50, 50);          
+            playerPos = new Rectangle(windowWidth / 2, windowHeight - 100, 50, 50);
             base.Initialize();
         }
 
@@ -62,8 +64,10 @@ namespace MurderMystery
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             playerTexture = Content.Load<Texture2D>("character");
+            testNPCTexture = Content.Load<Texture2D>("npc");
             font = Content.Load<SpriteFont>("font");
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
+            testNPC = new NPC("test", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
 
             // TODO: use this.Content to load your game content here
         }
@@ -140,10 +144,17 @@ namespace MurderMystery
                         case CurrentRoom.Room3:
 
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n\n{room}", new Vector2(0, 0), Color.White);
+                                $"\n\n{room}\n{Clicked(testNPC)}", new Vector2(0, 0), Color.White);
 
                             GraphicsDevice.Clear(Color.Gray);
                             player.Draw(_spriteBatch);
+                            testNPC.Draw(_spriteBatch);
+
+                            //if being clicked on, show text
+                            if (Clicked(testNPC))
+                            {
+                                testNPC.Speak(_spriteBatch, font);
+                            }
 
                             break;
                         default:
@@ -285,6 +296,25 @@ namespace MurderMystery
             {
                 state = CurrentState.MainMenu;
             }
+        }
+
+        /// <summary>
+        /// If mouse is held down inside of npc, return true
+        /// </summary>
+        /// <param name="npc">npc object</param>
+        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
+        private bool Clicked(NPC npc)
+        {
+            if (mState.X > npc.Position.Left &&
+                mState.X < npc.Position.Right &&
+                mState.Y > npc.Position.Top &&
+                mState.Y < npc.Position.Bottom &&
+                mState.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
