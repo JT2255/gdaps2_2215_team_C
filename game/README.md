@@ -5,6 +5,6 @@ _Use this file to document basic instructions for running the game and known bug
 ## Basic Controls
  - A / Left Arrow - Move Left
  - D / Right Arrow - Move Right
- - Advance Dialogue
+ - Spacebar - Advance Dialogue
 ## Known Issues
 
