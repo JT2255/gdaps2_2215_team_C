@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
 namespace MurderMystery
 {
     enum CurrentState
@@ -50,6 +53,10 @@ namespace MurderMystery
         private Texture2D playerTexture;
         private Texture2D testNPCTexture;
 
+        //Misc
+        private StreamReader reader = null;
+        private List<Item> items;
+         
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -63,6 +70,8 @@ namespace MurderMystery
             // Game starts at the main menu by default
             state = CurrentState.MainMenu;
             room = CurrentRoom.Room1;
+
+            items = new List<Item>();
 
             // Initialize window
             windowHeight = _graphics.PreferredBackBufferHeight;
@@ -86,6 +95,9 @@ namespace MurderMystery
             // Initialize Objects
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+
+            //Load In Items
+            LoadItems();
 
             // TODO: use this.Content to load your game content here
         }
@@ -374,6 +386,33 @@ namespace MurderMystery
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Loads in items from item text file
+        /// </summary>
+        private void LoadItems()
+        {
+            try
+            {
+                //get item file
+                reader = new StreamReader("../../../../../data_files/items.txt");
+
+                string line;
+
+                //while there are still items to read in, keep reading
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] splitData = line.Split(',');
+
+                    //add new item to item list
+                    items.Add(new Item(splitData[0], splitData[1], int.Parse(splitData[2])));
+                }
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
         }
     }
 }
