@@ -144,16 +144,16 @@ namespace MurderMystery
                         case CurrentRoom.Room3:
 
                             _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n\n{room}\n{Clicked(testNPC)}", new Vector2(0, 0), Color.White);
+                                $"\n\n{room}\n{testNPC.DialogueNum}  {testNPC.IsTalking}", new Vector2(0, 0), Color.White);
 
                             GraphicsDevice.Clear(Color.Gray);
                             player.Draw(_spriteBatch);
                             testNPC.Draw(_spriteBatch);
 
-                            //if being clicked on, show text
-                            if (Clicked(testNPC))
+                            //if currently talking, draw dialogue
+                            if (testNPC.IsTalking)
                             {
-                                testNPC.Speak(_spriteBatch, font);
+                                testNPC.Speak(_spriteBatch, font);                     
                             }
 
                             break;
@@ -187,10 +187,20 @@ namespace MurderMystery
             {
                 return true;
             }
-            else
+
+            return false;
+        }
+
+        //check for single mouse press
+        private bool SingleMousePress(MouseState currentMState)
+        {
+            if (currentMState.LeftButton == ButtonState.Pressed &&
+                prevMState.LeftButton == ButtonState.Released)
             {
-                return false;
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -225,6 +235,25 @@ namespace MurderMystery
             if (SingleKeyPress(Keys.Escape, kbState))
             {
                 state = CurrentState.PauseMenu;
+            }
+
+            //on spacebar press, advance dialoge
+            if (testNPC.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                testNPC.DialogueNum++;                     
+            }
+
+            //if you click on him, toggle dialogue
+            if (Clicked(testNPC))
+            {
+                if (testNPC.IsTalking)
+                {
+                    testNPC.IsTalking = false;
+                }
+                else if (!testNPC.IsTalking)
+                {
+                    testNPC.IsTalking = true;
+                }
             }
 
             switch (room)
@@ -309,7 +338,7 @@ namespace MurderMystery
                 mState.X < npc.Position.Right &&
                 mState.Y > npc.Position.Top &&
                 mState.Y < npc.Position.Bottom &&
-                mState.LeftButton == ButtonState.Pressed)
+                SingleMousePress(mState))
             {
                 return true;
             }

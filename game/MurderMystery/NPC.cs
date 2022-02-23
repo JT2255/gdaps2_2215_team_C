@@ -14,10 +14,12 @@ namespace MurderMystery
         private string name;
         private bool isMurderer;
         private bool isDead;
+        private bool isTalking;
         private Rectangle position;
         private Texture2D texture;
         private string[] aliveDialogue;
         private string[] deadDialogue;
+        private int dialogueNum;
         #endregion
 
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +37,18 @@ namespace MurderMystery
         public bool IsDead
         {
             get { return isDead; }
+        }
+
+        public bool IsTalking
+        {
+            get { return isTalking; }
+            set { isTalking = value; }
+        }
+
+        public int DialogueNum
+        {
+            get { return dialogueNum;  }
+            set { dialogueNum = value; }
         }
 
         public Rectangle Position
@@ -55,7 +69,9 @@ namespace MurderMystery
             this.isDead = isDead;
             this.position = position;
             this.texture = texture;
-            //this.aliveDialogue = aliveDialogue;
+            isTalking = false;
+            dialogueNum = 0;
+            this.aliveDialogue = new string[3] {"First line", "Second Line", "Third Line"};
             //this.deadDialogue = deadDialogue;
         }
         #endregion
@@ -63,9 +79,18 @@ namespace MurderMystery
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
         public void Speak(SpriteBatch sb, SpriteFont font)
-        {
-            //draw string of dialogue
-            sb.DrawString(font, "stop clicking me :(", new Vector2(position.X, position.Y + 100), Color.White);
+        { 
+            //if there is still dialogue left in array, advance to next line
+            if (dialogueNum < aliveDialogue.Length)
+            {
+                sb.DrawString(font, $"{aliveDialogue[dialogueNum]}", new Vector2(position.X, position.Y + 100), Color.White);
+            } 
+            
+            //if no more dialogue, stop talking
+            if (dialogueNum == aliveDialogue.Length)
+            {
+                isTalking = false;
+            }
         }
 
         public void Draw(SpriteBatch sb)
