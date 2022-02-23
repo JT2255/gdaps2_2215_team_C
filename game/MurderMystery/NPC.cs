@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace MurderMystery
 {
@@ -20,6 +21,7 @@ namespace MurderMystery
         private string[] aliveDialogue;
         private string[] deadDialogue;
         private int dialogueNum;
+        private StreamReader reader = null;
         #endregion
 
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,7 +73,32 @@ namespace MurderMystery
             this.texture = texture;
             isTalking = false;
             dialogueNum = 0;
-            this.aliveDialogue = new string[3] {"First line", "Second Line", "Third Line"};
+
+            try
+            {
+                //open file in data_files, file needs to be samename as npc
+                reader = new StreamReader($"../../../../../data_files/{name}.txt");
+                string lineFromFile = reader.ReadLine();
+                int index = 0;
+
+                //initialize array with given length from file
+                aliveDialogue = new string[int.Parse(lineFromFile)];
+
+                //while theres still stuff, read in
+                while ((lineFromFile = reader.ReadLine()) != null)
+                {
+                    aliveDialogue[index] = lineFromFile;
+                    index++;
+                }
+
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+
             //this.deadDialogue = deadDialogue;
         }
         #endregion
@@ -98,6 +125,32 @@ namespace MurderMystery
             //draw npc
             sb.Draw(texture, position, Color.White);
         }
+
+        //private bool Clicked(MouseState mState)
+        //{
+        //    if (mState.X > position.Left &&
+        //        mState.X < position.Right &&
+        //        mState.Y > position.Top &&
+        //        mState.Y < position.Bottom &&
+        //        SingleMousePress(mState))
+        //    {
+        //        return true;
+        //    }
+
+        //    if (mState.X > npc.Position.Left &&
+        //        mState.X < npc.Position.Right &&
+        //        mState.Y > npc.Position.Top &&
+        //        mState.Y < npc.Position.Bottom)
+        //    {
+        //        Mouse.SetCursor(MouseCursor.Hand);
+        //    }
+        //    else
+        //    {
+        //        Mouse.SetCursor(MouseCursor.Arrow);
+        //    }
+
+        //    return false;
+        //}
         #endregion
 
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
