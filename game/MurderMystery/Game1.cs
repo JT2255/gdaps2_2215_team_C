@@ -47,7 +47,7 @@ namespace MurderMystery
         //Configs
         private int windowWidth;
         private int windowHeight;
-        private Rectangle playerPos;
+        private Vector2 playerPos;
 
         //Textures
         private Texture2D playerTexture;
@@ -77,7 +77,7 @@ namespace MurderMystery
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
             // Position of character
-            playerPos = new Rectangle(windowWidth / 2, windowHeight - 100, 50, 50);
+            playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
             base.Initialize();
         }
 
@@ -86,7 +86,7 @@ namespace MurderMystery
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             // Load Textures
-            playerTexture = Content.Load<Texture2D>("character");
+            playerTexture = Content.Load<Texture2D>("ElizabethSprite");
             testNPCTexture = Content.Load<Texture2D>("npc");
 
             // Load Fonts
@@ -109,6 +109,8 @@ namespace MurderMystery
 
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
+            player.UpdateAnim(gameTime);
+
 
             switch (state)
             {
