@@ -58,7 +58,7 @@ namespace MurderMystery
             moveSpeed = 4;
             inventory = new List<Item>();
             clues = new Dictionary<bool, string>();
-            fps = 5;
+            fps = 6;
             timePerFrame = 1 / fps;
             numOfFrames = 6;
             state = PlayerState.FacingLeft;
@@ -73,6 +73,7 @@ namespace MurderMystery
 
             switch (state)
             {
+                //when facing right, able to walk right or look back left
                 case (PlayerState.FacingRight):
                     if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
                     {
@@ -84,6 +85,7 @@ namespace MurderMystery
                         state = PlayerState.FacingLeft;
                     }
                     break;
+                //when walking right, move character
                 case (PlayerState.WalkingRight):                   
                     position.X += moveSpeed;
 
@@ -92,6 +94,7 @@ namespace MurderMystery
                         state = PlayerState.FacingRight;
                     }
                     break;
+                //when facing left, able to walk left or look back right
                 case PlayerState.FacingLeft:
                     if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
                     {
@@ -103,6 +106,7 @@ namespace MurderMystery
                         state = PlayerState.FacingRight;
                     }
                     break;
+                //when walking left, move character
                 case PlayerState.WalkingLeft:
                     position.X -= moveSpeed;
 
@@ -116,6 +120,10 @@ namespace MurderMystery
             }       
         }
 
+        /// <summary>
+        /// draw player depending on current movement state
+        /// </summary>
+        /// <param name="sb">sprite batch</param>
         public void Draw(SpriteBatch sb)
         {
             switch (state)
@@ -149,17 +157,22 @@ namespace MurderMystery
             sb.Draw(texture, position, new Rectangle(85 * frame, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, flip, 0);
         }
 
+        /// <summary>
+        /// Update frame animation for player, 
+        /// method code by Erika Mesh
+        /// </summary>
+        /// <param name="time"></param>
         public void UpdateAnim(GameTime time)
         {
-            this.time += time.ElapsedGameTime.TotalSeconds;
+            this.time += time.ElapsedGameTime.TotalSeconds; //check time passed
 
             if (this.time >= timePerFrame)
             {
-                frame++;
+                frame++; //increase current frame
 
-                if (frame > numOfFrames)
+                if (frame > numOfFrames) //check walk cycle
                 {
-                    frame = 1;
+                    frame = 0; //if cycle over, reset
                 }
 
                 this.time -= timePerFrame;
