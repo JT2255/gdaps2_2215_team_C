@@ -4,6 +4,9 @@ using System.Text;
 
 namespace MurderMystery
 {
+    /// <summary>
+    /// Represents an interactable object
+    /// </summary>
     class Item
     {
         // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,12 +32,15 @@ namespace MurderMystery
         #endregion
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Overrides
-        //override to string to say what each item is.
-        //Individual items will have a longer description describing their purpose.
-        //Ex. This is a rope. The ends are frayed and it looks quite worn out.
+
+        /// <summary>
+        /// Overrides the ToString method and returns
+        /// the name and description of the item
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return "This is a " + name + ".\n" + description;
+            return name + ": " + description;
         }
         #endregion
     }

@@ -36,7 +36,7 @@ namespace MurderMystery
         private MouseState prevMState;
 
         //Enums
-        private CurrentState state;
+        private CurrentState gameState;
         private CurrentRoom room;
 
         //Objects
@@ -66,18 +66,20 @@ namespace MurderMystery
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic herew
             // Game starts at the main menu by default
-            state = CurrentState.MainMenu;
+            gameState = CurrentState.MainMenu;
+            // Game starts in the first room by default
             room = CurrentRoom.Room1;
-
-            items = new List<Item>();
 
             // Initialize window
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
+
             // Position of character
             playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
+
+            items = new List<Item>();
+
             base.Initialize();
         }
 
@@ -96,10 +98,8 @@ namespace MurderMystery
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
 
-            //Load In Items
+            // Load In Items
             LoadItems();
-
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
@@ -107,12 +107,15 @@ namespace MurderMystery
            // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
           //      Exit();
 
+            // Sets up our states
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
+
+            // Updates the player animation
             player.UpdateAnim(gameTime);
 
-
-            switch (state)
+            // Processes the proper game logic
+            switch (gameState)
             {
                 case CurrentState.MainMenu:
                     ProcessMainMenu(kbState);
@@ -131,7 +134,7 @@ namespace MurderMystery
                 default:
                     break;
             }
-            // TODO: Add your update logic here
+
             prevKbState = kbState;
             prevMState = mState;
 
@@ -143,7 +146,7 @@ namespace MurderMystery
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
-            switch (state)
+            switch (gameState)
             {
                 case CurrentState.MainMenu:
                     _spriteBatch.DrawString(font, "Main Menu\nPress P to go to play state.", new Vector2(0, 0), Color.White);
@@ -207,7 +210,6 @@ namespace MurderMystery
                     break;
             }
 
-            // TODO: Add your drawing code here
             _spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -243,7 +245,7 @@ namespace MurderMystery
         {
             if (SingleKeyPress(Keys.P, kbState))
             {
-                state = CurrentState.Game;
+                gameState = CurrentState.Game;
             }
         }
 
@@ -256,17 +258,17 @@ namespace MurderMystery
         {
             if (SingleKeyPress(Keys.M, kbState))
             {
-                state = CurrentState.MainMenu;
+                gameState = CurrentState.MainMenu;
             }
 
             if (SingleKeyPress(Keys.I, kbState))
             {
-                state = CurrentState.Inventory;
+                gameState = CurrentState.Inventory;
             }
 
             if (SingleKeyPress(Keys.Escape, kbState))
             {
-                state = CurrentState.PauseMenu;
+                gameState = CurrentState.PauseMenu;
             }
 
             //on spacebar press, advance dialogue
@@ -288,6 +290,7 @@ namespace MurderMystery
                 }
             }
 
+            // Simulate room movement 
             switch (room)
             {
                 case CurrentRoom.Room1:
@@ -304,7 +307,7 @@ namespace MurderMystery
                         room = CurrentRoom.Room3;
                         player.Left();
                     }
-                    player.Move();
+                    player.Move(kbState);
                     break;
                 case CurrentRoom.Room2:
                     //if you walk right, go back to room 1
@@ -313,7 +316,7 @@ namespace MurderMystery
                         room = CurrentRoom.Room1;
                         player.Left();
                     }                
-                    player.Move();
+                    player.Move(kbState);
                     break;
                 case CurrentRoom.Room3:
                     //if you walk left, go back to room 1
@@ -322,7 +325,7 @@ namespace MurderMystery
                         room = CurrentRoom.Room1;
                         player.Right();
                     }
-                    player.Move();
+                    player.Move(kbState);
                     break;
                 default:
                     break;
@@ -337,7 +340,7 @@ namespace MurderMystery
         {
             if (SingleKeyPress(Keys.I, kbState))
             {
-                state = CurrentState.Game;
+                gameState = CurrentState.Game;
             }
         }
 
@@ -350,12 +353,12 @@ namespace MurderMystery
         {
             if(SingleKeyPress(Keys.Escape, kbState))
             {
-                state = CurrentState.Game;
+                gameState = CurrentState.Game;
             }
 
             if(SingleKeyPress(Keys.M, kbState))
             {
-                state = CurrentState.MainMenu;
+                gameState = CurrentState.MainMenu;
             }
         }
 

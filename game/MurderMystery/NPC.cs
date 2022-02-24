@@ -8,6 +8,9 @@ using System.IO;
 
 namespace MurderMystery
 {
+    /// <summary>
+    /// Represents a character in the game
+    /// </summary>
     class NPC
     {
         // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,44 +29,70 @@ namespace MurderMystery
 
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Properties
+
+        /// <summary>
+        /// Returns the player's name
+        /// </summary>
         public string Name
         {
             get { return name; }
         }
 
+        /// <summary>
+        /// Returns whether the NPC is the murderer
+        /// </summary>
         public bool IsMurderer
         {
             get { return isMurderer; }
         }
 
+        /// <summary>
+        /// Returns whether the NPC is dead
+        /// </summary>
         public bool IsDead
         {
             get { return isDead; }
         }
 
+        /// <summary>
+        /// Returns whether the NPC is talking
+        /// </summary>
         public bool IsTalking
         {
             get { return isTalking; }
             set { isTalking = value; }
         }
 
+        /// <summary>
+        /// Returns the NPC's current dialogue number
+        /// and sets the curretn dialogueNum
+        /// </summary>
         public int DialogueNum
         {
             get { return dialogueNum;  }
             set { dialogueNum = value; }
         }
 
+        /// <summary>
+        /// Returns the NPC's location
+        /// </summary>
         public Rectangle Position
         {
-            get
-            {
-                return position;
-            }
+            get { return position; }
         }
         #endregion
 
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Constructors
+
+        /// <summary>
+        /// Builds an NPC
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="isMurderer"></param>
+        /// <param name="isDead"></param>
+        /// <param name="position"></param>
+        /// <param name="texture"></param>
         public NPC(string name, bool isMurderer, bool isDead, Rectangle position, Texture2D texture)
         {
             this.name = name;
@@ -73,40 +102,22 @@ namespace MurderMystery
             this.texture = texture;
             isTalking = false;
             dialogueNum = 0;
-
-            try
-            {
-                //open file in data_files, file needs to be samename as npc
-                reader = new StreamReader($"../../../../../data_files/{name}.txt");
-                string lineFromFile = reader.ReadLine();
-                int index = 0;
-
-                //initialize array with given length from file
-                aliveDialogue = new string[int.Parse(lineFromFile)];
-
-                //while theres still stuff, read in
-                while ((lineFromFile = reader.ReadLine()) != null)
-                {
-                    aliveDialogue[index] = lineFromFile;
-                    index++;
-                }
-
-                reader.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-
             //this.deadDialogue = deadDialogue;
+
+            LoadDialogue();
         }
         #endregion
 
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
+
+        /// <summary>
+        /// Has the NPC speak their lines
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="font"></param>
         public void Speak(SpriteBatch sb, SpriteFont font)
-        { 
+        {
             //if there is still dialogue left in array, advance to next line
             if (dialogueNum < aliveDialogue.Length)
             {
@@ -120,9 +131,12 @@ namespace MurderMystery
             }
         }
 
+        /// <summary>
+        /// Draws the NPC
+        /// </summary>
+        /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
-            //draw npc
             sb.Draw(texture, position, Color.White);
         }
 
@@ -151,6 +165,41 @@ namespace MurderMystery
 
         //    return false;
         //}
+
+        /// <summary>
+        /// Loads in the dialogue from a file
+        /// </summary>
+        private void LoadDialogue()
+        {
+            try
+            {
+                // Open file in data_files, file needs to be the samename as npc
+                reader = new StreamReader($"../../../../../data_files/{name}.txt");
+                string lineFromFile = reader.ReadLine();
+                int index = 0;
+
+                //initialize array with given length from file
+                aliveDialogue = new string[int.Parse(lineFromFile)];
+
+                //while theres still stuff, read in
+                while ((lineFromFile = reader.ReadLine()) != null)
+                {
+                    aliveDialogue[index] = lineFromFile;
+                    index++;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            // Attempts to close the file
+            if (reader != null)
+            {
+                reader.Close();
+            }
+
+
+        }
         #endregion
 
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

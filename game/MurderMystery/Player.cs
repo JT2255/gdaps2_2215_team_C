@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace MurderMystery
 {
-    enum PlayerState
+    /// <summary>
+    /// Tracks the current player movement state
+    /// </summary>
+    enum PlayerMovementState
     {
         FacingLeft,
         FacingRight,
@@ -15,29 +18,34 @@ namespace MurderMystery
         WalkingRight
     }
 
+    /// <summary>
+    /// Represents a controllable character
+    /// </summary>
     class Player
     {
         // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Fields
         private string name;
         private List<Item> inventory;
-        private IDictionary<bool, string> clues;
+        // private IDictionary<bool, string> clues;
         private int moveSpeed;
         private Vector2 position;
         private Texture2D texture;
-        private KeyboardState kbState;
-        private int height;
-        private int width;
+        private int windowHeight;
+        private int windowWidth;
         private double fps;
         private double time;
         private int frame;
         private double timePerFrame;
         private int numOfFrames;
-        private PlayerState state;
+        private PlayerMovementState movementState;
         #endregion
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Properties
-        //return position of player
+        
+        /// <summary>
+        /// Returns the player's position
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -45,74 +53,83 @@ namespace MurderMystery
                 return position;
             }
         }
+
         #endregion
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Constructors
+
+        /// <summary>
+        /// Builds a player object
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="position"></param>
+        /// <param name="texture"></param>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
         public Player(string name, Vector2 position, Texture2D texture, int height, int width)
         {
             this.name = name;
             this.position = position;
             this.texture = texture;
-            this.width = width;
-            this.height = height;
+            this.windowWidth = width;
+            this.windowHeight = height;
             moveSpeed = 4;
             inventory = new List<Item>();
-            clues = new Dictionary<bool, string>();
+            // clues = new Dictionary<bool, string>();
             fps = 6;
             timePerFrame = 1 / fps;
             numOfFrames = 6;
-            state = PlayerState.FacingLeft;
+            movementState = PlayerMovementState.FacingLeft;
         }
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
-        //move character with A and D or left and right keys
-        public void Move()
+        
+        
+        public void Move(KeyboardState kbState)
         {
-            kbState = Keyboard.GetState();
-
-            switch (state)
+            switch (movementState)
             {
                 //when facing right, able to walk right or look back left
-                case (PlayerState.FacingRight):
+                case (PlayerMovementState.FacingRight):
                     if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
                     {
-                        state = PlayerState.WalkingRight;
+                        movementState = PlayerMovementState.WalkingRight;
                     }
 
                     if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
                     {
-                        state = PlayerState.FacingLeft;
+                        movementState = PlayerMovementState.FacingLeft;
                     }
                     break;
                 //when walking right, move character
-                case (PlayerState.WalkingRight):                   
+                case (PlayerMovementState.WalkingRight):                   
                     position.X += moveSpeed;
 
                     if (kbState.IsKeyUp(Keys.Right) && kbState.IsKeyUp(Keys.D))
                     {
-                        state = PlayerState.FacingRight;
+                        movementState = PlayerMovementState.FacingRight;
                     }
                     break;
                 //when facing left, able to walk left or look back right
-                case PlayerState.FacingLeft:
+                case PlayerMovementState.FacingLeft:
                     if (kbState.IsKeyDown(Keys.Left) || kbState.IsKeyDown(Keys.A))
                     {
-                        state = PlayerState.WalkingLeft;
+                        movementState = PlayerMovementState.WalkingLeft;
                     }
 
                     if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
                     {
-                        state = PlayerState.FacingRight;
+                        movementState = PlayerMovementState.FacingRight;
                     }
                     break;
                 //when walking left, move character
-                case PlayerState.WalkingLeft:
+                case PlayerMovementState.WalkingLeft:
                     position.X -= moveSpeed;
 
                     if (kbState.IsKeyUp(Keys.Left) && kbState.IsKeyUp(Keys.A))
                     {
-                        state = PlayerState.FacingLeft;
+                        movementState = PlayerMovementState.FacingLeft;
                     }
                     break;
                 default:
@@ -121,23 +138,27 @@ namespace MurderMystery
         }
 
         /// <summary>
-        /// draw player depending on current movement state
+        /// Draw player depending on current movement state
         /// </summary>
         /// <param name="sb">sprite batch</param>
         public void Draw(SpriteBatch sb)
         {
-            switch (state)
+            switch (movementState)
             {
-                case (PlayerState.FacingRight):
+                // Facing right
+                case (PlayerMovementState.FacingRight):
                     DrawStanding(sb, SpriteEffects.None);
                     break;
-                case (PlayerState.WalkingRight):
+                // Walking right
+                case (PlayerMovementState.WalkingRight):
                     DrawWalking(sb, SpriteEffects.None);
                     break;
-                case PlayerState.FacingLeft:
+                // Facing left
+                case PlayerMovementState.FacingLeft:
                     DrawStanding(sb, SpriteEffects.FlipHorizontally);
                     break;
-                case PlayerState.WalkingLeft:
+                // Walking left
+                case PlayerMovementState.WalkingLeft:
                     DrawWalking(sb, SpriteEffects.FlipHorizontally);
                     break;
                 default:
@@ -145,16 +166,24 @@ namespace MurderMystery
             }
         }
 
-        //draws character with given sprite and position
-        public void DrawStanding(SpriteBatch sb, SpriteEffects flip)
+        /// <summary>
+        /// Draws the player standing
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="possibleFlip"></param>
+        public void DrawStanding(SpriteBatch sb, SpriteEffects possibleFlip)
         {
-            //sb.Draw(texture, position, Color.White);
-            sb.Draw(texture, position, new Rectangle(0, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, flip, 0);
+            sb.Draw(texture, position, new Rectangle(0, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
         }
 
-        public void DrawWalking(SpriteBatch sb, SpriteEffects flip)
+        /// <summary>
+        /// Draws the player walking
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="possibleFlip"></param>
+        public void DrawWalking(SpriteBatch sb, SpriteEffects possibleFlip)
         {
-            sb.Draw(texture, position, new Rectangle(85 * frame, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, flip, 0);
+            sb.Draw(texture, position, new Rectangle(85 * frame, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
         }
 
         /// <summary>
@@ -179,24 +208,31 @@ namespace MurderMystery
             }
         }
 
-        //center player in screen
+        /// <summary>
+        /// Centers the player on screen
+        /// </summary>
         public void Center()
         {
-            position.X = width / 2;
+            position.X = windowWidth / 2;
         }
 
-        //put player on right side of screen to simulate walking into room from the right
+        /// <summary>
+        /// Places the player on the right side of the screen
+        /// </summary>
         public void Right()
         {
-            position.X = width;
+            position.X = windowWidth;
         }
 
-        //put player on left side of screen to simulate walking into room from the left
+        /// <summary>
+        /// Places the player on the left side of the screen
+        /// </summary>
         public void Left()
         {
             position.X = 0;
         }
         #endregion
+
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Overrides
         #endregion
