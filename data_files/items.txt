@@ -1,3 +1,1 @@
-Flashlight,Lights up stuff,0
-Knife,A kitchen knife covered in blood,1
-Test,Test Desc,2
+Knife,A kitchen knife covered in blood,0,BloodyKnife,500,10,90,40

@@ -191,6 +191,12 @@ namespace MurderMystery
                                 testNPC.Speak(_spriteBatch, font);                     
                             }
 
+                            // If the knife is not picked up, draw it
+                            if (!items[0].PickedUp)
+                            {
+                                items[0].Draw(_spriteBatch);
+                            }
+                            
                             break;
                         default:
                             break;
@@ -288,6 +294,12 @@ namespace MurderMystery
                 {
                     testNPC.IsTalking = true;
                 }
+            }
+
+            // If you click on the knife, toggle it
+            if (Clicked(items[0]))
+            {
+                items[0].PickedUp = true;
             }
 
             // Simulate room movement 
@@ -394,6 +406,37 @@ namespace MurderMystery
         }
 
         /// <summary>
+        /// If mouse is held down inside of an item, return true
+        /// </summary>
+        /// <param name="item">item object</param>
+        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
+        private bool Clicked(Item item)
+        {
+            if (mState.X > item.Position.Left &&
+                mState.X < item.Position.Right &&
+                mState.Y > item.Position.Top &&
+                mState.Y < item.Position.Bottom &&
+                SingleMousePress(mState))
+            {
+                return true;
+            }
+
+            if (mState.X > item.Position.Left &&
+                mState.X < item.Position.Right &&
+                mState.Y > item.Position.Top &&
+                mState.Y < item.Position.Bottom)
+            {
+                Mouse.SetCursor(MouseCursor.Hand);
+            }
+            else
+            {
+                Mouse.SetCursor(MouseCursor.Arrow);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Loads in items from item text file
         /// </summary>
         private void LoadItems()
@@ -404,6 +447,7 @@ namespace MurderMystery
                 reader = new StreamReader("../../../../../data_files/items.txt");
 
                 string line;
+                Texture2D sprite;
 
                 //while there are still items to read in, keep reading
                 while ((line = reader.ReadLine()) != null)
@@ -411,7 +455,8 @@ namespace MurderMystery
                     string[] splitData = line.Split(',');
 
                     //add new item to item list
-                    items.Add(new Item(splitData[0], splitData[1], int.Parse(splitData[2])));
+                    items.Add(new Item(splitData[0], splitData[1], int.Parse(splitData[2]), sprite = Content.Load<Texture2D>(splitData[3]), 
+                        new Rectangle(int.Parse(splitData[4]), int.Parse(splitData[5]), int.Parse(splitData[6]), int.Parse(splitData[7]))));
                 }
             }
             catch (Exception e)
