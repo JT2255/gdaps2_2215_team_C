@@ -472,13 +472,17 @@ namespace MurderMystery
                         int.Parse(splitData[2]), //id
                         Content.Load<Texture2D>(splitData[3]), //texture
                         new Rectangle( //position
-                            int.Parse(splitData[4]),
-                            int.Parse(splitData[5]),
-                            int.Parse(splitData[6]),
-                            int.Parse(splitData[7]))));
+                            int.Parse(splitData[4]), // x-cord
+                            int.Parse(splitData[5]), // y-cord
+                            int.Parse(splitData[6]), // width
+                            int.Parse(splitData[7])))); // height
                 }
+
                 // Close the file
-                reader.Close();
+                if (reader != null) 
+                {
+                    reader.Close();
+                }
             }
             catch (Exception e)
             {
