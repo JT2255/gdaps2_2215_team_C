@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+
 namespace MurderMystery
 {
-    enum CurrentState
+    // Enumeration for the Game's State
+    enum State
     {
         MainMenu,
         Game,
@@ -16,7 +18,8 @@ namespace MurderMystery
         EndMenu
     }
 
-    enum CurrentRoom
+    // Enumeration for the Room
+    enum Rooms
     {
         Room1,
         Room2,
@@ -26,6 +29,8 @@ namespace MurderMystery
 
     public class Game1 : Game
     {
+        // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #region Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -36,8 +41,8 @@ namespace MurderMystery
         private MouseState prevMState;
 
         //Enums
-        private CurrentState gameState;
-        private CurrentRoom room;
+        private State currentState;
+        private Rooms currentRoom;
 
         //Objects
         private SpriteFont font;
@@ -56,7 +61,10 @@ namespace MurderMystery
         //Misc
         private StreamReader reader = null;
         private List<Item> items;
-         
+        #endregion
+
+        // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #region Typical Game1 Methods: Initialize, LoadContent, Update, and Draw
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -67,9 +75,9 @@ namespace MurderMystery
         protected override void Initialize()
         {
             // Game starts at the main menu by default
-            gameState = CurrentState.MainMenu;
+            currentState = State.MainMenu;
             // Game starts in the first room by default
-            room = CurrentRoom.Room1;
+            currentRoom = Rooms.Room1;
 
             // Initialize window
             windowHeight = _graphics.PreferredBackBufferHeight;
@@ -86,7 +94,7 @@ namespace MurderMystery
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             // Load Textures
             playerTexture = Content.Load<Texture2D>("ElizabethSprite");
             testNPCTexture = Content.Load<Texture2D>("npc");
@@ -104,8 +112,8 @@ namespace MurderMystery
 
         protected override void Update(GameTime gameTime)
         {
-           // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-          //      Exit();
+            // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //      Exit();
 
             // Sets up our states
             kbState = Keyboard.GetState();
@@ -115,26 +123,27 @@ namespace MurderMystery
             player.UpdateAnim(gameTime);
 
             // Processes the proper game logic
-            switch (gameState)
+            switch (currentState)
             {
-                case CurrentState.MainMenu:
+                case State.MainMenu:
                     ProcessMainMenu(kbState);
                     break;
-                case CurrentState.Game:
+                case State.Game:
                     ProcessGame(kbState);
                     break;
-                case CurrentState.Inventory:
+                case State.Inventory:
                     ProcessInventory(kbState);
                     break;
-                case CurrentState.EndMenu:
+                case State.EndMenu:
                     break;
-                case CurrentState.PauseMenu:
+                case State.PauseMenu:
                     ProcessPauseMenu(kbState);
                     break;
                 default:
                     break;
             }
 
+            // Retrieve the previous states
             prevKbState = kbState;
             prevMState = mState;
 
@@ -143,43 +152,39 @@ namespace MurderMystery
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
-            switch (gameState)
+            switch (currentState)
             {
-                case CurrentState.MainMenu:
+                case State.MainMenu:
+                    // Main Menu text
                     _spriteBatch.DrawString(font, "Main Menu\nPress P to go to play state.", new Vector2(0, 0), Color.White);
+                    // Main Menu Background
                     GraphicsDevice.Clear(Color.Red);
                     break;
 
-                case CurrentState.Game:
-
-                    //when in game state, check for what room state you are in
-                    switch (room)
+                case State.Game:
+                    // Enter Debug Text
+                    _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
+                                $"\n\n{currentRoom}", new Vector2(0, 0), Color.White);
+                    // When in game state, check for what room state you are in
+                    switch (currentRoom)
                     {
-                        case CurrentRoom.Room1:
-
-                            _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n\n{room}", new Vector2(0, 0), Color.White);
-
+                        case Rooms.Room1:
                             GraphicsDevice.Clear(Color.Navy);
                             player.Draw(_spriteBatch);
 
                             break;
-                        case CurrentRoom.Room2:
-
-                            _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n\n{room}", new Vector2(0, 0), Color.White);
+                        case Rooms.Room2:
 
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             player.Draw(_spriteBatch);
 
                             break;
-                        case CurrentRoom.Room3:
+                        case Rooms.Room3:
 
-                            _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n\n{room}\n{testNPC.DialogueNum}  {testNPC.IsTalking}", new Vector2(0, 0), Color.White);
+                            _spriteBatch.DrawString(font, $"\n\n\n\n{currentRoom}\n#{testNPC.DialogueNum} Talking:{testNPC.IsTalking}", new Vector2(0, 0), Color.White);
 
                             GraphicsDevice.Clear(Color.Gray);
                             player.Draw(_spriteBatch);
@@ -188,7 +193,7 @@ namespace MurderMystery
                             //if currently talking, draw dialogue
                             if (testNPC.IsTalking)
                             {
-                                testNPC.Speak(_spriteBatch, font);                     
+                                testNPC.Speak(_spriteBatch, font);
                             }
 
                             // If the knife is not picked up, draw it
@@ -196,19 +201,19 @@ namespace MurderMystery
                             {
                                 items[0].Draw(_spriteBatch);
                             }
-                            
+
                             break;
                         default:
                             break;
                     }
-                    
+
                     break;
 
-                case CurrentState.Inventory:
+                case State.Inventory:
                     _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Green);
                     break;
-                case CurrentState.PauseMenu:
+                case State.PauseMenu:
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Cyan);
                     break;
@@ -219,11 +224,19 @@ namespace MurderMystery
             _spriteBatch.End();
             base.Draw(gameTime);
         }
+        #endregion
 
-        ///check for single key press helper method
+        // ~~~ INPUT CAPTURES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #region Input Captures
+        /// <summary>
+        /// Checks for a single key press.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="currentKbState"></param>
+        /// <returns></returns>
         private bool SingleKeyPress(Keys key, KeyboardState currentKbState)
         {
-            if(currentKbState.IsKeyDown(key) && prevKbState.IsKeyUp(key))
+            if (currentKbState.IsKeyDown(key) && prevKbState.IsKeyUp(key))
             {
                 return true;
             }
@@ -231,7 +244,11 @@ namespace MurderMystery
             return false;
         }
 
-        //check for single mouse press
+        /// <summary>
+        /// Checks for a single left mouse click
+        /// </summary>
+        /// <param name="currentMState"></param>
+        /// <returns></returns>
         private bool SingleMousePress(MouseState currentMState)
         {
             if (currentMState.LeftButton == ButtonState.Pressed &&
@@ -251,7 +268,7 @@ namespace MurderMystery
         {
             if (SingleKeyPress(Keys.P, kbState))
             {
-                gameState = CurrentState.Game;
+                currentState = State.Game;
             }
         }
 
@@ -264,23 +281,23 @@ namespace MurderMystery
         {
             if (SingleKeyPress(Keys.M, kbState))
             {
-                gameState = CurrentState.MainMenu;
+                currentState = State.MainMenu;
             }
 
             if (SingleKeyPress(Keys.I, kbState))
             {
-                gameState = CurrentState.Inventory;
+                currentState = State.Inventory;
             }
 
             if (SingleKeyPress(Keys.Escape, kbState))
             {
-                gameState = CurrentState.PauseMenu;
+                currentState = State.PauseMenu;
             }
 
             //on spacebar press, advance dialogue
             if (testNPC.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                testNPC.DialogueNum++;                     
+                testNPC.DialogueNum++;
             }
 
             //if you click on him, toggle dialogue
@@ -303,38 +320,38 @@ namespace MurderMystery
             }
 
             // Simulate room movement 
-            switch (room)
+            switch (currentRoom)
             {
-                case CurrentRoom.Room1:
+                case Rooms.Room1:
                     //if you walk to the left, go to room 2
                     if (player.Position.X < 0)
                     {
-                        room = CurrentRoom.Room2;
+                        currentRoom = Rooms.Room2;
                         player.Right();
                     }
 
                     //if you walk to the right, go to room 3
                     if (player.Position.X > windowWidth)
                     {
-                        room = CurrentRoom.Room3;
+                        currentRoom = Rooms.Room3;
                         player.Left();
                     }
                     player.Move(kbState);
                     break;
-                case CurrentRoom.Room2:
+                case Rooms.Room2:
                     //if you walk right, go back to room 1
                     if (player.Position.X > windowWidth)
                     {
-                        room = CurrentRoom.Room1;
+                        currentRoom = Rooms.Room1;
                         player.Left();
-                    }                
+                    }
                     player.Move(kbState);
                     break;
-                case CurrentRoom.Room3:
+                case Rooms.Room3:
                     //if you walk left, go back to room 1
                     if (player.Position.X < 0)
                     {
-                        room = CurrentRoom.Room1;
+                        currentRoom = Rooms.Room1;
                         player.Right();
                     }
                     player.Move(kbState);
@@ -352,7 +369,7 @@ namespace MurderMystery
         {
             if (SingleKeyPress(Keys.I, kbState))
             {
-                gameState = CurrentState.Game;
+                currentState = State.Game;
             }
         }
 
@@ -363,17 +380,18 @@ namespace MurderMystery
         /// <param name="kbState"></param>
         private void ProcessPauseMenu(KeyboardState kbState)
         {
-            if(SingleKeyPress(Keys.Escape, kbState))
+            if (SingleKeyPress(Keys.Escape, kbState))
             {
-                gameState = CurrentState.Game;
+                currentState = State.Game;
             }
 
-            if(SingleKeyPress(Keys.M, kbState))
+            if (SingleKeyPress(Keys.M, kbState))
             {
-                gameState = CurrentState.MainMenu;
+                currentState = State.MainMenu;
             }
         }
 
+        //TODO: Find a way to implement Clicked() better.
         /// <summary>
         /// If mouse is held down inside of npc, return true
         /// </summary>
@@ -381,28 +399,23 @@ namespace MurderMystery
         /// <returns>returns true or false depending on if mouse is clicking on object</returns>
         private bool Clicked(NPC npc)
         {
-            if (mState.X > npc.Position.Left &&
-                mState.X < npc.Position.Right &&
-                mState.Y > npc.Position.Top &&
-                mState.Y < npc.Position.Bottom &&
-                SingleMousePress(mState))
-            {
-                return true;
-            }
-
+            // If mouse intersects the obj
             if (mState.X > npc.Position.Left &&
                 mState.X < npc.Position.Right &&
                 mState.Y > npc.Position.Top &&
                 mState.Y < npc.Position.Bottom)
             {
+                // Set it to hover
                 Mouse.SetCursor(MouseCursor.Hand);
+                // if mouse is clicked, would return true,
+                // else would return false
+                return SingleMousePress(mState);
             }
-            else
+            else // Mouse is not intersecting obj
             {
-                Mouse.SetCursor(MouseCursor.Arrow);  
+                Mouse.SetCursor(MouseCursor.Arrow);
+                return false;
             }
-
-            return false;
         }
 
         /// <summary>
@@ -412,30 +425,28 @@ namespace MurderMystery
         /// <returns>returns true or false depending on if mouse is clicking on object</returns>
         private bool Clicked(Item item)
         {
-            if (mState.X > item.Position.Left &&
-                mState.X < item.Position.Right &&
-                mState.Y > item.Position.Top &&
-                mState.Y < item.Position.Bottom &&
-                SingleMousePress(mState))
-            {
-                return true;
-            }
-
+            // Hover over item 
             if (mState.X > item.Position.Left &&
                 mState.X < item.Position.Right &&
                 mState.Y > item.Position.Top &&
                 mState.Y < item.Position.Bottom)
             {
                 Mouse.SetCursor(MouseCursor.Hand);
+                // Item Clicked
+                if (SingleMousePress(mState)) 
+                {
+                    return true;
+                }
             }
             else
             {
+                // No hover
                 Mouse.SetCursor(MouseCursor.Arrow);
             }
-
+            // False if not specifically clicked
             return false;
         }
-
+        #endregion
         /// <summary>
         /// Loads in items from item text file
         /// </summary>
@@ -443,25 +454,35 @@ namespace MurderMystery
         {
             try
             {
-                //get item file
+                // Open the file
                 reader = new StreamReader("../../../../../data_files/items.txt");
 
                 string line;
-                Texture2D sprite;
 
-                //while there are still items to read in, keep reading
+                // While there are still items to read in, keep reading
+                // Also set line into that specific item
                 while ((line = reader.ReadLine()) != null)
                 {
                     string[] splitData = line.Split(',');
 
                     //add new item to item list
-                    items.Add(new Item(splitData[0], splitData[1], int.Parse(splitData[2]), sprite = Content.Load<Texture2D>(splitData[3]), 
-                        new Rectangle(int.Parse(splitData[4]), int.Parse(splitData[5]), int.Parse(splitData[6]), int.Parse(splitData[7]))));
+                    items.Add(new Item(
+                        splitData[0], //name
+                        splitData[1], //description
+                        int.Parse(splitData[2]), //id
+                        Content.Load<Texture2D>(splitData[3]), //texture
+                        new Rectangle( //position
+                            int.Parse(splitData[4]),
+                            int.Parse(splitData[5]),
+                            int.Parse(splitData[6]),
+                            int.Parse(splitData[7]))));
                 }
+                // Close the file
+                reader.Close();
             }
             catch (Exception e)
             {
-                System.Console.WriteLine(e.Message);
+                System.Console.WriteLine("File not loaded correctly: " + e.Message);
             }
         }
     }

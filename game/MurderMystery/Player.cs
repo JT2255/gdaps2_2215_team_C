@@ -10,6 +10,8 @@ namespace MurderMystery
     /// <summary>
     /// Tracks the current player movement state
     /// </summary>
+    
+    //Enum for Player's Movement
     enum PlayerMovementState
     {
         FacingLeft,
@@ -84,14 +86,19 @@ namespace MurderMystery
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
-        
-        
+
+        //CODE FOR ANIMATING THE PLAYER 
+        #region Animation Code
+        /// <summary>
+        /// Animates the player in the Game Loop.
+        /// </summary>
+        /// <param name="kbState"></param>
         public void Move(KeyboardState kbState)
         {
             switch (movementState)
             {
                 //when facing right, able to walk right or look back left
-                case (PlayerMovementState.FacingRight):
+                case PlayerMovementState.FacingRight:
                     if (kbState.IsKeyDown(Keys.Right) || kbState.IsKeyDown(Keys.D))
                     {
                         movementState = PlayerMovementState.WalkingRight;
@@ -103,7 +110,7 @@ namespace MurderMystery
                     }
                     break;
                 //when walking right, move character
-                case (PlayerMovementState.WalkingRight):                   
+                case PlayerMovementState.WalkingRight:                   
                     position.X += moveSpeed;
 
                     if (kbState.IsKeyUp(Keys.Right) && kbState.IsKeyUp(Keys.D))
@@ -207,7 +214,10 @@ namespace MurderMystery
                 this.time -= timePerFrame;
             }
         }
+        #endregion
 
+        //CODE FOR POSITIONING THE PLAYER
+        #region Positioning Code
         /// <summary>
         /// Centers the player on screen
         /// </summary>
@@ -231,6 +241,8 @@ namespace MurderMystery
         {
             position.X = 0;
         }
+        #endregion
+
         #endregion
 
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

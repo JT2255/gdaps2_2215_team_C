@@ -112,21 +112,32 @@ namespace MurderMystery
         #region Methods
 
         /// <summary>
-        /// Has the NPC speak their lines
+        /// Has the NPC write out their dialouge
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="font"></param>
         public void Speak(SpriteBatch sb, SpriteFont font)
         {
-            //if there is still dialogue left in array, advance to next line
-            if (dialogueNum < aliveDialogue.Length)
+            // refDialouge keeps track of which dialouge to use during speaking
+            string[] refDialouge;
+            // Check if alive to set up dialouge
+            if (!isDead) 
             {
-                sb.DrawString(font, $"{aliveDialogue[dialogueNum]}", new Vector2(position.X, position.Y + 100), Color.White);
-            } 
-            
-            //if no more dialogue, stop talking
-            if (dialogueNum == aliveDialogue.Length)
+                refDialouge = aliveDialogue;
+            }
+            else 
             {
+                refDialouge = deadDialogue;
+            }
+            // if there is still dialogue left in array, advance to next line
+            if (dialogueNum < refDialouge.Length)
+            {
+                sb.DrawString(font, $"{refDialouge[dialogueNum]}", new Vector2(position.X, position.Y + 100), Color.White);
+            }
+            // if there is no more dialouge
+            else if (dialogueNum == refDialouge.Length)
+            {
+                // Stop talking
                 isTalking = false;
             }
         }
@@ -139,32 +150,6 @@ namespace MurderMystery
         {
             sb.Draw(texture, position, Color.White);
         }
-
-        //private bool Clicked(MouseState mState)
-        //{
-        //    if (mState.X > position.Left &&
-        //        mState.X < position.Right &&
-        //        mState.Y > position.Top &&
-        //        mState.Y < position.Bottom &&
-        //        SingleMousePress(mState))
-        //    {
-        //        return true;
-        //    }
-
-        //    if (mState.X > npc.Position.Left &&
-        //        mState.X < npc.Position.Right &&
-        //        mState.Y > npc.Position.Top &&
-        //        mState.Y < npc.Position.Bottom)
-        //    {
-        //        Mouse.SetCursor(MouseCursor.Hand);
-        //    }
-        //    else
-        //    {
-        //        Mouse.SetCursor(MouseCursor.Arrow);
-        //    }
-
-        //    return false;
-        //}
 
         /// <summary>
         /// Loads in the dialogue from a file
@@ -197,8 +182,6 @@ namespace MurderMystery
             {
                 reader.Close();
             }
-
-
         }
         #endregion
 
