@@ -317,6 +317,9 @@ namespace MurderMystery
         }
         #endregion
 
+        // ~~~ GAME LOGIC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #region Game Logic
+
         /// <summary>
         /// If the player inputs the "P" key, take them to the game
         /// </summary>
@@ -447,6 +450,7 @@ namespace MurderMystery
                 currentState = State.MainMenu;
             }
         }
+        #endregion
 
         /// <summary>
         /// Loads in items from item text file
