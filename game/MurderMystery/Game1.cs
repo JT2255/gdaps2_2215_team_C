@@ -260,6 +260,63 @@ namespace MurderMystery
             return false;
         }
 
+        //TODO: Find a way to implement Clicked() better.
+        /// <summary>
+        /// If mouse is held down inside of npc, return true
+        /// </summary>
+        /// <param name="npc">npc object</param>
+        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
+        private bool Clicked(NPC npc)
+        {
+            // If mouse intersects the obj
+            if (mState.X > npc.Position.Left &&
+                mState.X < npc.Position.Right &&
+                mState.Y > npc.Position.Top &&
+                mState.Y < npc.Position.Bottom)
+            {
+                // Set it to hover
+                Mouse.SetCursor(MouseCursor.Hand);
+                // if mouse is clicked, would return true,
+                // else would return false
+                return SingleMousePress(mState);
+            }
+            else // Mouse is not intersecting obj
+            {
+                Mouse.SetCursor(MouseCursor.Arrow);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// If mouse is held down inside of an item, return true
+        /// </summary>
+        /// <param name="item">item object</param>
+        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
+        private bool Clicked(Item item)
+        {
+            // Hover over item 
+            if (mState.X > item.Position.Left &&
+                mState.X < item.Position.Right &&
+                mState.Y > item.Position.Top &&
+                mState.Y < item.Position.Bottom)
+            {
+                Mouse.SetCursor(MouseCursor.Hand);
+                // Item Clicked
+                if (SingleMousePress(mState)) 
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                // No hover
+                Mouse.SetCursor(MouseCursor.Arrow);
+            }
+            // False if not specifically clicked
+            return false;
+        }
+        #endregion
+
         /// <summary>
         /// If the player inputs the "P" key, take them to the game
         /// </summary>
@@ -391,62 +448,6 @@ namespace MurderMystery
             }
         }
 
-        //TODO: Find a way to implement Clicked() better.
-        /// <summary>
-        /// If mouse is held down inside of npc, return true
-        /// </summary>
-        /// <param name="npc">npc object</param>
-        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
-        private bool Clicked(NPC npc)
-        {
-            // If mouse intersects the obj
-            if (mState.X > npc.Position.Left &&
-                mState.X < npc.Position.Right &&
-                mState.Y > npc.Position.Top &&
-                mState.Y < npc.Position.Bottom)
-            {
-                // Set it to hover
-                Mouse.SetCursor(MouseCursor.Hand);
-                // if mouse is clicked, would return true,
-                // else would return false
-                return SingleMousePress(mState);
-            }
-            else // Mouse is not intersecting obj
-            {
-                Mouse.SetCursor(MouseCursor.Arrow);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// If mouse is held down inside of an item, return true
-        /// </summary>
-        /// <param name="item">item object</param>
-        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
-        private bool Clicked(Item item)
-        {
-            // Hover over item 
-            if (mState.X > item.Position.Left &&
-                mState.X < item.Position.Right &&
-                mState.Y > item.Position.Top &&
-                mState.Y < item.Position.Bottom)
-            {
-                Mouse.SetCursor(MouseCursor.Hand);
-                // Item Clicked
-                if (SingleMousePress(mState)) 
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                // No hover
-                Mouse.SetCursor(MouseCursor.Arrow);
-            }
-            // False if not specifically clicked
-            return false;
-        }
-        #endregion
         /// <summary>
         /// Loads in items from item text file
         /// </summary>
