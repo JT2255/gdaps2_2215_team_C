@@ -56,6 +56,20 @@ namespace MurderMystery
             }
         }
 
+        public List<Item> Inventory
+        {
+            get { return inventory; }
+            set
+            {
+                inventory = value;
+            }
+        }
+
+        //items[x]
+        public Item this[int i] 
+        {
+            set { inventory[i] = value; }
+        }
         #endregion
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Constructors

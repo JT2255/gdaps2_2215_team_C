@@ -61,6 +61,7 @@ namespace MurderMystery
         //Misc
         private StreamReader reader = null;
         private List<Item> items;
+        private List<Rectangle> itemInvPos;
         #endregion
 
         // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,6 +88,7 @@ namespace MurderMystery
             playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
 
             items = new List<Item>();
+            itemInvPos = new List<Rectangle>();
 
             base.Initialize();
         }
@@ -212,6 +214,11 @@ namespace MurderMystery
                 case State.Inventory:
                     _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Green);
+                    // Draws the inventory items
+                    foreach (Item i in player.Inventory)
+                    {
+                        i.Draw(_spriteBatch);
+                    }
                     break;
                 case State.PauseMenu:
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
@@ -360,25 +367,6 @@ namespace MurderMystery
                 testNPC.DialogueNum++;
             }
 
-            //if you click on him, toggle dialogue
-            if (Clicked(testNPC))
-            {
-                if (testNPC.IsTalking)
-                {
-                    testNPC.IsTalking = false;
-                }
-                else if (!testNPC.IsTalking)
-                {
-                    testNPC.IsTalking = true;
-                }
-            }
-
-            // If you click on the knife, toggle it
-            if (Clicked(items[0]))
-            {
-                items[0].PickedUp = true;
-            }
-
             // Simulate room movement 
             switch (currentRoom)
             {
@@ -415,6 +403,31 @@ namespace MurderMystery
                         player.Right();
                     }
                     player.Move(kbState);
+
+                    // ~~~ GAME OBJECTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    #region Game Objects
+                    //if you click on him, toggle dialogue
+                    if (Clicked(testNPC))
+                    {
+                        if (testNPC.IsTalking)
+                        {
+                            testNPC.IsTalking = false;
+                        }
+                        else if (!testNPC.IsTalking)
+                        {
+                            testNPC.IsTalking = true;
+                        }
+                    }
+
+                    // If you click on the knife, toggle it
+                    if (Clicked(items[0]))
+                    {
+                        items[0].PickedUp = true;
+                        items[0].Position = new Rectangle(40, 40, items[0].Position.Width, items[0].Position.Height);
+                        player.Inventory.Add(items[0]);
+                    }
+                    #endregion
+
                     break;
                 default:
                     break;

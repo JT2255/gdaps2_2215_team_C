@@ -31,6 +31,7 @@ namespace MurderMystery
         public Rectangle Position
         {
             get { return position; }
+            set { position = value; }
         }
 
         /// <summary>
