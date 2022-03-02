@@ -129,6 +129,7 @@ namespace MurderMystery
             {
                 refDialouge = deadDialogue;
             }
+
             // if there is still dialogue left in array, advance to next line
             if (dialogueNum < refDialouge.Length)
             {
@@ -139,6 +140,8 @@ namespace MurderMystery
             {
                 // Stop talking
                 isTalking = false;
+                // Restart Dialouge num
+                dialogueNum = 0;
             }
         }
 

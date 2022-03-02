@@ -66,10 +66,10 @@ namespace MurderMystery
         }
 
         //items[x]
-        public Item this[int i] 
-        {
-            set { inventory[i] = value; }
-        }
+        //public Item this[int i] 
+        //{
+        //    set { inventory[i] = value; }
+        //}
         #endregion
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Constructors

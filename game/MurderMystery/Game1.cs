@@ -215,9 +215,22 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Green);
                     // Draws the inventory items
-                    foreach (Item i in player.Inventory)
+                    // Display Inventory -----
+                    // Should format the inventory into a small arrangement of Item objects
+                    for(int i = 0; i < player.Inventory.Count; i++) 
                     {
-                        i.Draw(_spriteBatch);
+                        // Label what to use
+                        Item thisItem = player.Inventory[i]; // Item of that iteration
+                        Vector2 startPoint = new Vector2(40,40); // Start Point for displaying items
+                        int offset = 5;
+                        // Final position is the startPoint + the offset in the Y-coord
+                        Vector2 formatPos = startPoint + new Vector2(0, i * offset);
+                        // Draw the Item and write the description.
+                        thisItem.Draw(_spriteBatch, formatPos);
+                        _spriteBatch.DrawString(font,
+                            thisItem.ToString(),
+                            formatPos + new Vector2(0,thisItem.Position.Height),
+                            Color.White);
                     }
                     break;
                 case State.PauseMenu:
@@ -346,6 +359,7 @@ namespace MurderMystery
         /// <param name="kbState"></param>
         private void ProcessGame(KeyboardState kbState)
         {
+            // Switch States
             if (SingleKeyPress(Keys.M, kbState))
             {
                 currentState = State.MainMenu;
@@ -361,7 +375,11 @@ namespace MurderMystery
                 currentState = State.PauseMenu;
             }
 
-            //on spacebar press, advance dialogue
+            // Let Player Move
+            player.Move(kbState);
+
+            // Talking to NPCs
+            // On spacebar press, advance dialogue
             if (testNPC.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 testNPC.DialogueNum++;
@@ -374,7 +392,9 @@ namespace MurderMystery
                     //if you walk to the left, go to room 2
                     if (player.Position.X < 0)
                     {
+                        // Change Room
                         currentRoom = Rooms.Room2;
+                        // Re-Orient Player
                         player.Right();
                     }
 
@@ -384,7 +404,6 @@ namespace MurderMystery
                         currentRoom = Rooms.Room3;
                         player.Left();
                     }
-                    player.Move(kbState);
                     break;
                 case Rooms.Room2:
                     //if you walk right, go back to room 1
@@ -393,7 +412,6 @@ namespace MurderMystery
                         currentRoom = Rooms.Room1;
                         player.Left();
                     }
-                    player.Move(kbState);
                     break;
                 case Rooms.Room3:
                     //if you walk left, go back to room 1
@@ -402,32 +420,35 @@ namespace MurderMystery
                         currentRoom = Rooms.Room1;
                         player.Right();
                     }
-                    player.Move(kbState);
-
                     // ~~~ GAME OBJECTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     #region Game Objects
                     //if you click on him, toggle dialogue
                     if (Clicked(testNPC))
                     {
-                        if (testNPC.IsTalking)
-                        {
-                            testNPC.IsTalking = false;
-                        }
-                        else if (!testNPC.IsTalking)
-                        {
-                            testNPC.IsTalking = true;
-                        }
+                        //if (testNPC.IsTalking)
+                        //{
+                        //    testNPC.IsTalking = false;
+                        //}
+                        //else if (!testNPC.IsTalking)
+                        //{
+                        //    testNPC.IsTalking = true;
+                        //}
+                        // Change to
+                        testNPC.IsTalking = !testNPC.IsTalking;
                     }
 
                     // If you click on the knife, toggle it
+                    // Possible implementation:
+                    /*  Create a local list of items for that given room
+                     *  Loop into that list to check if the item has been clicked
+                     *  IF clicked, set PickedUp to true, and then add it to the inventory.
+                     */
                     if (Clicked(items[0]))
                     {
                         items[0].PickedUp = true;
-                        items[0].Position = new Rectangle(40, 40, items[0].Position.Width, items[0].Position.Height);
                         player.Inventory.Add(items[0]);
                     }
                     #endregion
-
                     break;
                 default:
                     break;

@@ -65,10 +65,25 @@ namespace MurderMystery
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
-
+        /// <summary>
+        /// Draws the Item's sprite.
+        /// </summary>
+        /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, position, Color.White);
+        }
+
+        /// <summary>
+        /// Draws the Item given a Vector2 for new position. Maintains the size of the object.
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="position"></param>
+        public void Draw(SpriteBatch sb, Vector2 position) 
+        {
+            sb.Draw(texture, 
+                new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height),
+                Color.White);
         }
 
         #endregion
