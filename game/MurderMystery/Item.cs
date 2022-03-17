@@ -11,16 +11,13 @@ namespace MurderMystery
     /// <summary>
     /// Represents an interactable object
     /// </summary>
-    class Item
+    class Item : GameObject
     {
         // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Fields
-        private string name;
         private string description;
         private int id;
         private bool pickedUp;
-        private Texture2D texture;
-        private Rectangle position;
         #endregion
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Properties
@@ -55,6 +52,7 @@ namespace MurderMystery
         /// <param name="id"></param>
         /// <param name="spriteName"></param>
         public Item(string name, string description, int id, Texture2D texture, Rectangle position)
+            : base (name, texture, position)
         {
             this.name = name;
             this.description = description;
@@ -65,23 +63,15 @@ namespace MurderMystery
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
-        /// <summary>
-        /// Draws the Item's sprite.
-        /// </summary>
-        /// <param name="sb"></param>
-        public void Draw(SpriteBatch sb)
-        {
-            sb.Draw(texture, position, Color.White);
-        }
 
         /// <summary>
         /// Draws the Item given a Vector2 for new position. Maintains the size of the object.
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="position"></param>
-        public void Draw(SpriteBatch sb, Vector2 position) 
+        public void Draw(SpriteBatch sb, Vector2 position)
         {
-            sb.Draw(texture, 
+            sb.Draw(texture,
                 new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height),
                 Color.White);
         }
@@ -99,6 +89,24 @@ namespace MurderMystery
         {
             return name + ": " + description;
         }
+
+        /// <summary>
+        /// Draws the Item's sprite.
+        /// </summary>
+        /// <param name="sb"></param>
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, position, Color.White);
+        }
+
+        /// <summary>
+        /// Updates the object
+        /// </summary>
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

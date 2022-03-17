@@ -11,16 +11,13 @@ namespace MurderMystery
     /// <summary>
     /// Represents a character in the game
     /// </summary>
-    class NPC
+    class NPC : GameObject
     {
         // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Fields
-        private string name;
         private bool isMurderer;
         private bool isDead;
         private bool isTalking;
-        private Rectangle position;
-        private Texture2D texture;
         private string[] aliveDialogue;
         private string[] deadDialogue;
         private int dialogueNum;
@@ -94,6 +91,7 @@ namespace MurderMystery
         /// <param name="position"></param>
         /// <param name="texture"></param>
         public NPC(string name, bool isMurderer, bool isDead, Rectangle position, Texture2D texture)
+            : base (name, texture, position)
         {
             this.name = name;
             this.isMurderer = isMurderer;
@@ -146,15 +144,6 @@ namespace MurderMystery
         }
 
         /// <summary>
-        /// Draws the NPC
-        /// </summary>
-        /// <param name="sb"></param>
-        public void Draw(SpriteBatch sb)
-        {
-            sb.Draw(texture, position, Color.White);
-        }
-
-        /// <summary>
         /// Loads in the dialogue from a file
         /// </summary>
         private void LoadDialogue()
@@ -190,6 +179,23 @@ namespace MurderMystery
 
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Overrides
+
+        /// <summary>
+        /// Draws the NPC
+        /// </summary>
+        /// <param name="sb"></param>
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, position, Color.White);
+        }
+
+        /// <summary>
+        /// Updates the object
+        /// </summary>
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
