@@ -48,6 +48,7 @@ namespace MurderMystery
         private SpriteFont font;
         private Player player;
         private NPC testNPC;
+       // private Button playButton;
 
         //Configs
         private int windowWidth;
@@ -57,6 +58,7 @@ namespace MurderMystery
         //Textures
         private Texture2D playerTexture;
         private Texture2D testNPCTexture;
+        private Texture2D menuButton;
 
         //Misc
         private StreamReader reader = null;
@@ -100,6 +102,7 @@ namespace MurderMystery
             // Load Textures
             playerTexture = Content.Load<Texture2D>("ElizabethSprite");
             testNPCTexture = Content.Load<Texture2D>("npc");
+            menuButton = Content.Load<Texture2D>("MenuBox");
 
             // Load Fonts
             font = Content.Load<SpriteFont>("font");
@@ -107,6 +110,9 @@ namespace MurderMystery
             // Initialize Objects
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            #region Button Initialization
+
+            #endregion
 
             // Load In Items
             LoadItems();
