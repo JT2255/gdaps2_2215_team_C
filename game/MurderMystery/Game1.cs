@@ -48,7 +48,11 @@ namespace MurderMystery
         private SpriteFont font;
         private Player player;
         private NPC testNPC;
+        #region Buttons
         private Button playButton;
+        private Button pauseButton;
+        private Button inventoryButton;
+        #endregion
 
         //Configs
         private int windowWidth;
@@ -58,7 +62,11 @@ namespace MurderMystery
         //Textures
         private Texture2D playerTexture;
         private Texture2D testNPCTexture;
-        private Texture2D menuButton;
+        #region Buttons
+        private Texture2D menuButtonTexture;
+        private Texture2D pauseTexture;
+        private Texture2D inventoryTexture;
+        #endregion
 
         //Misc
         private StreamReader reader = null;
@@ -102,7 +110,8 @@ namespace MurderMystery
             // Load Textures
             playerTexture = Content.Load<Texture2D>("ElizabethSprite");
             testNPCTexture = Content.Load<Texture2D>("npc");
-            menuButton = Content.Load<Texture2D>("MenuBox");
+            menuButtonTexture = Content.Load<Texture2D>("MenuBox");
+            pauseTexture = Content.Load<Texture2D>("PauseButton");
 
             // Load Fonts
             font = Content.Load<SpriteFont>("font");
@@ -111,10 +120,14 @@ namespace MurderMystery
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
             #region Button Initialization
-            playButton = new Button(menuButton, font,
-                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButton.Width / 2,
-                GraphicsDevice.Viewport.Height / 3 - menuButton.Height / 2
-                , menuButton.Width, menuButton.Height));
+            playButton = new Button(menuButtonTexture, font,
+                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                GraphicsDevice.Viewport.Height / 3 - menuButtonTexture.Height / 2
+                , menuButtonTexture.Width, menuButtonTexture.Height));
+
+            //Positioned in upper right corner
+            pauseButton = new Button(pauseTexture, font,
+                new Rectangle(GraphicsDevice.Viewport.Width-pauseTexture.Width/4,10,pauseTexture.Width/4,pauseTexture.Height/4));
             #endregion
 
             // Load In Items
@@ -135,6 +148,7 @@ namespace MurderMystery
 
             //Updates Button
             playButton.Update(gameTime);
+            pauseButton.Update(gameTime);
 
             // Processes the proper game logic
             switch (currentState)
@@ -188,6 +202,10 @@ namespace MurderMystery
                     // Enter Debug Text
                     _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
                                 $"\n\n{currentRoom}", new Vector2(0, 0), Color.White);
+
+                    //Draw the pause button and inventory button (not yet added) before switch so that it appears on all screens
+                    pauseButton.Draw(gameTime, _spriteBatch, "");
+
                     // When in game state, check for what room state you are in
                     switch (currentRoom)
                     {
@@ -388,7 +406,7 @@ namespace MurderMystery
                 currentState = State.Inventory;
             }
 
-            if (SingleKeyPress(Keys.Escape, kbState))
+            if (SingleKeyPress(Keys.Escape, kbState) || pauseButton.BeenClicked)
             {
                 currentState = State.PauseMenu;
             }
