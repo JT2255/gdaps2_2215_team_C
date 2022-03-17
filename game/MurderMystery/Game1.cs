@@ -48,7 +48,7 @@ namespace MurderMystery
         private SpriteFont font;
         private Player player;
         private NPC testNPC;
-       // private Button playButton;
+        private Button playButton;
 
         //Configs
         private int windowWidth;
@@ -111,7 +111,10 @@ namespace MurderMystery
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
             #region Button Initialization
-
+            playButton = new Button(menuButton, font,
+                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButton.Width / 2,
+                GraphicsDevice.Viewport.Height / 3 - menuButton.Height / 2
+                , menuButton.Width, menuButton.Height));
             #endregion
 
             // Load In Items
@@ -129,6 +132,9 @@ namespace MurderMystery
 
             // Updates the player animation
             player.UpdateAnim(gameTime);
+
+            //Updates Button
+            playButton.Update(gameTime);
 
             // Processes the proper game logic
             switch (currentState)
@@ -170,6 +176,12 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "Main Menu\nPress P to go to play state.", new Vector2(0, 0), Color.White);
                     // Main Menu Background
                     GraphicsDevice.Clear(Color.Red);
+
+                    //Main Menu Play Button
+                    playButton.Draw(gameTime, _spriteBatch, "");
+                    //Hardcoded to center currently, will patch in future
+                    _spriteBatch.DrawString(font, "PLAY", new Vector2(370, 150), Color.Black);
+                    
                     break;
 
                 case State.Game:
@@ -352,7 +364,7 @@ namespace MurderMystery
         /// <param name="kbState"></param>
         private void ProcessMainMenu(KeyboardState kbState)
         {
-            if (SingleKeyPress(Keys.P, kbState))
+            if (SingleKeyPress(Keys.P, kbState) || playButton.BeenClicked)
             {
                 currentState = State.Game;
             }
