@@ -12,6 +12,7 @@ namespace MurderMystery
     enum State
     {
         MainMenu,
+        Instructions,
         Game,
         Inventory,
         PauseMenu,
@@ -158,6 +159,9 @@ namespace MurderMystery
                 case State.MainMenu:
                     ProcessMainMenu(kbState);
                     break;
+                case State.Instructions:
+                    ProcessInstructions(kbState);
+                    break;
                 case State.Game:
                     ProcessTimer(gameTime);
                     ProcessGame(kbState);
@@ -191,8 +195,7 @@ namespace MurderMystery
             {
                 case State.MainMenu:
                     // Main Menu text
-                    _spriteBatch.DrawString(font, "Main Menu\nUse WASD to move\nClick on NPCs to talk and use spacebar to advance text\n" +
-                        "Click on items to pick them up", new Vector2(0, 0), Color.White);
+                    _spriteBatch.DrawString(font, "Main Menu\nPress P or click the play button to proceed to game", new Vector2(0, 0), Color.White);
                     // Main Menu Background
                     GraphicsDevice.Clear(Color.Red);
 
@@ -201,6 +204,16 @@ namespace MurderMystery
                     //Hardcoded to center currently, will patch in future
                     _spriteBatch.DrawString(font, "PLAY", new Vector2(370, 150), Color.Black);
                     
+                    break;
+
+                case State.Instructions:
+                    // Instructions background
+                    GraphicsDevice.Clear(Color.Pink);
+
+                    // Instructions text
+                    _spriteBatch.DrawString(font, "Instructions\nUse WASD to move\nClick on NPCs to talk and use spacebar to advance text\n" +
+                        "Click on items to pick them up\nPress P to enter the game", new Vector2(0, 0), Color.White);
+           
                     break;
 
                 case State.Game:
@@ -393,6 +406,18 @@ namespace MurderMystery
         /// </summary>
         /// <param name="kbState"></param>
         private void ProcessMainMenu(KeyboardState kbState)
+        {
+            if (SingleKeyPress(Keys.P, kbState) || playButton.BeenClicked)
+            {
+                currentState = State.Instructions;
+            }
+        }
+
+        /// <summary>
+        /// If the player inputs the "P" key, take them to the instructions
+        /// </summary>
+        /// <param name="kbState"></param>
+        private void ProcessInstructions(KeyboardState kbState)
         {
             if (SingleKeyPress(Keys.P, kbState) || playButton.BeenClicked)
             {
