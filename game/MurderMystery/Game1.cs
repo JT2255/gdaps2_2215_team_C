@@ -91,14 +91,14 @@ namespace MurderMystery
 
         protected override void Initialize()
         {
+            // Initialize window
+            windowHeight = _graphics.PreferredBackBufferHeight;
+            windowWidth = _graphics.PreferredBackBufferWidth;
+
             // Game starts at the main menu by default
             currentState = State.MainMenu;
             // Game starts in the first room by default
             currentRoom = Rooms.Room1;
-
-            // Initialize window
-            windowHeight = _graphics.PreferredBackBufferHeight;
-            windowWidth = _graphics.PreferredBackBufferWidth;
 
             // Position of character
             playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
@@ -479,6 +479,8 @@ namespace MurderMystery
             if (SingleKeyPress(Keys.P, kbState) || bottomButton.BeenClicked)
             {
                 currentState = State.Game;
+                //Reset or Set the Game
+                ResetGame();
             }
         }
 
@@ -677,6 +679,25 @@ namespace MurderMystery
             catch (Exception e)
             {
                 System.Console.WriteLine("File not loaded correctly: " + e.Message);
+            }
+        }
+        /// <summary>
+        /// Reset the game, by setting default values and remaking a new player.
+        /// </summary>
+        private void ResetGame() 
+        {
+            // Reset Timer
+            totalTime = 120;
+            // Reset to default room
+            currentRoom = Rooms.Room1;
+            // Position of character
+            playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
+            // Reset all value of character by remaking the character
+            player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
+            // Reset all items loaded
+            foreach(Item a in items) 
+            {
+                a.ResetItem();
             }
         }
     }

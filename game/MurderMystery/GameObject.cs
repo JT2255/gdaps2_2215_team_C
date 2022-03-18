@@ -22,7 +22,6 @@ namespace MurderMystery
             this.name = name;
             this.texture = texture;
             this.position = position;
-
         }
         #endregion
 

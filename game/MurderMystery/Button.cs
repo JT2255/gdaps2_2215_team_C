@@ -22,9 +22,8 @@ namespace MurderMystery
         private Rectangle position;
         #endregion
 
-
-
         //Constructor
+        #region Constructor
         public Button(Texture2D texture, SpriteFont font, Rectangle position)
         {
             this.texture = texture;
@@ -36,8 +35,7 @@ namespace MurderMystery
             isHovering = false;
             beenClicked = false;
         }
-
-
+        #endregion
 
         //Properties
         #region Properties
@@ -63,8 +61,6 @@ namespace MurderMystery
             }
         }
         #endregion
-
-
 
         //Methods
         #region Methods

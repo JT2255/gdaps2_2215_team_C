@@ -18,6 +18,7 @@ namespace MurderMystery
         private string description;
         private int id;
         private bool pickedUp;
+        private Rectangle originalPos;
         #endregion
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Properties
@@ -59,11 +60,16 @@ namespace MurderMystery
             this.id = id;
             this.texture = texture;
             this.position = position;
+            originalPos = position;
         }
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
-        //none
+        public void ResetItem() 
+        {
+            position = originalPos;
+            pickedUp = false;
+        }
 
         #endregion
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
