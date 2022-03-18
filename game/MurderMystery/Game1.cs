@@ -297,7 +297,7 @@ namespace MurderMystery
                         // Final position is the startPoint + the offset in the Y-coord
                         Vector2 formatPos = startPoint + new Vector2(0, i * offset);
                         // Draw the Item and write the description.
-                        thisItem.Draw(_spriteBatch, formatPos);
+                        thisItem.Position = new Rectangle((int) formatPos.X, (int) formatPos.Y, thisItem.Position.Width, thisItem.Position.Height);
                         _spriteBatch.DrawString(font,
                             thisItem.ToString(),
                             formatPos + new Vector2(0,thisItem.Position.Height),
