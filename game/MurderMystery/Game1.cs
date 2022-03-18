@@ -71,6 +71,7 @@ namespace MurderMystery
         //Misc
         private StreamReader reader = null;
         private List<Item> items;
+        private double totalTime;
         private List<Rectangle> itemInvPos;
         #endregion
 
@@ -99,6 +100,7 @@ namespace MurderMystery
 
             items = new List<Item>();
             itemInvPos = new List<Rectangle>();
+            totalTime = 120;
 
             base.Initialize();
         }
@@ -157,12 +159,14 @@ namespace MurderMystery
                     ProcessMainMenu(kbState);
                     break;
                 case State.Game:
+                    ProcessTimer(gameTime);
                     ProcessGame(kbState);
                     break;
                 case State.Inventory:
                     ProcessInventory(kbState);
                     break;
                 case State.EndMenu:
+                    ProcessEndMenu(kbState);
                     break;
                 case State.PauseMenu:
                     ProcessPauseMenu(kbState);
@@ -187,7 +191,8 @@ namespace MurderMystery
             {
                 case State.MainMenu:
                     // Main Menu text
-                    _spriteBatch.DrawString(font, "Main Menu\nPress P to go to play state.", new Vector2(0, 0), Color.White);
+                    _spriteBatch.DrawString(font, "Main Menu\nUse WASD to move\nClick on NPCs to talk and use spacebar to advance text\n" +
+                        "Click on items to pick them up", new Vector2(0, 0), Color.White);
                     // Main Menu Background
                     GraphicsDevice.Clear(Color.Red);
 
@@ -203,8 +208,11 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
                                 $"\n\n{currentRoom}", new Vector2(0, 0), Color.White);
 
+                    _spriteBatch.DrawString(font, $"Time Left: {Math.Round(totalTime)}s", new Vector2(0, 150), Color.White);
+
                     //Draw the pause button and inventory button (not yet added) before switch so that it appears on all screens
                     pauseButton.Draw(gameTime, _spriteBatch, "");
+
 
                     // When in game state, check for what room state you are in
                     switch (currentRoom)
@@ -272,6 +280,10 @@ namespace MurderMystery
                 case State.PauseMenu:
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Cyan);
+                    break;
+                case State.EndMenu:
+                    _spriteBatch.DrawString(font, "You ran out of time!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+                    GraphicsDevice.Clear(Color.DarkMagenta);
                     break;
                 default:
                     break;
@@ -518,6 +530,27 @@ namespace MurderMystery
             if (SingleKeyPress(Keys.M, kbState))
             {
                 currentState = State.MainMenu;
+            }
+        }
+
+        private void ProcessEndMenu(KeyboardState kbState)
+        {
+            if (SingleKeyPress(Keys.Escape, kbState))
+            {
+                currentState = State.MainMenu;
+            }
+        }
+
+        private void ProcessTimer(GameTime gameTime)
+        {
+            //update timer
+            if (totalTime > 0)
+            {
+                totalTime -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                currentState = State.EndMenu;
             }
         }
         #endregion
