@@ -508,7 +508,7 @@ namespace MurderMystery
             }
 
             // Let Player Move
-            player.Move(kbState);
+            
 
             // Talking to NPCs
             // On spacebar press, advance dialogue
@@ -521,6 +521,7 @@ namespace MurderMystery
             switch (currentRoom)
             {
                 case Rooms.Room1:
+                    player.Move(kbState);
                     //if you walk to the left, go to room 2
                     if (player.Position.X < 0)
                     {
@@ -538,6 +539,7 @@ namespace MurderMystery
                     }
                     break;
                 case Rooms.Room2:
+                    player.Move(kbState);
                     //if you walk right, go back to room 1
                     if (player.Position.X > windowWidth)
                     {
@@ -546,6 +548,7 @@ namespace MurderMystery
                     }
                     break;
                 case Rooms.Room3:
+                    player.Move(kbState);
                     //if you walk left, go back to room 1
                     if (player.Position.X < 0)
                     {
