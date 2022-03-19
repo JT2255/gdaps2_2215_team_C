@@ -196,6 +196,7 @@ namespace MurderMystery
                     ProcessInventory(kbState);
                     break;
                 case State.EndMenu:
+                    bottomButton.Update(gameTime);
                     ProcessEndMenu(kbState);
                     break;
                 case State.PauseMenu:
@@ -348,6 +349,9 @@ namespace MurderMystery
                     break;
                 case State.EndMenu:
                     _spriteBatch.DrawString(font, "You ran out of time!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+                    //Return to the main menu
+                    bottomButton.Draw(gameTime, _spriteBatch, "");
+                    _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
                     GraphicsDevice.Clear(Color.DarkMagenta);
                     break;
                 default:
@@ -616,7 +620,7 @@ namespace MurderMystery
 
         private void ProcessEndMenu(KeyboardState kbState)
         {
-            if (SingleKeyPress(Keys.Escape, kbState))
+            if (SingleKeyPress(Keys.Escape, kbState) || bottomButton.BeenClicked)
             {
                 currentState = State.MainMenu;
             }
