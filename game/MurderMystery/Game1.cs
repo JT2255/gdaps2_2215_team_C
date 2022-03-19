@@ -557,14 +557,6 @@ namespace MurderMystery
                     //if you click on him, toggle dialogue
                     if (Clicked(testNPC))
                     {
-                        //if (testNPC.IsTalking)
-                        //{
-                        //    testNPC.IsTalking = false;
-                        //}
-                        //else if (!testNPC.IsTalking)
-                        //{
-                        //    testNPC.IsTalking = true;
-                        //}
                         // Change to
                         testNPC.IsTalking = !testNPC.IsTalking;
                     }
@@ -578,6 +570,8 @@ namespace MurderMystery
                     if (Clicked(items[0]))
                     {
                         items[0].PickedUp = true;
+                        //TODO: fix this later
+                        items[0].Position = new Rectangle(1000, 1000, 90, 40);
                         player.Inventory.Add(items[0]);
                     }
                     #endregion
