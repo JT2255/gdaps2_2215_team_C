@@ -77,6 +77,8 @@ namespace MurderMystery
         private StreamReader reader = null;
         private List<Item> items;
         private double totalTime;
+        private double currentTime;
+        private int hour;
         private List<Rectangle> itemInvPos;
         #endregion
 
@@ -105,7 +107,12 @@ namespace MurderMystery
 
             items = new List<Item>();
             itemInvPos = new List<Rectangle>();
+            //time per in-game hour
             totalTime = 120;
+            //keep track of seconds
+            currentTime = 0;
+            //current hour
+            hour = 6;
 
             base.Initialize();
         }
@@ -260,10 +267,10 @@ namespace MurderMystery
 
                 case State.Game:
                     // Enter Debug Text
-                    _spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                                $"\n\n{currentRoom}", new Vector2(0, 0), Color.White);
+                    //_spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
+                    //            $"\n\n{currentRoom}", new Vector2(0, 0), Color.White);
 
-                    _spriteBatch.DrawString(font, $"Time Left: {Math.Round(totalTime)}s", new Vector2(0, 150), Color.White);
+                    _spriteBatch.DrawString(font, $"{currentRoom}\n{hour} PM", new Vector2(0, 0), Color.White);
 
                     //Draw the pause button and inventory button before switch so that it appears on all screens
                     pauseButton.Draw(gameTime, _spriteBatch, "");
@@ -286,7 +293,7 @@ namespace MurderMystery
                             break;
                         case Rooms.Room3:
 
-                            _spriteBatch.DrawString(font, $"\n\n\n\n{currentRoom}\n#{testNPC.DialogueNum} Talking:{testNPC.IsTalking}", new Vector2(0, 0), Color.White);
+                            //_spriteBatch.DrawString(font, $"\n\n\n\n{currentRoom}\n#{testNPC.DialogueNum} Talking:{testNPC.IsTalking}", new Vector2(0, 0), Color.White);
 
                             GraphicsDevice.Clear(Color.Gray);
                             player.Draw(_spriteBatch);
@@ -628,12 +635,19 @@ namespace MurderMystery
 
         private void ProcessTimer(GameTime gameTime)
         {
-            //update timer
-            if (totalTime > 0)
+            //if current time is greater than the total time per hour, increment the hour 
+            if (currentTime > totalTime)
             {
-                totalTime -= gameTime.ElapsedGameTime.TotalSeconds;
+                hour++;
+                currentTime = 0;
             }
             else
+            {
+                currentTime += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            
+            //if time hits 12AM, end game
+            if (hour == 12)
             {
                 currentState = State.EndMenu;
             }
