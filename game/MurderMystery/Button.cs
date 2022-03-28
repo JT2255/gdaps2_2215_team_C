@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MurderMystery
 {
-    class Button
+    class Button : GameObject
     {
         //Fields
         #region Fields
@@ -18,15 +18,13 @@ namespace MurderMystery
         private bool beenClicked;
 
         private SpriteFont font;
-        private Texture2D texture;
-        private Rectangle position;
         #endregion
 
         //Constructor
         #region Constructor
-        public Button(Texture2D texture, SpriteFont font, Rectangle position)
+        public Button(string name, Texture2D texture, SpriteFont font, Rectangle position)
+            : base(name, texture, position)
         {
-            this.texture = texture;
             this.font = font;
 
             this.position = position;
@@ -70,7 +68,7 @@ namespace MurderMystery
         /// <param name="gametime"></param>
         /// <param name="spriteBatch"></param>
         /// <param name="text"></param>
-        public void Draw(GameTime gametime, SpriteBatch spriteBatch, string text)
+        public override void Draw(SpriteBatch spriteBatch, string text)
         {
             //The default colour for the button
             Color myColour = Color.White;
@@ -99,7 +97,7 @@ namespace MurderMystery
         /// Gets the mouse position to see if it is hovering, as well as if it clicks
         /// </summary>
         /// <param name="gametime"></param>
-        public void Update(GameTime gametime)
+        public override void Update()
         {
             mState = Mouse.GetState();
 

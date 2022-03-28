@@ -27,8 +27,28 @@ namespace MurderMystery
 
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region
-        public abstract void Draw(SpriteBatch sb);
+        /// <summary>
+        /// Draw for most classes
+        /// </summary>
+        /// <param name="sb"></param>
+        public virtual void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, position, Color.White);
+        }
 
+        /// <summary>
+        /// Draw method for any object with text
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="text"></param>
+        public virtual void Draw(SpriteBatch sb, string text)
+        {
+            sb.Draw(texture, position, Color.White);
+        }
+
+        /// <summary>
+        /// Update logic method
+        /// </summary>
         public abstract void Update();
         #endregion
     }

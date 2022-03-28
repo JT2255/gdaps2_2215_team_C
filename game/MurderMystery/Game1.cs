@@ -131,24 +131,24 @@ namespace MurderMystery
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
             #region Button Initialization
-            topButton = new Button(menuButtonTexture, font,
+            topButton = new Button("Menu", menuButtonTexture, font,
                 new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
                 GraphicsDevice.Viewport.Height / 3 - menuButtonTexture.Height / 2
                 , menuButtonTexture.Width, menuButtonTexture.Height));
 
             //Positioned in upper right corner
-            pauseButton = new Button(pauseTexture, font,
+            pauseButton = new Button("Pause", pauseTexture, font,
                 new Rectangle(GraphicsDevice.Viewport.Width-pauseTexture.Width/4,10,pauseTexture.Width/4,pauseTexture.Height/4));
             
-            inventoryButton = new Button(inventoryTexture, font,
+            inventoryButton = new Button("Inventory", inventoryTexture, font,
             new Rectangle(GraphicsDevice.Viewport.Width - inventoryTexture.Width - 10, 10, inventoryTexture.Width / 2, inventoryTexture.Height / 2));
 
-            bottomButton = new Button(menuButtonTexture, font,
+            bottomButton = new Button("Menu", menuButtonTexture, font,
                 new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
                 GraphicsDevice.Viewport.Height / 2 - menuButtonTexture.Height / 2
                 , menuButtonTexture.Width, menuButtonTexture.Height));
 
-            exitButton = new Button(exitTexture, font,
+            exitButton = new Button("Exit", exitTexture, font,
                 new Rectangle(GraphicsDevice.Viewport.Width - exitTexture.Width/3, 10, exitTexture.Width/3 , exitTexture.Height/3));
             #endregion
 
@@ -172,38 +172,38 @@ namespace MurderMystery
             {
                 case State.MainMenu:
                     //THe Play Button
-                    topButton.Update(gameTime);
+                    topButton.Update();
                     //Play Exit Button (currently does nothing)
-                    bottomButton.Update(gameTime);
+                    bottomButton.Update();
                     ProcessMainMenu(kbState);
                     break;
                 case State.Instructions:
                     //the continue button
-                    bottomButton.Update(gameTime);
+                    bottomButton.Update();
                     ProcessInstructions(kbState);
                     break;
                 case State.Game:
                     //the inventory
-                    inventoryButton.Update(gameTime);
+                    inventoryButton.Update();
                     //the pause button
-                    pauseButton.Update(gameTime);
+                    pauseButton.Update();
                     ProcessTimer(gameTime);
                     ProcessGame(kbState);
                     break;
                 case State.Inventory:
                     //the return button (x)
-                    exitButton.Update(gameTime);
+                    exitButton.Update();
                     ProcessInventory(kbState);
                     break;
                 case State.EndMenu:
-                    bottomButton.Update(gameTime);
+                    bottomButton.Update();
                     ProcessEndMenu(kbState);
                     break;
                 case State.PauseMenu:
                     //The return button
-                    topButton.Update(gameTime);
+                    topButton.Update();
                     //the exit to main menu button
-                    bottomButton.Update(gameTime);
+                    bottomButton.Update();
                     ProcessPauseMenu(kbState);
                     break;
                 case State.ExitGame:
@@ -235,12 +235,12 @@ namespace MurderMystery
                     GraphicsDevice.Clear(Color.Red);
 
                     //Main Menu Play Button
-                    topButton.Draw(gameTime, _spriteBatch, "");
+                    topButton.Draw(_spriteBatch, "");
                     //Hardcoded to center currently, will patch in future
                     _spriteBatch.DrawString(font, "PLAY", new Vector2(370, 150), Color.Black);
                     //Exit game
                     //Technically we don't have a state for this yet, but I'm still going to put this here
-                    bottomButton.Draw(gameTime, _spriteBatch, "");
+                    bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "EXIT", new Vector2(370, 230), Color.Black);
 
                     break;
@@ -253,7 +253,7 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "Instructions\nUse WASD to move\nClick on NPCs to talk and use spacebar to advance text\n" +
                         "Click on items to pick them up\nPress P to enter the game or click the continue button to proceed", new Vector2(0, 0), Color.White);
 
-                    bottomButton.Draw(gameTime, _spriteBatch, "");
+                    bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340,230), Color.Black);
            
                     break;
@@ -266,8 +266,8 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, $"Time Left: {Math.Round(totalTime)}s", new Vector2(0, 150), Color.White);
 
                     //Draw the pause button and inventory button before switch so that it appears on all screens
-                    pauseButton.Draw(gameTime, _spriteBatch, "");
-                    inventoryButton.Draw(gameTime, _spriteBatch, "");
+                    pauseButton.Draw(_spriteBatch, "");
+                    inventoryButton.Draw(_spriteBatch, "");
 
 
                     // When in game state, check for what room state you are in
@@ -315,7 +315,7 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Green);
 
-                    exitButton.Draw(gameTime, _spriteBatch, "");
+                    exitButton.Draw(_spriteBatch, "");
 
                     // Draws the inventory items
                     // Display Inventory -----
@@ -341,16 +341,16 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Cyan);
                     //Continue
-                    topButton.Draw(gameTime, _spriteBatch, "");
+                    topButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340, 150), Color.Black);
                     //Return to the main menu
-                    bottomButton.Draw(gameTime, _spriteBatch, "");
+                    bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
                     break;
                 case State.EndMenu:
                     _spriteBatch.DrawString(font, "You ran out of time!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
                     //Return to the main menu
-                    bottomButton.Draw(gameTime, _spriteBatch, "");
+                    bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
                     GraphicsDevice.Clear(Color.DarkMagenta);
                     break;
