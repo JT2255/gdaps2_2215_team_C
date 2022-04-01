@@ -56,6 +56,7 @@ namespace MurderMystery
         private Button bottomButton;
         private Button inventoryButton;
         private Button exitButton;
+        private Button testStairsButton;
         #endregion
 
         //Configs
@@ -71,6 +72,7 @@ namespace MurderMystery
         private Texture2D pauseTexture;
         private Texture2D inventoryTexture;
         private Texture2D exitTexture;
+        private Texture2D testStairs;
         #endregion
 
         //Misc
@@ -129,6 +131,7 @@ namespace MurderMystery
             pauseTexture = Content.Load<Texture2D>("PauseButton");
             inventoryTexture = Content.Load<Texture2D>("InventorySingle");
             exitTexture = Content.Load<Texture2D>("ExitBox");
+            testStairs = Content.Load<Texture2D>("stairsTest");
             #endregion
 
             // Load Fonts
@@ -157,6 +160,9 @@ namespace MurderMystery
 
             exitButton = new Button("Exit", exitTexture, font,
                 new Rectangle(GraphicsDevice.Viewport.Width - exitTexture.Width/3, 10, exitTexture.Width/3 , exitTexture.Height/3));
+
+            testStairsButton = new Button("", testStairs, font,
+                new Rectangle(0, 100, 100, windowHeight));
             #endregion
 
             // Load In Items
@@ -194,6 +200,7 @@ namespace MurderMystery
                     inventoryButton.Update();
                     //the pause button
                     pauseButton.Update();
+                    testStairsButton.Update();
                     ProcessTimer(gameTime);
                     ProcessGame(kbState);
                     break;
@@ -288,8 +295,9 @@ namespace MurderMystery
                         case Rooms.Room2:
 
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
+                            
+                            testStairsButton.Draw(_spriteBatch);
                             player.Draw(_spriteBatch);
-
                             break;
                         case Rooms.Room3:
 
@@ -311,6 +319,11 @@ namespace MurderMystery
                                 items[0].Draw(_spriteBatch);
                             }
 
+                            break;
+                        case Rooms.Room4:
+                            GraphicsDevice.Clear(Color.Black);              
+                            testStairsButton.Draw(_spriteBatch);
+                            player.Draw(_spriteBatch);
                             break;
                         default:
                             break;
@@ -557,6 +570,13 @@ namespace MurderMystery
                         currentRoom = Rooms.Room1;
                         player.Left();
                     }
+
+                    //if you click on stairs, move to room 4
+                    if (testStairsButton.BeenClicked)
+                    {
+                        currentRoom = Rooms.Room4;
+                        player.Left();
+                    }
                     break;
                 case Rooms.Room3:
                     player.Move(kbState);
@@ -589,6 +609,17 @@ namespace MurderMystery
                         player.Inventory.Add(items[0]);
                     }
                     #endregion
+                    break;
+                case Rooms.Room4:
+                    player.Move(kbState);
+
+                    //if you click on stairs, move to room 2
+                    if (testStairsButton.BeenClicked)
+                    {
+                        currentRoom = Rooms.Room2;
+                        player.Left();
+                    }
+
                     break;
                 default:
                     break;
