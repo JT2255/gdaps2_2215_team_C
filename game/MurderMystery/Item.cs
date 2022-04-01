@@ -24,15 +24,6 @@ namespace MurderMystery
         #region Properties
 
         /// <summary>
-        /// Returns the item's location
-        /// </summary>
-        public Rectangle Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        /// <summary>
         /// Returns whether the item has been picked up
         /// </summary>
         public bool PickedUp

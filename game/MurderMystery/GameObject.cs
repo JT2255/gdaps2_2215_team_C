@@ -1,22 +1,35 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace MurderMystery
 {
     abstract class GameObject
     {
         // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        #region
+        #region Fields
         protected string name;
         protected Texture2D texture;
         protected Rectangle position;
         #endregion
 
+        // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #region Properties
+
+        public Rectangle Position
+        {
+            get { return this.position; }
+            set { this.position = value; }
+        }
+
+        #endregion
+
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        #region
+        #region Constructors
         protected GameObject(string name, Texture2D texture, Rectangle position)
         {
             this.name = name;
@@ -26,7 +39,7 @@ namespace MurderMystery
         #endregion
 
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        #region
+        #region Methods
         /// <summary>
         /// Draw for most classes
         /// </summary>
@@ -51,5 +64,18 @@ namespace MurderMystery
         /// </summary>
         public abstract void Update();
         #endregion
+
+        public bool Hover(MouseState mState)
+        {
+            // If mouse intersects the obj
+            if (mState.X > this.Position.Left &&
+                mState.X < this.Position.Right &&
+                mState.Y > this.Position.Top &&
+                mState.Y < this.Position.Bottom)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

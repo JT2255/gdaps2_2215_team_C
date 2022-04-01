@@ -82,6 +82,7 @@ namespace MurderMystery
         private double currentTime;
         private int hour;
         private List<Rectangle> itemInvPos;
+        private List<GameObject> gameObjects;
         #endregion
 
         // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,6 +116,8 @@ namespace MurderMystery
             currentTime = 0;
             //current hour
             hour = 6;
+
+            gameObjects = new List<GameObject>();
 
             base.Initialize();
         }
@@ -167,6 +170,10 @@ namespace MurderMystery
 
             // Load In Items
             LoadItems();
+
+            
+            gameObjects.Add(testNPC);
+            gameObjects.Add(items[0]);
         }
 
         protected override void Update(GameTime gameTime)
@@ -431,15 +438,12 @@ namespace MurderMystery
                 mState.Y > npc.Position.Top &&
                 mState.Y < npc.Position.Bottom)
             {
-                // Set it to hover
-                Mouse.SetCursor(MouseCursor.Hand);
                 // if mouse is clicked, would return true,
                 // else would return false
                 return SingleMousePress(mState);
             }
             else // Mouse is not intersecting obj
             {
-                Mouse.SetCursor(MouseCursor.Arrow);
                 return false;
             }
         }
@@ -457,17 +461,11 @@ namespace MurderMystery
                 mState.Y > item.Position.Top &&
                 mState.Y < item.Position.Bottom)
             {
-                Mouse.SetCursor(MouseCursor.Hand);
                 // Item Clicked
                 if (SingleMousePress(mState)) 
                 {
                     return true;
                 }
-            }
-            else
-            {
-                // No hover
-                Mouse.SetCursor(MouseCursor.Arrow);
             }
             // False if not specifically clicked
             return false;
@@ -531,8 +529,26 @@ namespace MurderMystery
                 currentState = State.PauseMenu;
             }
 
-            // Let Player Move
-            
+            // Runs hover logic
+            bool hoveredOver = false;
+            // Searches all of the game objects
+            foreach (GameObject g in gameObjects)
+            {
+                // If we're hovering over any of them, set the flag
+                if (g.Hover(mState))
+                {
+                    hoveredOver = true; 
+                }
+            }
+            // If the flag has been set
+            if (hoveredOver)
+            {
+                Mouse.SetCursor(MouseCursor.Hand);
+            }
+            else
+            {
+                Mouse.SetCursor(MouseCursor.Arrow);
+            }
 
             // Talking to NPCs
             // On spacebar press, advance dialogue

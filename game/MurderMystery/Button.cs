@@ -50,14 +50,6 @@ namespace MurderMystery
                 beenClicked = value;
             }
         }
-
-        public Rectangle Position
-        {
-            get
-            {
-                return position;
-            }
-        }
         #endregion
 
         //Methods

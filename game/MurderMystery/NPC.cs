@@ -70,13 +70,6 @@ namespace MurderMystery
             set { dialogueNum = value; }
         }
 
-        /// <summary>
-        /// Returns the NPC's location
-        /// </summary>
-        public Rectangle Position
-        {
-            get { return position; }
-        }
         #endregion
 
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
