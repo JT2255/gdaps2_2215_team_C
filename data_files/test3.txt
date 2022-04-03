@@ -1,0 +1,4 @@
+3
+Hello, im npc3
+I might be the murderer
+Bye

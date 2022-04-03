@@ -26,7 +26,9 @@ namespace MurderMystery
         Room1,
         Room2,
         Room3,
-        Room4
+        Room4,
+        Room5,
+        Room6
     }
 
     public class Game1 : Game
@@ -49,7 +51,16 @@ namespace MurderMystery
         //Objects
         private SpriteFont font;
         private Player player;
-        private NPC testNPC;
+
+        #region NPCs
+        private NPC NPC1;
+        private NPC NPC2;
+        private NPC NPC3;
+        private NPC NPC4;
+        private NPC NPC5;
+        private NPC NPC6;
+        #endregion
+
         #region Buttons
         private Button topButton;
         private Button pauseButton;
@@ -142,7 +153,16 @@ namespace MurderMystery
 
             // Initialize Objects
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
-            testNPC = new NPC("test 1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+
+            #region NPC Initialization
+            NPC1 = new NPC("test1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC2 = new NPC("test2", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC3 = new NPC("test3", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC4 = new NPC("test4", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC5 = new NPC("test5", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC6 = new NPC("test6", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            #endregion
+
             #region Button Initialization
             topButton = new Button("Menu", menuButtonTexture, font,
                 new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
@@ -171,9 +191,13 @@ namespace MurderMystery
             // Load In Items
             LoadItems();
 
-            
-            gameObjects.Add(testNPC);
             gameObjects.Add(items[0]);
+            gameObjects.Add(NPC1);
+            gameObjects.Add(NPC2);
+            gameObjects.Add(NPC3);
+            gameObjects.Add(NPC4);
+            gameObjects.Add(NPC5);
+            gameObjects.Add(NPC6);
         }
 
         protected override void Update(GameTime gameTime)
@@ -296,6 +320,14 @@ namespace MurderMystery
                     {
                         case Rooms.Room1:
                             GraphicsDevice.Clear(Color.Navy);
+
+                            NPC2.Draw(_spriteBatch);
+
+                            if (NPC2.IsTalking)
+                            {
+                                NPC2.Speak(_spriteBatch, font);
+                            }
+
                             player.Draw(_spriteBatch);
 
                             break;
@@ -304,20 +336,28 @@ namespace MurderMystery
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             
                             testStairsButton.Draw(_spriteBatch);
+                            NPC3.Draw(_spriteBatch);
+
+                            if (NPC3.IsTalking)
+                            {
+                                NPC3.Speak(_spriteBatch, font);
+                            }
+
                             player.Draw(_spriteBatch);
+
                             break;
                         case Rooms.Room3:
 
                             //_spriteBatch.DrawString(font, $"\n\n\n\n{currentRoom}\n#{testNPC.DialogueNum} Talking:{testNPC.IsTalking}", new Vector2(0, 0), Color.White);
 
                             GraphicsDevice.Clear(Color.Gray);
+                            NPC1.Draw(_spriteBatch);
                             player.Draw(_spriteBatch);
-                            testNPC.Draw(_spriteBatch);
 
                             //if currently talking, draw dialogue
-                            if (testNPC.IsTalking)
+                            if (NPC1.IsTalking)
                             {
-                                testNPC.Speak(_spriteBatch, font);
+                                NPC1.Speak(_spriteBatch, font);
                             }
 
                             // If the knife is not picked up, draw it
@@ -328,8 +368,40 @@ namespace MurderMystery
 
                             break;
                         case Rooms.Room4:
-                            GraphicsDevice.Clear(Color.Black);              
+                            GraphicsDevice.Clear(Color.Black);  
+                            
                             testStairsButton.Draw(_spriteBatch);
+                            NPC4.Draw(_spriteBatch);
+
+                            if (NPC4.IsTalking)
+                            {
+                                NPC4.Speak(_spriteBatch, font);
+                            }
+
+                            player.Draw(_spriteBatch);
+                            break;                   
+                        case Rooms.Room5:
+                            GraphicsDevice.Clear(Color.DarkSlateGray);
+
+                            NPC5.Draw(_spriteBatch);
+
+                            if (NPC5.IsTalking)
+                            {
+                                NPC5.Speak(_spriteBatch, font);
+                            }
+
+                            player.Draw(_spriteBatch);
+                            break;
+                        case Rooms.Room6:
+                            GraphicsDevice.Clear(Color.DarkViolet);
+
+                            NPC6.Draw(_spriteBatch);
+
+                            if (NPC6.IsTalking)
+                            {
+                                NPC6.Speak(_spriteBatch, font);
+                            }
+
                             player.Draw(_spriteBatch);
                             break;
                         default:
@@ -550,12 +622,38 @@ namespace MurderMystery
                 Mouse.SetCursor(MouseCursor.Arrow);
             }
 
-            // Talking to NPCs
-            // On spacebar press, advance dialogue
-            if (testNPC.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            #region Talking To NPCS
+            if (NPC1.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                testNPC.DialogueNum++;
+                NPC1.DialogueNum++;
             }
+
+            if (NPC2.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC2.DialogueNum++;
+            }
+
+            if (NPC3.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC3.DialogueNum++;
+            }
+
+            if (NPC4.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC4.DialogueNum++;
+            }
+
+            if (NPC5.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC5.DialogueNum++;
+            }
+
+            if (NPC6.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC6.DialogueNum++;
+            }
+            #endregion
+
 
             // Simulate room movement 
             switch (currentRoom)
@@ -576,6 +674,12 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room3;
                         player.Left();
+                    }
+
+                    if (Clicked(NPC1))
+                    {
+                        // Change to
+                        NPC1.IsTalking = !NPC1.IsTalking;
                     }
                     break;
                 case Rooms.Room2:
@@ -605,11 +709,13 @@ namespace MurderMystery
                     // ~~~ GAME OBJECTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     #region Game Objects
                     //if you click on him, toggle dialogue
-                    if (Clicked(testNPC))
+                    if (Clicked(NPC1))
                     {
                         // Change to
-                        testNPC.IsTalking = !testNPC.IsTalking;
+                        NPC1.IsTalking = !NPC1.IsTalking;
                     }
+
+
 
                     // If you click on the knife, toggle it
                     // Possible implementation:
@@ -634,6 +740,38 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room2;
                         player.Left();
+                    }
+
+                    if (player.Position.X > windowWidth)
+                    {
+                        currentRoom = Rooms.Room5;
+                        player.Left();
+                    }
+
+                    break;
+                case Rooms.Room5:
+                    player.Move(kbState);
+
+                    if (player.Position.X < 0)
+                    {
+                        currentRoom = Rooms.Room4;
+                        player.Right();
+                    }
+
+                    if (player.Position.X > windowWidth)
+                    {
+                        currentRoom = Rooms.Room6;
+                        player.Left();
+                    }
+
+                    break;
+                case Rooms.Room6:
+                    player.Move(kbState);
+
+                    if (player.Position.X < 0)
+                    {
+                        currentRoom = Rooms.Room5;
+                        player.Right();
                     }
 
                     break;
