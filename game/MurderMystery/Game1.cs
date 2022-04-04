@@ -128,7 +128,6 @@ namespace MurderMystery
             // Position of character
             playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
 
-            items = new List<Item>();
             itemInvPos = new List<Rectangle>();
             //time per in-game hour
             totalTime = 120;
@@ -137,6 +136,7 @@ namespace MurderMystery
             //current hour
             hour = 6;
 
+            items = new List<Item>();
             gameObjects = new List<GameObject>();
 
             base.Initialize();
@@ -146,83 +146,17 @@ namespace MurderMystery
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load Textures
-
-            #region Character Textures
-            playerTexture = Content.Load<Texture2D>("PlayerSprite");
-            claraFarleyTexture = Content.Load<Texture2D>("ClaraSprite");
-            edithEspinozaTexture = Content.Load<Texture2D>("EdithSprite");
-            elizabethMaxwellTexture = Content.Load<Texture2D>("ElizabethSprite");
-            summerHinesTexture = Content.Load<Texture2D>("SummerSprite");
-            testNPCTexture = Content.Load<Texture2D>("npc");
-            #endregion
-
-            #region Button Textures
-            menuButtonTexture = Content.Load<Texture2D>("MenuBox");
-            pauseTexture = Content.Load<Texture2D>("PauseButton");
-            inventoryTexture = Content.Load<Texture2D>("InventorySingle");
-            exitTexture = Content.Load<Texture2D>("ExitBox");
-            testStairs = Content.Load<Texture2D>("stairsTest");
-            #endregion
-
-            //dialogue box texture
-            dialogueBox = Content.Load<Texture2D>("dialogueBox");
-
-            // Load Fonts
+            // Load fonts
             font = Content.Load<SpriteFont>("font");
 
-            // Initialize Objects
-            player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
+            // Load in characters
+            LoadCharacters();
 
-            #region NPC Initialization
-            NPC1 = new NPC("Clara Farley", false, false, new Rectangle(400, 200, 40, 107), claraFarleyTexture);
-            NPC2 = new NPC("Edith Espinoza", false, false, new Rectangle(400, 200, 40, 109), edithEspinozaTexture);
-            NPC3 = new NPC("Elizabeth Maxwell", false, false, new Rectangle(400, 200, 40, 107), elizabethMaxwellTexture);
-            NPC4 = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
-            NPC5 = new NPC("test5", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
-            NPC6 = new NPC("test6", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
-            #endregion
-
-            #region Button Initialization
-            topButton = new Button("Menu", menuButtonTexture, font,
-                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
-                GraphicsDevice.Viewport.Height / 3 - menuButtonTexture.Height / 2
-                , menuButtonTexture.Width, menuButtonTexture.Height));
-
-            //Positioned in upper right corner
-            pauseButton = new Button("Pause", pauseTexture, font,
-                new Rectangle(GraphicsDevice.Viewport.Width-pauseTexture.Width/4,10,pauseTexture.Width/4,pauseTexture.Height/4));
-            
-            inventoryButton = new Button("Inventory", inventoryTexture, font,
-            new Rectangle(GraphicsDevice.Viewport.Width - inventoryTexture.Width - 10, 10, inventoryTexture.Width / 2, inventoryTexture.Height / 2));
-
-            bottomButton = new Button("Menu", menuButtonTexture, font,
-                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
-                GraphicsDevice.Viewport.Height / 2 - menuButtonTexture.Height / 2
-                , menuButtonTexture.Width, menuButtonTexture.Height));
-
-            exitButton = new Button("Exit", exitTexture, font,
-                new Rectangle(GraphicsDevice.Viewport.Width - exitTexture.Width/3, 10, exitTexture.Width/3 , exitTexture.Height/3));
-
-            testStairsButton = new Button("", testStairs, font,
-                new Rectangle(0, 100, 100, windowHeight));
-            #endregion
-
-            //dialogue box initialization
-
+            // Load in buttons
+            LoadButtons();
 
             // Load In Items
             LoadItems();
-
-            #region Adding Game Objects
-            gameObjects.Add(items[0]);
-            gameObjects.Add(NPC1);
-            gameObjects.Add(NPC2);
-            gameObjects.Add(NPC3);
-            gameObjects.Add(NPC4);
-            gameObjects.Add(NPC5);
-            gameObjects.Add(NPC6);
-            #endregion
         }
 
         protected override void Update(GameTime gameTime)
@@ -233,6 +167,9 @@ namespace MurderMystery
 
             // Updates the player animation
             player.UpdateAnim(gameTime);
+
+            BeingDrawnSets();
+            HoverLogic();
 
             #region FSM Switching
             switch (currentState)
@@ -575,19 +512,18 @@ namespace MurderMystery
             return false;
         }
 
-        //TODO: Find a way to implement Clicked() better.
         /// <summary>
         /// If mouse is held down inside of npc, return true
         /// </summary>
-        /// <param name="npc">npc object</param>
+        /// <param name="gameObject">npc object</param>
         /// <returns>returns true or false depending on if mouse is clicking on object</returns>
-        private bool Clicked(NPC npc)
+        private bool Clicked(GameObject gameObject)
         {
             // If mouse intersects the obj
-            if (mState.X > npc.Position.Left &&
-                mState.X < npc.Position.Right &&
-                mState.Y > npc.Position.Top &&
-                mState.Y < npc.Position.Bottom)
+            if (mState.X > gameObject.Position.Left &&
+                mState.X < gameObject.Position.Right &&
+                mState.Y > gameObject.Position.Top &&
+                mState.Y < gameObject.Position.Bottom)
             {
                 // if mouse is clicked, would return true,
                 // else would return false
@@ -600,26 +536,31 @@ namespace MurderMystery
         }
 
         /// <summary>
-        /// If mouse is held down inside of an item, return true
+        /// Hover logic to change mouse cursor
         /// </summary>
-        /// <param name="item">item object</param>
-        /// <returns>returns true or false depending on if mouse is clicking on object</returns>
-        private bool Clicked(Item item)
+        private void HoverLogic()
         {
-            // Hover over item 
-            if (mState.X > item.Position.Left &&
-                mState.X < item.Position.Right &&
-                mState.Y > item.Position.Top &&
-                mState.Y < item.Position.Bottom)
+            // Sets our flag
+            bool hoveredOver = false;
+
+            // Searches all of the game objects
+            foreach (GameObject g in gameObjects)
             {
-                // Item Clicked
-                if (SingleMousePress(mState)) 
+                // If we're hovering over any of them, set the flag
+                if (g.Hover(mState))
                 {
-                    return true;
+                    hoveredOver = true;
                 }
             }
-            // False if not specifically clicked
-            return false;
+            // If the flag has been set
+            if (hoveredOver)
+            {
+                Mouse.SetCursor(MouseCursor.Hand);
+            }
+            else
+            {
+                Mouse.SetCursor(MouseCursor.Arrow);
+            }
         }
         #endregion
 
@@ -632,6 +573,7 @@ namespace MurderMystery
         /// <param name="kbState"></param>
         private void ProcessMainMenu(KeyboardState kbState)
         {
+
             if (SingleKeyPress(Keys.P, kbState) || topButton.BeenClicked)
             {
                 currentState = State.Instructions;
@@ -679,29 +621,6 @@ namespace MurderMystery
             {
                 currentState = State.PauseMenu;
             }
-
-            #region Mouse Hover Logic
-            // Runs hover logic
-            bool hoveredOver = false;
-            // Searches all of the game objects
-            foreach (GameObject g in gameObjects)
-            {
-                // If we're hovering over any of them, set the flag
-                if (g.Hover(mState))
-                {
-                    hoveredOver = true; 
-                }
-            }
-            // If the flag has been set
-            if (hoveredOver)
-            {
-                Mouse.SetCursor(MouseCursor.Hand);
-            }
-            else
-            {
-                Mouse.SetCursor(MouseCursor.Arrow);
-            }
-            #endregion
 
             #region Talking To NPCS
             
@@ -966,6 +885,200 @@ namespace MurderMystery
                 currentState = State.EndMenu;
             }
         }
+
+        /// <summary>
+        /// Sets whether an item is being drawn for hover logic
+        /// </summary>
+        private void BeingDrawnSets()
+        {
+            switch (currentState)
+            {
+                case State.MainMenu:
+
+                    topButton.BeingDrawn = true;
+                    bottomButton.BeingDrawn = true;
+                    inventoryButton.BeingDrawn = false;
+                    pauseButton.BeingDrawn = false;
+                    exitButton.BeingDrawn = false;
+                    testStairsButton.BeingDrawn = false;
+
+                    NPC1.BeingDrawn = false;
+                    NPC2.BeingDrawn = false;
+                    NPC3.BeingDrawn = false;
+                    NPC4.BeingDrawn = false;
+                    NPC5.BeingDrawn = false;
+                    NPC6.BeingDrawn = false;
+
+                    items[0].BeingDrawn = false;
+
+                    break;
+                case State.Instructions:
+
+                    topButton.BeingDrawn = false;
+                    bottomButton.BeingDrawn = true;
+                    inventoryButton.BeingDrawn = false;
+                    pauseButton.BeingDrawn = false;
+                    exitButton.BeingDrawn = false;
+                    testStairsButton.BeingDrawn = false;
+
+                    NPC1.BeingDrawn = false;
+                    NPC2.BeingDrawn = false;
+                    NPC3.BeingDrawn = false;
+                    NPC4.BeingDrawn = false;
+                    NPC5.BeingDrawn = false;
+                    NPC6.BeingDrawn = false;
+
+                    items[0].BeingDrawn = false;
+
+                    break;
+                case State.Game:
+
+                    topButton.BeingDrawn = false;
+                    bottomButton.BeingDrawn = false;
+                    inventoryButton.BeingDrawn = true;
+                    exitButton.BeingDrawn = false;
+                    pauseButton.BeingDrawn = true;
+                    
+                    switch (currentRoom)
+                    {
+                        case Rooms.Room1:
+                            NPC1.BeingDrawn = true;
+                            NPC2.BeingDrawn = false;
+                            NPC3.BeingDrawn = false;
+                            NPC4.BeingDrawn = false;
+                            NPC5.BeingDrawn = false;
+                            NPC6.BeingDrawn = false;
+                            testStairsButton.BeingDrawn = false;
+                            break;
+
+                        case Rooms.Room2:
+                            NPC1.BeingDrawn = false;
+                            NPC2.BeingDrawn = true;
+                            NPC3.BeingDrawn = false;
+                            NPC4.BeingDrawn = false;
+                            NPC5.BeingDrawn = false;
+                            NPC6.BeingDrawn = false;
+                            testStairsButton.BeingDrawn = true;
+                            break;
+
+                        case Rooms.Room3:
+                            NPC1.BeingDrawn = false;
+                            NPC2.BeingDrawn = false;
+                            NPC3.BeingDrawn = true;
+                            NPC4.BeingDrawn = false;
+                            NPC5.BeingDrawn = false;
+                            NPC6.BeingDrawn = false;
+                            testStairsButton.BeingDrawn = false;
+                            if (!items[0].PickedUp)
+                            {
+                                items[0].BeingDrawn = true;
+                            }
+                            else
+                            {
+                                items[0].BeingDrawn = false;
+                            }
+                            break;
+
+                        case Rooms.Room4:
+                            NPC1.BeingDrawn = false;
+                            NPC2.BeingDrawn = false;
+                            NPC3.BeingDrawn = false;
+                            NPC4.BeingDrawn = true;
+                            NPC5.BeingDrawn = false;
+                            NPC6.BeingDrawn = false;
+                            testStairsButton.BeingDrawn = true;
+                            break;
+
+                        case Rooms.Room5:
+                            NPC1.BeingDrawn = false;
+                            NPC2.BeingDrawn = false;
+                            NPC3.BeingDrawn = false;
+                            NPC4.BeingDrawn = false;
+                            NPC5.BeingDrawn = true;
+                            NPC6.BeingDrawn = false;
+                            testStairsButton.BeingDrawn = false;
+                            break;
+
+                        case Rooms.Room6:
+                            NPC1.BeingDrawn = false;
+                            NPC2.BeingDrawn = false;
+                            NPC3.BeingDrawn = false;
+                            NPC4.BeingDrawn = false;
+                            NPC5.BeingDrawn = false;
+                            NPC6.BeingDrawn = true;
+                            testStairsButton.BeingDrawn = false;
+                            break;
+                    }
+
+                    break;
+                case State.Inventory:
+                    topButton.BeingDrawn = false;
+                    bottomButton.BeingDrawn = false;
+                    inventoryButton.BeingDrawn = false;
+                    pauseButton.BeingDrawn = false;
+                    exitButton.BeingDrawn = true;
+                    testStairsButton.BeingDrawn = false;
+
+                    NPC1.BeingDrawn = false;
+                    NPC2.BeingDrawn = false;
+                    NPC3.BeingDrawn = false;
+                    NPC4.BeingDrawn = false;
+                    NPC5.BeingDrawn = false;
+                    NPC6.BeingDrawn = false;
+
+                    if (items[0].PickedUp)
+                    {
+                        items[0].BeingDrawn = true;
+                    }
+                    else
+                    {
+                        items[0].BeingDrawn = false;
+                    }
+
+                    break;
+                case State.EndMenu:
+
+                    topButton.BeingDrawn = false;
+                    bottomButton.BeingDrawn = true;
+                    inventoryButton.BeingDrawn = false;
+                    pauseButton.BeingDrawn = false;
+                    exitButton.BeingDrawn = false;
+                    testStairsButton.BeingDrawn = false;
+
+                    NPC1.BeingDrawn = false;
+                    NPC2.BeingDrawn = false;
+                    NPC3.BeingDrawn = false;
+                    NPC4.BeingDrawn = false;
+                    NPC5.BeingDrawn = false;
+                    NPC6.BeingDrawn = false;
+
+                    items[0].BeingDrawn = false;
+
+                    break;
+                case State.PauseMenu:
+
+                    topButton.BeingDrawn = true;
+                    bottomButton.BeingDrawn = true;
+                    inventoryButton.BeingDrawn = false;
+                    pauseButton.BeingDrawn = false;
+                    exitButton.BeingDrawn = false;
+                    testStairsButton.BeingDrawn = false;
+
+                    NPC1.BeingDrawn = false;
+                    NPC2.BeingDrawn = false;
+                    NPC3.BeingDrawn = false;
+                    NPC4.BeingDrawn = false;
+                    NPC5.BeingDrawn = false;
+                    NPC6.BeingDrawn = false;
+
+                    items[0].BeingDrawn = false;
+
+                    break;
+                case State.ExitGame:
+                default:
+                    break;
+            }
+        }
         #endregion
 
         // ~~~ MISC METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -999,6 +1112,8 @@ namespace MurderMystery
                             int.Parse(splitData[5]), // y-cord
                             int.Parse(splitData[6]), // width
                             int.Parse(splitData[7])))); // height
+                    // Adds the item to the gameObjects list
+                    gameObjects.Add(items[items.Count - 1]);
                 }
 
                 // Close the file
@@ -1011,6 +1126,78 @@ namespace MurderMystery
             {
                 System.Console.WriteLine("File not loaded correctly: " + e.Message);
             }
+        }
+
+        /// <summary>
+        /// Loads in the characters and player
+        /// </summary>
+        private void LoadCharacters()
+        {
+            // Loads the textures
+            playerTexture = Content.Load<Texture2D>("PlayerSprite");
+            claraFarleyTexture = Content.Load<Texture2D>("ClaraSprite");
+            edithEspinozaTexture = Content.Load<Texture2D>("EdithSprite");
+            elizabethMaxwellTexture = Content.Load<Texture2D>("ElizabethSprite");
+            summerHinesTexture = Content.Load<Texture2D>("SummerSprite");
+            testNPCTexture = Content.Load<Texture2D>("npc");
+
+            // Initializes the characters and adds them to the gameObjects list
+            player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
+            NPC1 = new NPC("Clara Farley", false, false, new Rectangle(400, 200, 40, 107), claraFarleyTexture);
+            gameObjects.Add(NPC1);
+            NPC2 = new NPC("Edith Espinoza", false, false, new Rectangle(400, 200, 40, 109), edithEspinozaTexture);
+            gameObjects.Add(NPC2);
+            NPC3 = new NPC("Elizabeth Maxwell", false, false, new Rectangle(400, 200, 40, 107), elizabethMaxwellTexture);
+            gameObjects.Add(NPC3);
+            NPC4 = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
+            gameObjects.Add(NPC4);
+            NPC5 = new NPC("test5", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            gameObjects.Add(NPC5);
+            NPC6 = new NPC("test6", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            gameObjects.Add(NPC6);
+        }
+
+        /// <summary>
+        /// Loads in the buttons
+        /// </summary>
+        private void LoadButtons()
+        {
+            // Loads in the textures of the buttons
+            menuButtonTexture = Content.Load<Texture2D>("MenuBox");
+            pauseTexture = Content.Load<Texture2D>("PauseButton");
+            inventoryTexture = Content.Load<Texture2D>("InventorySingle");
+            exitTexture = Content.Load<Texture2D>("ExitBox");
+            testStairs = Content.Load<Texture2D>("stairsTest");
+
+            // Initializes the buttons
+            topButton = new Button("Menu", menuButtonTexture, font,
+                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                GraphicsDevice.Viewport.Height / 3 - menuButtonTexture.Height / 2
+                , menuButtonTexture.Width, menuButtonTexture.Height));
+            gameObjects.Add(topButton);
+
+            //Positioned in upper right corner
+            pauseButton = new Button("Pause", pauseTexture, font,
+                new Rectangle(GraphicsDevice.Viewport.Width - pauseTexture.Width / 4, 10, pauseTexture.Width / 4, pauseTexture.Height / 4));
+            gameObjects.Add(pauseButton);
+
+            inventoryButton = new Button("Inventory", inventoryTexture, font,
+            new Rectangle(GraphicsDevice.Viewport.Width - inventoryTexture.Width - 10, 10, inventoryTexture.Width / 2, inventoryTexture.Height / 2));
+            gameObjects.Add(inventoryButton);
+
+            bottomButton = new Button("Menu", menuButtonTexture, font,
+                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                GraphicsDevice.Viewport.Height / 2 - menuButtonTexture.Height / 2
+                , menuButtonTexture.Width, menuButtonTexture.Height));
+            gameObjects.Add(bottomButton);
+
+            exitButton = new Button("Exit", exitTexture, font,
+                new Rectangle(GraphicsDevice.Viewport.Width - exitTexture.Width / 3, 10, exitTexture.Width / 3, exitTexture.Height / 3));
+            gameObjects.Add(exitButton);
+
+            testStairsButton = new Button("", testStairs, font,
+                new Rectangle(0, 100, 100, windowHeight));
+            gameObjects.Add(testStairsButton);
         }
 
         /// <summary>

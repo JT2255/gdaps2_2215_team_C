@@ -15,6 +15,7 @@ namespace MurderMystery
         protected string name;
         protected Texture2D texture;
         protected Rectangle position;
+        protected bool beingDrawn;
         #endregion
 
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,6 +27,12 @@ namespace MurderMystery
             set { this.position = value; }
         }
 
+        public bool BeingDrawn
+        {
+            get { return this.beingDrawn; }
+            set { this.beingDrawn = value; }
+        }
+
         #endregion
 
         // ~~~ CONSTRUCTORS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,6 +42,7 @@ namespace MurderMystery
             this.name = name;
             this.texture = texture;
             this.position = position;
+            beingDrawn = false;
         }
         #endregion
 
@@ -63,19 +71,26 @@ namespace MurderMystery
         /// Update logic method
         /// </summary>
         public abstract void Update();
-        #endregion
 
+        /// <summary>
+        /// Determines whether the mouse is hovering over
+        /// the object
+        /// </summary>
+        /// <param name="mState"></param>
+        /// <returns></returns>
         public bool Hover(MouseState mState)
         {
             // If mouse intersects the obj
             if (mState.X > this.Position.Left &&
                 mState.X < this.Position.Right &&
                 mState.Y > this.Position.Top &&
-                mState.Y < this.Position.Bottom)
+                mState.Y < this.Position.Bottom &&
+                this.BeingDrawn)
             {
                 return true;
             }
             return false;
         }
+        #endregion
     }
 }
