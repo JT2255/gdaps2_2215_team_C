@@ -33,7 +33,7 @@ namespace MurderMystery
 
     public class Game1 : Game
     {
-        // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~ FIELDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -76,13 +76,16 @@ namespace MurderMystery
         private Vector2 playerPos;
 
         //Textures
+        #region Character Textures
         private Texture2D playerTexture;
         private Texture2D testNPCTexture;
         private Texture2D claraFarleyTexture;
         private Texture2D edithEspinozaTexture;
         private Texture2D elizabethMaxwellTexture;
         private Texture2D summerHinesTexture;
-        #region Buttons
+        #endregion
+
+        #region Button Textures 
         private Texture2D menuButtonTexture;
         private Texture2D pauseTexture;
         private Texture2D inventoryTexture;
@@ -100,7 +103,7 @@ namespace MurderMystery
         private List<GameObject> gameObjects;
         #endregion
 
-        // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Typical Game1 Methods: Initialize, LoadContent, Update, and Draw
         public Game1()
         {
@@ -142,12 +145,16 @@ namespace MurderMystery
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load Textures
+
+            #region Character Textures
             playerTexture = Content.Load<Texture2D>("PlayerSprite");
             claraFarleyTexture = Content.Load<Texture2D>("ClaraSprite");
             edithEspinozaTexture = Content.Load<Texture2D>("EdithSprite");
             elizabethMaxwellTexture = Content.Load<Texture2D>("ElizabethSprite");
             summerHinesTexture = Content.Load<Texture2D>("SummerSprite");
             testNPCTexture = Content.Load<Texture2D>("npc");
+            #endregion
+
             #region Button Textures
             menuButtonTexture = Content.Load<Texture2D>("MenuBox");
             pauseTexture = Content.Load<Texture2D>("PauseButton");
@@ -199,6 +206,7 @@ namespace MurderMystery
             // Load In Items
             LoadItems();
 
+            #region Adding Game Objects
             gameObjects.Add(items[0]);
             gameObjects.Add(NPC1);
             gameObjects.Add(NPC2);
@@ -206,13 +214,11 @@ namespace MurderMystery
             gameObjects.Add(NPC4);
             gameObjects.Add(NPC5);
             gameObjects.Add(NPC6);
+            #endregion
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //      Exit();
-
             // Sets up our states
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
@@ -220,51 +226,73 @@ namespace MurderMystery
             // Updates the player animation
             player.UpdateAnim(gameTime);
 
+            #region FSM Switching
             switch (currentState)
             {
                 case State.MainMenu:
-                    //THe Play Button
+                    //The Play Button
                     topButton.Update();
+
                     //Play Exit Button (currently does nothing)
                     bottomButton.Update();
+
+                    //Process main menu
                     ProcessMainMenu(kbState);
                     break;
                 case State.Instructions:
                     //the continue button
                     bottomButton.Update();
+
+                    //Process instruction menu
                     ProcessInstructions(kbState);
                     break;
                 case State.Game:
+
                     //the inventory
                     inventoryButton.Update();
+
                     //the pause button
                     pauseButton.Update();
+
+                    //stair button
                     testStairsButton.Update();
+
+                    //process timer and game state
                     ProcessTimer(gameTime);
                     ProcessGame(kbState);
                     break;
                 case State.Inventory:
                     //the return button (x)
                     exitButton.Update();
+
+                    //process inventory state
                     ProcessInventory(kbState);
                     break;
                 case State.EndMenu:
+                    //main menu button
                     bottomButton.Update();
+
+                    //process end screen state
                     ProcessEndMenu(kbState);
                     break;
                 case State.PauseMenu:
                     //The return button
                     topButton.Update();
+
                     //the exit to main menu button
                     bottomButton.Update();
+
+                    //process pause menu state
                     ProcessPauseMenu(kbState);
                     break;
                 case State.ExitGame:
+                    //close game
                     Exit();
                     break;
                 default:
                     break;
             }
+            #endregion
 
             // Retrieve the previous states
             prevKbState = kbState;
@@ -279,21 +307,24 @@ namespace MurderMystery
             _spriteBatch.Begin();
             ShapeBatch.Begin(GraphicsDevice);
 
+            #region FSM Switching
             switch (currentState)
             {
                 case State.MainMenu:
                     // Main Menu text
                     _spriteBatch.DrawString(font, "Main Menu\nPress P or click the play button to proceed to game" +
                         "\nPress Q or click the exit button to leave the game", new Vector2(0, 0), Color.White);
+
                     // Main Menu Background
                     GraphicsDevice.Clear(Color.Red);
 
                     //Main Menu Play Button
                     topButton.Draw(_spriteBatch, "");
+
                     //Hardcoded to center currently, will patch in future
                     _spriteBatch.DrawString(font, "PLAY", new Vector2(370, 150), Color.Black);
+
                     //Exit game
-                    //Technically we don't have a state for this yet, but I'm still going to put this here
                     bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "EXIT", new Vector2(370, 230), Color.Black);
 
@@ -307,16 +338,14 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "Instructions\nUse WASD to move\nClick on NPCs to talk and use spacebar to advance text\n" +
                         "Click on items to pick them up\nPress P to enter the game or click the continue button to proceed", new Vector2(0, 0), Color.White);
 
+                    //draw button
                     bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340,230), Color.Black);
            
                     break;
 
                 case State.Game:
-                    // Enter Debug Text
-                    //_spriteBatch.DrawString(font, $"You are now playing the game.\nPress M to go back\nor I to go to inventory." +
-                    //            $"\n\n{currentRoom}", new Vector2(0, 0), Color.White);
-
+                    // Debug Text
                     _spriteBatch.DrawString(font, $"{currentRoom}\n{hour} PM", new Vector2(0, 0), Color.White);
 
                     //Draw the pause button and inventory button before switch so that it appears on all screens
@@ -330,13 +359,16 @@ namespace MurderMystery
                         case Rooms.Room1:
                             GraphicsDevice.Clear(Color.Navy);
 
+                            //draw npc
                             NPC1.Draw(_spriteBatch);
 
+                            //show npc dialogue
                             if (NPC1.IsTalking)
                             {
                                 NPC1.Speak(_spriteBatch, font);
                             }
 
+                            //draw player
                             player.Draw(_spriteBatch);
 
                             break;
@@ -344,26 +376,29 @@ namespace MurderMystery
 
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             
+                            //draw stairs and npc
                             testStairsButton.Draw(_spriteBatch);
                             NPC2.Draw(_spriteBatch);
 
+                            //show npc dialogue
                             if (NPC2.IsTalking)
                             {
                                 NPC2.Speak(_spriteBatch, font);
                             }
 
+                            //draw player
                             player.Draw(_spriteBatch);
 
                             break;
                         case Rooms.Room3:
 
-                            //_spriteBatch.DrawString(font, $"\n\n\n\n{currentRoom}\n#{testNPC.DialogueNum} Talking:{testNPC.IsTalking}", new Vector2(0, 0), Color.White);
-
                             GraphicsDevice.Clear(Color.Gray);
-                            NPC3.Draw(_spriteBatch);
-                            player.Draw(_spriteBatch);
 
-                            //if currently talking, draw dialogue
+                            //draw npc
+                            NPC3.Draw(_spriteBatch);
+                            
+
+                            //draw npc dialogue
                             if (NPC3.IsTalking)
                             {
                                 NPC3.Speak(_spriteBatch, font);
@@ -375,43 +410,58 @@ namespace MurderMystery
                                 items[0].Draw(_spriteBatch);
                             }
 
+                            //draw player
+                            player.Draw(_spriteBatch);
+
                             break;
                         case Rooms.Room4:
                             GraphicsDevice.Clear(Color.Black);  
                             
+                            //draw stairs and npc
                             testStairsButton.Draw(_spriteBatch);
                             NPC4.Draw(_spriteBatch);
 
+                            //draw npc dialogue
                             if (NPC4.IsTalking)
                             {
                                 NPC4.Speak(_spriteBatch, font);
                             }
 
+                            //draw player
                             player.Draw(_spriteBatch);
+
                             break;                   
                         case Rooms.Room5:
                             GraphicsDevice.Clear(Color.DarkSlateGray);
 
+                            //draw npc
                             NPC5.Draw(_spriteBatch);
 
+                            //draw npc dialogue
                             if (NPC5.IsTalking)
                             {
                                 NPC5.Speak(_spriteBatch, font);
                             }
 
+                            //draw player
                             player.Draw(_spriteBatch);
+
                             break;
                         case Rooms.Room6:
                             GraphicsDevice.Clear(Color.DarkViolet);
 
+                            //draw npc
                             NPC6.Draw(_spriteBatch);
 
+                            //draw npc dialogue
                             if (NPC6.IsTalking)
                             {
                                 NPC6.Speak(_spriteBatch, font);
                             }
 
+                            //draw player
                             player.Draw(_spriteBatch);
+
                             break;
                         default:
                             break;
@@ -420,9 +470,11 @@ namespace MurderMystery
                     break;
 
                 case State.Inventory:
+                    //inventory text
                     _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Green);
 
+                    //draw exit button
                     exitButton.Draw(_spriteBatch, "");
 
                     // Draws the inventory items
@@ -444,27 +496,36 @@ namespace MurderMystery
                             formatPos + new Vector2(0,thisItem.Position.Height),
                             Color.White);
                     }
+
                     break;
                 case State.PauseMenu:
+                    //pause menu text
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Cyan);
+
                     //Continue
                     topButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340, 150), Color.Black);
+
                     //Return to the main menu
                     bottomButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
+
                     break;
                 case State.EndMenu:
+                    //end menu text
                     _spriteBatch.DrawString(font, "You ran out of time!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+
                     //Return to the main menu
                     bottomButton.Draw(_spriteBatch, "");
+
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
                     GraphicsDevice.Clear(Color.DarkMagenta);
                     break;
                 default:
                     break;
             }
+            #endregion
 
             _spriteBatch.End();
             ShapeBatch.End();
@@ -472,7 +533,7 @@ namespace MurderMystery
         }
         #endregion
 
-        // ~~~ INPUT CAPTURES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~ INPUT CAPTURES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Input Captures
         /// <summary>
         /// Checks for a single key press.
@@ -554,7 +615,7 @@ namespace MurderMystery
         }
         #endregion
 
-        // ~~~ GAME LOGIC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ~~~ GAME LOGIC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Game Logic
 
         /// <summary>
@@ -611,6 +672,7 @@ namespace MurderMystery
                 currentState = State.PauseMenu;
             }
 
+            #region Mouse Hover Logic
             // Runs hover logic
             bool hoveredOver = false;
             // Searches all of the game objects
@@ -631,45 +693,55 @@ namespace MurderMystery
             {
                 Mouse.SetCursor(MouseCursor.Arrow);
             }
+            #endregion
 
             #region Talking To NPCS
+            
+            //progress through npc dialogue
             if (NPC1.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 NPC1.DialogueNum++;
             }
 
+            //progress through npc dialogue
             if (NPC2.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 NPC2.DialogueNum++;
             }
 
+            //progress through npc dialogue
             if (NPC3.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 NPC3.DialogueNum++;
             }
 
+            //progress through npc dialogue
             if (NPC4.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 NPC4.DialogueNum++;
             }
 
+            //progress through npc dialogue
             if (NPC5.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 NPC5.DialogueNum++;
             }
 
+            //progress through npc dialogue
             if (NPC6.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 NPC6.DialogueNum++;
             }
             #endregion
 
-
+            #region FSM Switching
             // Simulate room movement 
             switch (currentRoom)
             {
                 case Rooms.Room1:
+
                     player.Move(kbState);
+
                     //if you walk to the left, go to room 2
                     if (player.Position.X < 0)
                     {
@@ -686,14 +758,17 @@ namespace MurderMystery
                         player.Left();
                     }
 
+                    //toggle npc talking state
                     if (Clicked(NPC1))
                     {
-                        // Change to
                         NPC1.IsTalking = !NPC1.IsTalking;
                     }
+
                     break;
                 case Rooms.Room2:
+
                     player.Move(kbState);
+
                     //if you walk right, go back to room 1
                     if (player.Position.X > windowWidth)
                     {
@@ -708,27 +783,29 @@ namespace MurderMystery
                         player.Left();
                     }
 
+                    //toggle npc talking state
                     if (Clicked(NPC2))
                     {
-                        // Change to
                         NPC2.IsTalking = !NPC2.IsTalking;
                     }
 
                     break;
                 case Rooms.Room3:
+
                     player.Move(kbState);
+
                     //if you walk left, go back to room 1
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room1;
                         player.Right();
                     }
+
                     // ~~~ GAME OBJECTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     #region Game Objects
-                    //if you click on him, toggle dialogue
+                    //toggle npc talking state
                     if (Clicked(NPC3))
                     {
-                        // Change to
                         NPC3.IsTalking = !NPC3.IsTalking;
                     }
 
@@ -748,8 +825,10 @@ namespace MurderMystery
                         player.Inventory.Add(items[0]);
                     }
                     #endregion
+
                     break;
                 case Rooms.Room4:
+
                     player.Move(kbState);
 
                     //if you click on stairs, move to room 2
@@ -759,53 +838,59 @@ namespace MurderMystery
                         player.Left();
                     }
 
+                    //if you move to right, go to room 5
                     if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room5;
                         player.Left();
                     }
 
+                    //toggle npc talking state
                     if (Clicked(NPC4))
                     {
-                        // Change to
                         NPC4.IsTalking = !NPC4.IsTalking;
                     }
 
                     break;
                 case Rooms.Room5:
+
                     player.Move(kbState);
 
+                    //if you move to left, go to room 4
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room4;
                         player.Right();
                     }
 
+                    //if you move to right, go to room 6
                     if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room6;
                         player.Left();
                     }
 
+                    //toggle npc talking state
                     if (Clicked(NPC5))
                     {
-                        // Change to
                         NPC5.IsTalking = !NPC5.IsTalking;
                     }
 
                     break;
                 case Rooms.Room6:
+
                     player.Move(kbState);
 
+                    //if you move to left, go to room 5
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room5;
                         player.Right();
                     }
 
+                    //toggle npc talking state
                     if (Clicked(NPC6))
                     {
-                        // Change to
                         NPC6.IsTalking = !NPC6.IsTalking;
                     }
 
@@ -813,6 +898,7 @@ namespace MurderMystery
                 default:
                     break;
             }
+            #endregion
         }
 
         /// <summary>
@@ -874,6 +960,8 @@ namespace MurderMystery
         }
         #endregion
 
+        // ~~~ MISC METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        #region Misc Methods
         /// <summary>
         /// Loads in items from item text file
         /// </summary>
@@ -916,6 +1004,7 @@ namespace MurderMystery
                 System.Console.WriteLine("File not loaded correctly: " + e.Message);
             }
         }
+
         /// <summary>
         /// Reset the game, by setting default values and remaking a new player.
         /// </summary>
@@ -935,5 +1024,6 @@ namespace MurderMystery
                 a.ResetItem();
             }
         }
+        #endregion
     }
 }
