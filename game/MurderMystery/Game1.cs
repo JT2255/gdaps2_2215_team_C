@@ -93,6 +93,7 @@ namespace MurderMystery
         private Texture2D testStairs;
         #endregion
 
+        //text box texture
         private Texture2D dialogueBox;
 
         //Misc
@@ -127,6 +128,9 @@ namespace MurderMystery
 
             // Position of character
             playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
+
+            //initialize dialogue boc
+            dialogueBox = Content.Load<Texture2D>("dialogueBox");
 
             itemInvPos = new List<Rectangle>();
             //time per in-game hour
