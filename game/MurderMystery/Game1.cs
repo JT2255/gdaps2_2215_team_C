@@ -93,6 +93,8 @@ namespace MurderMystery
         private Texture2D testStairs;
         #endregion
 
+        private Texture2D dialogueBox;
+
         //Misc
         private StreamReader reader = null;
         private List<Item> items;
@@ -163,6 +165,9 @@ namespace MurderMystery
             testStairs = Content.Load<Texture2D>("stairsTest");
             #endregion
 
+            //dialogue box texture
+            dialogueBox = Content.Load<Texture2D>("dialogueBox");
+
             // Load Fonts
             font = Content.Load<SpriteFont>("font");
 
@@ -202,6 +207,9 @@ namespace MurderMystery
             testStairsButton = new Button("", testStairs, font,
                 new Rectangle(0, 100, 100, windowHeight));
             #endregion
+
+            //dialogue box initialization
+
 
             // Load In Items
             LoadItems();
@@ -335,7 +343,7 @@ namespace MurderMystery
                     GraphicsDevice.Clear(Color.Pink);
 
                     // Instructions text
-                    _spriteBatch.DrawString(font, "Instructions\nUse WASD to move\nClick on NPCs to talk and use spacebar to advance text\n" +
+                    _spriteBatch.DrawString(font, "Instructions\nUse A and D to move\nClick on NPCs to talk and use spacebar to advance text\n" +
                         "Click on items to pick them up\nPress P to enter the game or click the continue button to proceed", new Vector2(0, 0), Color.White);
 
                     //draw button
@@ -365,7 +373,7 @@ namespace MurderMystery
                             //show npc dialogue
                             if (NPC1.IsTalking)
                             {
-                                NPC1.Speak(_spriteBatch, font);
+                                NPC1.Speak(_spriteBatch, font, dialogueBox);
                             }
 
                             //draw player
@@ -383,7 +391,7 @@ namespace MurderMystery
                             //show npc dialogue
                             if (NPC2.IsTalking)
                             {
-                                NPC2.Speak(_spriteBatch, font);
+                                NPC2.Speak(_spriteBatch, font, dialogueBox);
                             }
 
                             //draw player
@@ -401,7 +409,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC3.IsTalking)
                             {
-                                NPC3.Speak(_spriteBatch, font);
+                                NPC3.Speak(_spriteBatch, font, dialogueBox);
                             }
 
                             // If the knife is not picked up, draw it
@@ -424,7 +432,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC4.IsTalking)
                             {
-                                NPC4.Speak(_spriteBatch, font);
+                                NPC4.Speak(_spriteBatch, font, dialogueBox);
                             }
 
                             //draw player
@@ -440,7 +448,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC5.IsTalking)
                             {
-                                NPC5.Speak(_spriteBatch, font);
+                                NPC5.Speak(_spriteBatch, font, dialogueBox);
                             }
 
                             //draw player
@@ -456,7 +464,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC6.IsTalking)
                             {
-                                NPC6.Speak(_spriteBatch, font);
+                                NPC6.Speak(_spriteBatch, font, dialogueBox);
                             }
 
                             //draw player

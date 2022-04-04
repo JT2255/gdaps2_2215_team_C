@@ -22,7 +22,6 @@ namespace MurderMystery
         private string[] deadDialogue;
         private int dialogueNum;
         private StreamReader reader = null;
-        private Rectangle rectangle;
         #endregion
 
         // ~~~ PROPERTIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,12 +107,11 @@ namespace MurderMystery
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="font"></param>
-        public void Speak(SpriteBatch sb, SpriteFont font)
+        public void Speak(SpriteBatch sb, SpriteFont font, Texture2D dialogueBox)
         {
-            //draw text box
-            rectangle = new Rectangle(0, 350, 800, 130);
-           
-            //ShapeBatch.Box(rectangle, Color.Black);
+            //draw dialogue box
+            sb.Draw(dialogueBox, new Rectangle(20, 310, 760, 100), Color.White);
+
             // refDialouge keeps track of which dialouge to use during speaking
             string[] refDialouge;
             // Check if alive to set up dialouge
@@ -129,7 +127,7 @@ namespace MurderMystery
             // if there is still dialogue left in array, advance to next line
             if (dialogueNum < refDialouge.Length)
             {
-                sb.DrawString(font, $"{refDialouge[dialogueNum]}", new Vector2(50, 335), Color.DarkGray);
+                sb.DrawString(font, $"{refDialouge[dialogueNum]}", new Vector2(50, 335), Color.Black);
             }
             // if there is no more dialouge
             else if (dialogueNum == refDialouge.Length)
@@ -140,7 +138,6 @@ namespace MurderMystery
                 dialogueNum = 0;
             }
 
-            
         }
 
         /// <summary>
