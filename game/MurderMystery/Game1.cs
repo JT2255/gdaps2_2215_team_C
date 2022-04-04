@@ -269,6 +269,7 @@ namespace MurderMystery
         {
             //GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
+            ShapeBatch.Begin(_graphics.GraphicsDevice);
 
             switch (currentState)
             {
@@ -458,6 +459,7 @@ namespace MurderMystery
             }
 
             _spriteBatch.End();
+            ShapeBatch.End();
             base.Draw(gameTime);
         }
         #endregion
