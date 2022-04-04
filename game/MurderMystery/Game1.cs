@@ -78,6 +78,10 @@ namespace MurderMystery
         //Textures
         private Texture2D playerTexture;
         private Texture2D testNPCTexture;
+        private Texture2D claraFarleyTexture;
+        private Texture2D edithEspinozaTexture;
+        private Texture2D elizabethMaxwellTexture;
+        private Texture2D summerHinesTexture;
         #region Buttons
         private Texture2D menuButtonTexture;
         private Texture2D pauseTexture;
@@ -138,7 +142,11 @@ namespace MurderMystery
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load Textures
-            playerTexture = Content.Load<Texture2D>("ElizabethSprite");
+            playerTexture = Content.Load<Texture2D>("PlayerSprite");
+            claraFarleyTexture = Content.Load<Texture2D>("ClaraSprite");
+            edithEspinozaTexture = Content.Load<Texture2D>("EdithSprite");
+            elizabethMaxwellTexture = Content.Load<Texture2D>("ElizabethSprite");
+            summerHinesTexture = Content.Load<Texture2D>("SummerSprite");
             testNPCTexture = Content.Load<Texture2D>("npc");
             #region Button Textures
             menuButtonTexture = Content.Load<Texture2D>("MenuBox");
@@ -155,10 +163,10 @@ namespace MurderMystery
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
 
             #region NPC Initialization
-            NPC1 = new NPC("test1", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
-            NPC2 = new NPC("test2", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
-            NPC3 = new NPC("test3", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
-            NPC4 = new NPC("test4", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC1 = new NPC("Clara Farley", false, false, new Rectangle(400, 200, 40, 107), claraFarleyTexture);
+            NPC2 = new NPC("Edith Espinoza", false, false, new Rectangle(400, 200, 40, 109), edithEspinozaTexture);
+            NPC3 = new NPC("Elizabeth Maxwell", false, false, new Rectangle(400, 200, 40, 107), elizabethMaxwellTexture);
+            NPC4 = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
             NPC5 = new NPC("test5", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
             NPC6 = new NPC("test6", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
             #endregion
@@ -269,7 +277,7 @@ namespace MurderMystery
         {
             //GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            ShapeBatch.Begin(_graphics.GraphicsDevice);
+            ShapeBatch.Begin(GraphicsDevice);
 
             switch (currentState)
             {
@@ -322,11 +330,11 @@ namespace MurderMystery
                         case Rooms.Room1:
                             GraphicsDevice.Clear(Color.Navy);
 
-                            NPC2.Draw(_spriteBatch);
+                            NPC1.Draw(_spriteBatch);
 
-                            if (NPC2.IsTalking)
+                            if (NPC1.IsTalking)
                             {
-                                NPC2.Speak(_spriteBatch, font);
+                                NPC1.Speak(_spriteBatch, font);
                             }
 
                             player.Draw(_spriteBatch);
@@ -337,11 +345,11 @@ namespace MurderMystery
                             GraphicsDevice.Clear(Color.DarkOliveGreen);
                             
                             testStairsButton.Draw(_spriteBatch);
-                            NPC3.Draw(_spriteBatch);
+                            NPC2.Draw(_spriteBatch);
 
-                            if (NPC3.IsTalking)
+                            if (NPC2.IsTalking)
                             {
-                                NPC3.Speak(_spriteBatch, font);
+                                NPC2.Speak(_spriteBatch, font);
                             }
 
                             player.Draw(_spriteBatch);
@@ -352,13 +360,13 @@ namespace MurderMystery
                             //_spriteBatch.DrawString(font, $"\n\n\n\n{currentRoom}\n#{testNPC.DialogueNum} Talking:{testNPC.IsTalking}", new Vector2(0, 0), Color.White);
 
                             GraphicsDevice.Clear(Color.Gray);
-                            NPC1.Draw(_spriteBatch);
+                            NPC3.Draw(_spriteBatch);
                             player.Draw(_spriteBatch);
 
                             //if currently talking, draw dialogue
-                            if (NPC1.IsTalking)
+                            if (NPC3.IsTalking)
                             {
-                                NPC1.Speak(_spriteBatch, font);
+                                NPC3.Speak(_spriteBatch, font);
                             }
 
                             // If the knife is not picked up, draw it
@@ -699,6 +707,13 @@ namespace MurderMystery
                         currentRoom = Rooms.Room4;
                         player.Left();
                     }
+
+                    if (Clicked(NPC2))
+                    {
+                        // Change to
+                        NPC2.IsTalking = !NPC2.IsTalking;
+                    }
+
                     break;
                 case Rooms.Room3:
                     player.Move(kbState);
@@ -711,10 +726,10 @@ namespace MurderMystery
                     // ~~~ GAME OBJECTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     #region Game Objects
                     //if you click on him, toggle dialogue
-                    if (Clicked(NPC1))
+                    if (Clicked(NPC3))
                     {
                         // Change to
-                        NPC1.IsTalking = !NPC1.IsTalking;
+                        NPC3.IsTalking = !NPC3.IsTalking;
                     }
 
 
@@ -750,6 +765,12 @@ namespace MurderMystery
                         player.Left();
                     }
 
+                    if (Clicked(NPC4))
+                    {
+                        // Change to
+                        NPC4.IsTalking = !NPC4.IsTalking;
+                    }
+
                     break;
                 case Rooms.Room5:
                     player.Move(kbState);
@@ -766,6 +787,12 @@ namespace MurderMystery
                         player.Left();
                     }
 
+                    if (Clicked(NPC5))
+                    {
+                        // Change to
+                        NPC5.IsTalking = !NPC5.IsTalking;
+                    }
+
                     break;
                 case Rooms.Room6:
                     player.Move(kbState);
@@ -774,6 +801,12 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room5;
                         player.Right();
+                    }
+
+                    if (Clicked(NPC6))
+                    {
+                        // Change to
+                        NPC6.IsTalking = !NPC6.IsTalking;
                     }
 
                     break;

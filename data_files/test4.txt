@@ -1,3 +1,0 @@
-2
-Hello, im npc4
-This is an extra text line

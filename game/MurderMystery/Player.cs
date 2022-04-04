@@ -194,7 +194,7 @@ namespace MurderMystery
         /// <param name="possibleFlip"></param>
         public void DrawStanding(SpriteBatch sb, SpriteEffects possibleFlip)
         {
-            sb.Draw(texture, position, new Rectangle(0, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
+            sb.Draw(texture, position, new Rectangle(0, 0, 90, 325), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace MurderMystery
         /// <param name="possibleFlip"></param>
         public void DrawWalking(SpriteBatch sb, SpriteEffects possibleFlip)
         {
-            sb.Draw(texture, position, new Rectangle(85 * frame, 0, 85, 211), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
+            sb.Draw(texture, position, new Rectangle(90 * frame, 0, 90, 325), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
         }
 
         /// <summary>
