@@ -56,6 +56,9 @@ namespace MurderMystery
         #endregion
         // ~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         #region Methods
+        /// <summary>
+        /// Resets the item to their original positions
+        /// </summary>
         public void ResetItem() 
         {
             position = originalPos;
