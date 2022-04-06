@@ -680,6 +680,8 @@ namespace MurderMystery
                         currentRoom = Rooms.Room2;
                         // Re-Orient Player
                         player.Right();
+
+                        NPC1.IsTalking = false;
                     }
 
                     //if you walk to the right, go to room 3
@@ -687,6 +689,8 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room3;
                         player.Left();
+
+                        NPC1.IsTalking = false;
                     }
 
                     //toggle npc talking state
@@ -703,6 +707,7 @@ namespace MurderMystery
                     //if you walk right, go back to room 1
                     if (player.Position.X > windowWidth)
                     {
+                        NPC2.IsTalking = false;
                         currentRoom = Rooms.Room1;
                         player.Left();
                     }
@@ -711,6 +716,7 @@ namespace MurderMystery
                     if (testStairsButton.BeenClicked)
                     {
                         currentRoom = Rooms.Room4;
+                        NPC2.IsTalking = false;
                         player.Left();
                     }
 
@@ -729,6 +735,7 @@ namespace MurderMystery
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room1;
+                        NPC3.IsTalking = false;
                         player.Right();
                     }
 
@@ -766,6 +773,7 @@ namespace MurderMystery
                     if (testStairsButton.BeenClicked)
                     {
                         currentRoom = Rooms.Room2;
+                        NPC4.IsTalking = false;
                         player.Left();
                     }
 
@@ -773,6 +781,7 @@ namespace MurderMystery
                     if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room5;
+                        NPC4.IsTalking = false;
                         player.Left();
                     }
 
@@ -791,6 +800,7 @@ namespace MurderMystery
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room4;
+                        NPC5.IsTalking = false;
                         player.Right();
                     }
 
@@ -798,6 +808,7 @@ namespace MurderMystery
                     if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room6;
+                        NPC5.IsTalking = false;
                         player.Left();
                     }
 
@@ -816,6 +827,7 @@ namespace MurderMystery
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room5;
+                        NPC6.IsTalking = false;
                         player.Right();
                     }
 
