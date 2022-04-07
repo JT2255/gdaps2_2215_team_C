@@ -1,2 +1,3 @@
-Knife,A kitchen knife covered in blood,0,BloodyKnife,500,10,90,40
+Knife,A kitchen knife covered in blood,0,BloodyKnife,500,10,84,15
+Key A,A mysterious key,1,KeyA,200,30,56,62
 

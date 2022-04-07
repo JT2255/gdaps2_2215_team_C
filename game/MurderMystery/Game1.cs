@@ -253,13 +253,13 @@ namespace MurderMystery
         protected override void Draw(GameTime gameTime)
         {
             //GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
             ShapeBatch.Begin(GraphicsDevice);
-
+            _spriteBatch.Begin();
             #region FSM Switching
             switch (currentState)
             {
                 case State.MainMenu:
+                    #region Main Menu
                     // Main Menu text
                     _spriteBatch.DrawString(font, "Main Menu\nPress P or click the play button to proceed to game" +
                         "\nPress Q or click the exit button to leave the game", new Vector2(0, 0), Color.White);
@@ -278,8 +278,9 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "EXIT", new Vector2(370, 230), Color.Black);
 
                     break;
-
+                #endregion
                 case State.Instructions:
+                    #region Instructions
                     // Instructions background
                     GraphicsDevice.Clear(Color.Pink);
 
@@ -292,8 +293,9 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340,230), Color.Black);
            
                     break;
-
+                #endregion
                 case State.Game:
+                    #region Game
                     // Debug Text
                     _spriteBatch.DrawString(font, $"{currentRoom}\n{hour} PM", new Vector2(0, 0), Color.White);
 
@@ -376,6 +378,12 @@ namespace MurderMystery
                                 NPC4.Speak(_spriteBatch, font, dialogueBox);
                             }
 
+                            // If the key is not picked up, draw it
+                            if (!items[1].PickedUp)
+                            {
+                                items[1].Draw(_spriteBatch);
+                            }
+
                             //draw player
                             player.Draw(_spriteBatch);
 
@@ -417,11 +425,13 @@ namespace MurderMystery
                     }
 
                     break;
-
+                #endregion
                 case State.Inventory:
+                    #region Inventory
+                    Vector2 startPoint = new Vector2(windowWidth / 8, windowHeight / 8); // Start Point for displaying items
                     //inventory text
-                    _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Green);
+                    _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
 
                     //draw exit button
                     exitButton.Draw(_spriteBatch, "");
@@ -432,22 +442,39 @@ namespace MurderMystery
                     for(int i = 0; i < player.Inventory.Count; i++) 
                     {
                         // Label what to use
-                        Item thisItem = player.Inventory[i]; // Item of that iteration
-                        Vector2 startPoint = new Vector2(40,40); // Start Point for displaying items
-                        int offset = 5;
-                        // Final position is the startPoint + the offset in the Y-coord
-                        Vector2 formatPos = startPoint + new Vector2(0, i * offset);
+                        Item thisItem = player.Inventory[i];
+                        int itemBoxLength = windowWidth / 12;
+                        Vector2 formatPos = startPoint + new Vector2(0, itemBoxLength + 10);
+                        thisItem.Position = new Rectangle((int) formatPos.X +(itemBoxLength - thisItem.Position.Width)/2,
+                            (int) formatPos.Y + (itemBoxLength - thisItem.Position.Height) / 2,
+                            thisItem.Position.Width,
+                            thisItem.Position.Height);
+
+                        // Draw the Boxes (To be overlapped)
+                        ShapeBatch.Box(formatPos.X + itemBoxLength + 10, //TextBox
+                            formatPos.Y,
+                            windowWidth * 2/3,
+                            itemBoxLength,
+                            Color.Black); 
+                        _spriteBatch.Draw(dialogueBox, //ItemBox
+                            new Rectangle(
+                                (int)formatPos.X,
+                                (int)formatPos.Y,
+                                itemBoxLength,
+                                itemBoxLength),
+                            Color.White);
                         // Draw the Item and write the description.
-                        items[0].Draw(_spriteBatch);
-                        thisItem.Position = new Rectangle((int) formatPos.X, (int) formatPos.Y, thisItem.Position.Width, thisItem.Position.Height);
+                        thisItem.Draw(_spriteBatch);
                         _spriteBatch.DrawString(font,
                             thisItem.ToString(),
-                            formatPos + new Vector2(0,thisItem.Position.Height),
+                            formatPos + new Vector2(itemBoxLength + 14, (itemBoxLength - font.LineSpacing)/2),
                             Color.White);
+                        startPoint = formatPos;
                     }
-
+                    #endregion
                     break;
                 case State.PauseMenu:
+                    #region Pause
                     //pause menu text
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Cyan);
@@ -461,7 +488,9 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
 
                     break;
+                #endregion
                 case State.EndMenu:
+                    #region End Screen
                     //end menu text
                     _spriteBatch.DrawString(font, "You ran out of time!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
 
@@ -471,13 +500,13 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
                     GraphicsDevice.Clear(Color.DarkMagenta);
                     break;
+                    #endregion
                 default:
                     break;
             }
             #endregion
-
-            _spriteBatch.End();
             ShapeBatch.End();
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
         #endregion
@@ -758,8 +787,6 @@ namespace MurderMystery
                     if (Clicked(items[0]))
                     {
                         items[0].PickedUp = true;
-                        //TODO: fix this later
-                        items[0].Position = new Rectangle(1000, 1000, 90, 40);
                         player.Inventory.Add(items[0]);
                     }
                     #endregion
@@ -789,6 +816,13 @@ namespace MurderMystery
                     if (Clicked(NPC4))
                     {
                         NPC4.IsTalking = !NPC4.IsTalking;
+                    }
+
+                    // Clicked on item
+                    if (Clicked(items[1]))
+                    {
+                        items[1].PickedUp = true;
+                        player.Inventory.Add(items[1]);
                     }
 
                     break;
@@ -1003,6 +1037,14 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
+                            if (!items[1].PickedUp)
+                            {
+                                items[1].BeingDrawn = true;
+                            }
+                            else
+                            {
+                                items[1].BeingDrawn = false;
+                            }
                             break;
 
                         case Rooms.Room5:
@@ -1049,6 +1091,14 @@ namespace MurderMystery
                     else
                     {
                         items[0].BeingDrawn = false;
+                    }
+                    if (items[1].PickedUp)
+                    {
+                        items[1].BeingDrawn = true;
+                    }
+                    else
+                    {
+                        items[1].BeingDrawn = false;
                     }
 
                     break;
