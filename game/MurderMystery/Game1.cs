@@ -1104,6 +1104,7 @@ namespace MurderMystery
                     NPC6.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
+                    items[1].BeingDrawn = false;
 
                     break;
                 case State.Instructions:
@@ -1124,6 +1125,7 @@ namespace MurderMystery
                     NPC6.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
+                    items[1].BeingDrawn = false;
 
                     break;
                 case State.Game:
@@ -1145,6 +1147,8 @@ namespace MurderMystery
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
+                            items[0].BeingDrawn = false;
+                            items[1].BeingDrawn = false;
                             break;
 
                         case Rooms.Room2:
@@ -1156,6 +1160,8 @@ namespace MurderMystery
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
                             accuseButton.BeingDrawn = false;
+                            items[0].BeingDrawn = false;
+                            items[1].BeingDrawn = false;
                             break;
 
                         case Rooms.Room3:
@@ -1167,14 +1173,8 @@ namespace MurderMystery
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
-                            if (!items[0].PickedUp)
-                            {
-                                items[0].BeingDrawn = true;
-                            }
-                            else
-                            {
-                                items[0].BeingDrawn = false;
-                            }
+                            items[0].BeingDrawn = false;
+                            items[1].BeingDrawn = false;
                             break;
 
                         case Rooms.Room4:
@@ -1205,6 +1205,14 @@ namespace MurderMystery
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
+                            if (!items[0].PickedUp)
+                            {
+                                items[0].BeingDrawn = true;
+                            }
+                            else
+                            {
+                                items[0].BeingDrawn = false;
+                            }
                             break;
 
                         case Rooms.Room6:
@@ -1216,6 +1224,8 @@ namespace MurderMystery
                             NPC6.BeingDrawn = true;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
+                            items[0].BeingDrawn = false;
+                            items[1].BeingDrawn = false;
                             break;
                     }
 
