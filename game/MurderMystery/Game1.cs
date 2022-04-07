@@ -700,7 +700,7 @@ namespace MurderMystery
             {
                 case Rooms.Room1:
 
-                    player.Move(kbState);
+                    player.Move(kbState, currentRoom);
 
                     //if you walk to the left, go to room 2
                     if (player.Position.X < 0)
@@ -731,7 +731,7 @@ namespace MurderMystery
                     break;
                 case Rooms.Room2:
 
-                    player.Move(kbState);
+                    player.Move(kbState, currentRoom);
 
                     //if you walk right, go back to room 1
                     if (player.Position.X > windowWidth)
@@ -755,10 +755,22 @@ namespace MurderMystery
                         NPC2.IsTalking = !NPC2.IsTalking;
                     }
 
+                    //stop user from walking off screen
+                    if (player.Position.X < 0)
+                    {
+                        player.Position = new Vector2(0, player.Position.Y);
+                    }
+
                     break;
                 case Rooms.Room3:
 
-                    player.Move(kbState);
+                    player.Move(kbState, currentRoom);
+
+                    //stop user from walking off screen
+                    if (player.Position.X > windowWidth - 45)
+                    {
+                        player.Position = new Vector2(windowWidth - 45, player.Position.Y);
+                    }
 
                     //if you walk left, go back to room 1
                     if (player.Position.X < 0)
@@ -794,7 +806,7 @@ namespace MurderMystery
                     break;
                 case Rooms.Room4:
 
-                    player.Move(kbState);
+                    player.Move(kbState, currentRoom);
 
                     //if you click on stairs, move to room 2
                     if (testStairsButton.BeenClicked)
@@ -825,10 +837,16 @@ namespace MurderMystery
                         player.Inventory.Add(items[1]);
                     }
 
+                    //stop user from walking off screen
+                    if (player.Position.X < 0)
+                    {
+                        player.Position = new Vector2(0, player.Position.Y);
+                    }
+
                     break;
                 case Rooms.Room5:
 
-                    player.Move(kbState);
+                    player.Move(kbState, currentRoom);
 
                     //if you move to left, go to room 4
                     if (player.Position.X < 0)
@@ -855,7 +873,7 @@ namespace MurderMystery
                     break;
                 case Rooms.Room6:
 
-                    player.Move(kbState);
+                    player.Move(kbState, currentRoom);
 
                     //if you move to left, go to room 5
                     if (player.Position.X < 0)
@@ -869,6 +887,12 @@ namespace MurderMystery
                     if (Clicked(NPC6))
                     {
                         NPC6.IsTalking = !NPC6.IsTalking;
+                    }
+
+                    //stop user from walking off screen
+                    if (player.Position.X > windowWidth - 45)
+                    {
+                        player.Position = new Vector2(windowWidth - 45, player.Position.Y);
                     }
 
                     break;

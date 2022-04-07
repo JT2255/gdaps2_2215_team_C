@@ -54,6 +54,10 @@ namespace MurderMystery
             {
                 return position;
             }
+            set
+            {
+                position = value;
+            }
         }
 
         public List<Item> Inventory
@@ -107,7 +111,7 @@ namespace MurderMystery
         /// Animates the player in the Game Loop.
         /// </summary>
         /// <param name="kbState"></param>
-        public void Move(KeyboardState kbState)
+        public void Move(KeyboardState kbState, Rooms currentRoom)
         {
             switch (movementState)
             {
