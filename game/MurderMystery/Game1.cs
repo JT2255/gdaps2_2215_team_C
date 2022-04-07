@@ -68,6 +68,7 @@ namespace MurderMystery
         private Button inventoryButton;
         private Button exitButton;
         private Button testStairsButton;
+        private Button accuseButton;
         #endregion
 
         //Configs
@@ -91,6 +92,7 @@ namespace MurderMystery
         private Texture2D inventoryTexture;
         private Texture2D exitTexture;
         private Texture2D testStairs;
+        private Texture2D accuseTexture;
         #endregion
 
         //text box texture
@@ -104,6 +106,7 @@ namespace MurderMystery
         private int hour;
         private List<Rectangle> itemInvPos;
         private List<GameObject> gameObjects;
+        private bool won;
         #endregion
 
         // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,6 +142,8 @@ namespace MurderMystery
             currentTime = 0;
             //current hour
             hour = 6;
+            //correctly guessed murderer
+            won = false;
 
             items = new List<Item>();
             gameObjects = new List<GameObject>();
@@ -205,6 +210,9 @@ namespace MurderMystery
 
                     //stair button
                     testStairsButton.Update();
+
+                    //accuse button
+                    accuseButton.Update();
 
                     //process timer and game state
                     ProcessTimer(gameTime);
@@ -297,7 +305,7 @@ namespace MurderMystery
                 case State.Game:
                     #region Game
                     // Debug Text
-                    _spriteBatch.DrawString(font, $"{currentRoom}\n{hour} PM", new Vector2(0, 0), Color.White);
+                    _spriteBatch.DrawString(font, $"{hour} PM", new Vector2(0, 0), Color.White);
 
                     //Draw the pause button and inventory button before switch so that it appears on all screens
                     pauseButton.Draw(_spriteBatch, "");
@@ -317,6 +325,11 @@ namespace MurderMystery
                             if (NPC1.IsTalking)
                             {
                                 NPC1.Speak(_spriteBatch, font, dialogueBox);
+
+                                if (items[0].PickedUp)
+                                {
+                                    accuseButton.Draw(_spriteBatch);
+                                }
                             }
 
                             //draw player
@@ -335,6 +348,11 @@ namespace MurderMystery
                             if (NPC2.IsTalking)
                             {
                                 NPC2.Speak(_spriteBatch, font, dialogueBox);
+
+                                if (items[0].PickedUp)
+                                {
+                                    accuseButton.Draw(_spriteBatch);
+                                }
                             }
 
                             //draw player
@@ -353,13 +371,14 @@ namespace MurderMystery
                             if (NPC3.IsTalking)
                             {
                                 NPC3.Speak(_spriteBatch, font, dialogueBox);
+
+                                if (items[0].PickedUp)
+                                {
+                                    accuseButton.Draw(_spriteBatch);
+                                }
                             }
 
-                            // If the knife is not picked up, draw it
-                            if (!items[0].PickedUp)
-                            {
-                                items[0].Draw(_spriteBatch);
-                            }
+                            
 
                             //draw player
                             player.Draw(_spriteBatch);
@@ -376,6 +395,11 @@ namespace MurderMystery
                             if (NPC4.IsTalking)
                             {
                                 NPC4.Speak(_spriteBatch, font, dialogueBox);
+
+                                if (items[0].PickedUp)
+                                {
+                                    accuseButton.Draw(_spriteBatch);
+                                }
                             }
 
                             // If the key is not picked up, draw it
@@ -398,6 +422,17 @@ namespace MurderMystery
                             if (NPC5.IsTalking)
                             {
                                 NPC5.Speak(_spriteBatch, font, dialogueBox);
+
+                                if (items[0].PickedUp)
+                                {
+                                    accuseButton.Draw(_spriteBatch);
+                                }
+                            }
+
+                            // If the knife is not picked up, draw it
+                            if (!items[0].PickedUp)
+                            {
+                                items[0].Draw(_spriteBatch);
                             }
 
                             //draw player
@@ -414,6 +449,11 @@ namespace MurderMystery
                             if (NPC6.IsTalking)
                             {
                                 NPC6.Speak(_spriteBatch, font, dialogueBox);
+
+                                if (items[0].PickedUp)
+                                {
+                                    accuseButton.Draw(_spriteBatch);
+                                }
                             }
 
                             //draw player
@@ -453,7 +493,7 @@ namespace MurderMystery
                         // Draw the Boxes (To be overlapped)
                         ShapeBatch.Box(formatPos.X + itemBoxLength + 10, //TextBox
                             formatPos.Y,
-                            windowWidth * 2/3,
+                            windowWidth * 77/100,
                             itemBoxLength,
                             Color.Black); 
                         _spriteBatch.Draw(dialogueBox, //ItemBox
@@ -491,8 +531,18 @@ namespace MurderMystery
                 #endregion
                 case State.EndMenu:
                     #region End Screen
-                    //end menu text
-                    _spriteBatch.DrawString(font, "You ran out of time!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+
+                    //if guessed correctly
+                    if (won)
+                    {
+                        _spriteBatch.DrawString(font, "You correctly figured out the murderer!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+                    }
+                    //did not guess correctly, or ran out of time
+                    else
+                    {
+                        _spriteBatch.DrawString(font, "You ran out of time or accused an innocent!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+                    }
+                    
 
                     //Return to the main menu
                     bottomButton.Draw(_spriteBatch, "");
@@ -728,6 +778,19 @@ namespace MurderMystery
                         NPC1.IsTalking = !NPC1.IsTalking;
                     }
 
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked)
+                    {
+                        //if they are murderer, win
+                        if (NPC1.IsMurderer) 
+                        {
+                            won = true;
+                        }
+
+                        //go to end menu
+                        currentState = State.EndMenu;
+                    }
+
                     break;
                 case Rooms.Room2:
 
@@ -761,6 +824,19 @@ namespace MurderMystery
                         player.Position = new Vector2(0, player.Position.Y);
                     }
 
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked)
+                    {
+                        //if they are murderer, win
+                        if (NPC2.IsMurderer)
+                        {
+                            won = true;
+                        }
+                        
+                        //go to end menu
+                        currentState = State.EndMenu;
+                    }
+
                     break;
                 case Rooms.Room3:
 
@@ -780,28 +856,25 @@ namespace MurderMystery
                         player.Right();
                     }
 
-                    // ~~~ GAME OBJECTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    #region Game Objects
+
                     //toggle npc talking state
                     if (Clicked(NPC3))
                     {
                         NPC3.IsTalking = !NPC3.IsTalking;
                     }
 
-
-
-                    // If you click on the knife, toggle it
-                    // Possible implementation:
-                    /*  Create a local list of items for that given room
-                     *  Loop into that list to check if the item has been clicked
-                     *  IF clicked, set PickedUp to true, and then add it to the inventory.
-                     */
-                    if (Clicked(items[0]))
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked)
                     {
-                        items[0].PickedUp = true;
-                        player.Inventory.Add(items[0]);
+                        //if they are muderer, win
+                        if (NPC3.IsMurderer)
+                        {
+                            won = true;
+                        }
+
+                        //go to end menu
+                        currentState = State.EndMenu;
                     }
-                    #endregion
 
                     break;
                 case Rooms.Room4:
@@ -843,6 +916,19 @@ namespace MurderMystery
                         player.Position = new Vector2(0, player.Position.Y);
                     }
 
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked)
+                    {
+                        //if they are the murderer, win
+                        if (NPC4.IsMurderer)
+                        {
+                            won = true;
+                        }
+
+                        //go to end menu
+                        currentState = State.EndMenu;
+                    }
+
                     break;
                 case Rooms.Room5:
 
@@ -870,6 +956,26 @@ namespace MurderMystery
                         NPC5.IsTalking = !NPC5.IsTalking;
                     }
 
+                    // If you click on the knife, toggle it
+                    if (Clicked(items[0]))
+                    {
+                        items[0].PickedUp = true;
+                        player.Inventory.Add(items[0]);
+                    }
+
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked)
+                    {
+                        //if they are the murderer, win
+                        if (NPC5.IsMurderer)
+                        {
+                            won = true;
+                        }
+
+                        //go to end menu
+                        currentState = State.EndMenu;
+                    }
+
                     break;
                 case Rooms.Room6:
 
@@ -893,6 +999,19 @@ namespace MurderMystery
                     if (player.Position.X > windowWidth - 45)
                     {
                         player.Position = new Vector2(windowWidth - 45, player.Position.Y);
+                    }
+
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked)
+                    {
+                        //if they are the murderer, win
+                        if (NPC6.IsMurderer)
+                        {
+                            won = true;
+                        }
+
+                        //go to end menu
+                        currentState = State.EndMenu;
                     }
 
                     break;
@@ -975,6 +1094,7 @@ namespace MurderMystery
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
+                    accuseButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -994,6 +1114,7 @@ namespace MurderMystery
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
+                    accuseButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1023,6 +1144,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
+                            accuseButton.BeingDrawn = false;
                             break;
 
                         case Rooms.Room2:
@@ -1033,6 +1155,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
+                            accuseButton.BeingDrawn = false;
                             break;
 
                         case Rooms.Room3:
@@ -1043,6 +1166,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
+                            accuseButton.BeingDrawn = false;
                             if (!items[0].PickedUp)
                             {
                                 items[0].BeingDrawn = true;
@@ -1061,6 +1185,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
+                            accuseButton.BeingDrawn = false;
                             if (!items[1].PickedUp)
                             {
                                 items[1].BeingDrawn = true;
@@ -1079,6 +1204,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = true;
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
+                            accuseButton.BeingDrawn = false;
                             break;
 
                         case Rooms.Room6:
@@ -1089,6 +1215,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = true;
                             testStairsButton.BeingDrawn = false;
+                            accuseButton.BeingDrawn = false;
                             break;
                     }
 
@@ -1100,6 +1227,7 @@ namespace MurderMystery
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = true;
                     testStairsButton.BeingDrawn = false;
+                    accuseButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1134,6 +1262,7 @@ namespace MurderMystery
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
+                    accuseButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1153,6 +1282,7 @@ namespace MurderMystery
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
+                    accuseButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1258,6 +1388,7 @@ namespace MurderMystery
             inventoryTexture = Content.Load<Texture2D>("InventorySingle");
             exitTexture = Content.Load<Texture2D>("ExitBox");
             testStairs = Content.Load<Texture2D>("stairsTest");
+            accuseTexture = Content.Load<Texture2D>("accuseButtonTexture");
 
             // Initializes the buttons
             topButton = new Button("Menu", menuButtonTexture, font,
@@ -1288,6 +1419,10 @@ namespace MurderMystery
             testStairsButton = new Button("", testStairs, font,
                 new Rectangle(0, 100, 100, windowHeight));
             gameObjects.Add(testStairsButton);
+
+            accuseButton = new Button("", accuseTexture, font,
+                new Rectangle(630, 250, 150, 50));
+            gameObjects.Add(accuseButton);
         }
 
         /// <summary>
@@ -1308,6 +1443,20 @@ namespace MurderMystery
             {
                 a.ResetItem();
             }
+
+            //reset dialogue positions of all npcs
+            NPC1.IsTalking = false;
+            NPC2.IsTalking = false;
+            NPC3.IsTalking = false;
+            NPC4.IsTalking = false;
+            NPC5.IsTalking = false;
+            NPC6.IsTalking = false;
+            NPC1.DialogueNum = 0;
+            NPC2.DialogueNum = 0;
+            NPC3.DialogueNum = 0;
+            NPC4.DialogueNum = 0;
+            NPC5.DialogueNum = 0;
+            NPC6.DialogueNum = 0;
         }
         #endregion
     }
