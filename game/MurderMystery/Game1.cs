@@ -54,14 +54,14 @@ namespace MurderMystery
         private Player player;
 
         #region NPCs
-        private NPC NPC1;
-        private NPC NPC2;
-        private NPC NPC3;
-        private NPC NPC4;
-        private NPC NPC5;
-        private NPC NPC6;
-        private NPC NPC7;
-        private NPC NPC8;
+        private NPC clara;
+        private NPC edith;
+        private NPC elizabeth;
+        private NPC summer;
+        private NPC edward;
+        private NPC frank;
+        private NPC james;
+        private NPC ernest;
         private NPC document;
         #endregion
 
@@ -155,9 +155,8 @@ namespace MurderMystery
             //keep track of seconds
             currentTime = 0;
             //current hour
-            hour = 6;
+            hour = 10;
             //correctly guessed murderer
-            won = false;
             won = false;
 
             items = new List<Item>();
@@ -346,62 +345,62 @@ namespace MurderMystery
 
                                 if (currentTime < 115)
                                 {
-                                    NPC1.Draw(_spriteBatch);
-                                    NPC2.Draw(_spriteBatch);
-                                    NPC3.Draw(_spriteBatch);
-                                    NPC4.Draw(_spriteBatch);
-                                    NPC5.Draw(_spriteBatch);
-                                    NPC6.Draw(_spriteBatch);
-                                    NPC7.Draw(_spriteBatch);
-                                    NPC8.Draw(_spriteBatch);
+                                    clara.Draw(_spriteBatch);
+                                    edith.Draw(_spriteBatch);
+                                    elizabeth.Draw(_spriteBatch);
+                                    summer.Draw(_spriteBatch);
+                                    edward.Draw(_spriteBatch);
+                                    frank.Draw(_spriteBatch);
+                                    james.Draw(_spriteBatch);
+                                    ernest.Draw(_spriteBatch);
                                     player.Draw(_spriteBatch);
 
                                     //show npc dialogue
-                                    if (NPC1.IsTalking)
+                                    if (clara.IsTalking)
                                     {
-                                        NPC1.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        clara.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC2.IsTalking)
+                                    if (edith.IsTalking)
                                     {
-                                        NPC2.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        edith.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC3.IsTalking)
+                                    if (elizabeth.IsTalking)
                                     {
-                                        NPC3.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        elizabeth.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC4.IsTalking)
+                                    if (summer.IsTalking)
                                     {
-                                        NPC4.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        summer.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC5.IsTalking)
+                                    if (edward.IsTalking)
                                     {
-                                        NPC5.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        edward.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC6.IsTalking)
+                                    if (frank.IsTalking)
                                     {
-                                        NPC6.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        frank.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC7.IsTalking)
+                                    if (james.IsTalking)
                                     {
-                                        NPC7.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        james.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
-                                    if (NPC8.IsTalking)
+                                    if (ernest.IsTalking)
                                     {
-                                        NPC8.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                        ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
                                 }
                                 else
@@ -421,20 +420,26 @@ namespace MurderMystery
                             case Rooms.Room1:
                                 GraphicsDevice.Clear(Color.Navy);
 
-                                //draw npc
-                                NPC1.Draw(_spriteBatch);
-
-                                NPC8.Draw(_spriteBatch);
-
+                                // Clara dies at 8
+                                if (hour < 8)
+                                {
+                                    clara.Draw(_spriteBatch);
+                                }
+                                // Earnest dies at 7
+                                if (hour < 7)
+                                {
+                                    ernest.Draw(_spriteBatch);
+                                }
+                                
                                 _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
 
                                 //draw player
                                 player.Draw(_spriteBatch);
 
                                 //show npc dialogue
-                                if (NPC1.IsTalking)
+                                if (clara.IsTalking && clara.BeingDrawn)
                                 {
-                                    NPC1.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    clara.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -443,9 +448,9 @@ namespace MurderMystery
                                 }
 
                                 //show npc dialogue
-                                if (NPC8.IsTalking)
+                                if (ernest.IsTalking && ernest.BeingDrawn)
                                 {
-                                    NPC8.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -461,15 +466,15 @@ namespace MurderMystery
                                 //draw stairs and npc
                                 testStairsButton.Draw(_spriteBatch);
                                 testStairsButton.Position = new Rectangle(0, 25, 114, 309);
-                                NPC2.Draw(_spriteBatch);
+                                edith.Draw(_spriteBatch);
 
                                 //draw player
                                 player.Draw(_spriteBatch);
 
                                 //show npc dialogue
-                                if (NPC2.IsTalking)
+                                if (edith.IsTalking && edith.BeingDrawn)
                                 {
-                                    NPC2.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    edith.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -484,16 +489,19 @@ namespace MurderMystery
 
                                 GraphicsDevice.Clear(Color.Gray);
 
-                                //draw npc
-                                NPC3.Draw(_spriteBatch);
-
+                                // Elizabeth dies at 9
+                                if (hour < 9)
+                                {
+                                    elizabeth.Draw(_spriteBatch);
+                                }
+                                
                                 //draw player
                                 player.Draw(_spriteBatch);
 
                                 //draw npc dialogue
-                                if (NPC3.IsTalking)
+                                if (elizabeth.IsTalking && elizabeth.BeingDrawn)
                                 {
-                                    NPC3.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    elizabeth.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -513,15 +521,15 @@ namespace MurderMystery
                                 testStairsButton.Draw(_spriteBatch);
                                 testStairsButton.Position = new Rectangle(0, 400, 114, 309);
 
-                                NPC4.Draw(_spriteBatch);
+                                summer.Draw(_spriteBatch);
 
                                 //draw player
                                 player.Draw(_spriteBatch);
 
                                 //draw npc dialogue
-                                if (NPC4.IsTalking)
+                                if (summer.IsTalking && summer.BeingDrawn)
                                 {
-                                    NPC4.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    summer.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -541,16 +549,19 @@ namespace MurderMystery
                             case Rooms.Room5:
                                 GraphicsDevice.Clear(Color.DarkSlateGray);
 
-                                //draw npc
-                                NPC5.Draw(_spriteBatch);
-
+                                // Edward dies at 10
+                                if (hour < 10)
+                                {
+                                    edward.Draw(_spriteBatch);
+                                }
+                                
                                 //draw player
                                 player.Draw(_spriteBatch);
 
                                 //draw npc dialogue
-                                if (NPC5.IsTalking)
+                                if (edward.IsTalking && edward.BeingDrawn)
                                 {
-                                    NPC5.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    edward.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -570,16 +581,19 @@ namespace MurderMystery
                             case Rooms.Room6:
                                 GraphicsDevice.Clear(Color.DarkViolet);
 
-                                //draw npc
-                                NPC6.Draw(_spriteBatch);
+                                // Frank dies at 11
+                                if (hour < 11)
+                                {
+                                    frank.Draw(_spriteBatch);
+                                }
 
                                 //draw player
                                 player.Draw(_spriteBatch);
 
                                 //draw npc dialogue
-                                if (NPC6.IsTalking)
+                                if (frank.IsTalking && frank.BeingDrawn)
                                 {
-                                    NPC6.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    frank.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -864,51 +878,51 @@ namespace MurderMystery
             #region Talking To NPCS
             
             //progress through npc dialogue
-            if (NPC1.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (clara.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC1.DialogueNum++;
+                clara.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC2.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (edith.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC2.DialogueNum++;
+                edith.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC3.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (elizabeth.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC3.DialogueNum++;
+                elizabeth.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC4.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (summer.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC4.DialogueNum++;
+                summer.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC5.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (edward.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC5.DialogueNum++;
+                edward.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC6.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (frank.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC6.DialogueNum++;
+                frank.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC7.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (james.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC7.DialogueNum++;
+                james.DialogueNum++;
             }
 
             //progress through npc dialogue
-            if (NPC8.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            if (ernest.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
-                NPC8.DialogueNum++;
+                ernest.DialogueNum++;
             }
 
             //progress through document
@@ -934,7 +948,7 @@ namespace MurderMystery
                         // Re-Orient Player
                         player.Right();
 
-                        NPC1.IsTalking = false;
+                        clara.IsTalking = false;
                     }
 
                     //if you walk to the right, go to room 3
@@ -943,118 +957,118 @@ namespace MurderMystery
                         currentRoom = Rooms.Room3;
                         player.Left();
 
-                        NPC1.IsTalking = false;
+                        clara.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC1))
+                    if (Clicked(clara))
                     {
-                        NPC1.IsTalking = !NPC1.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        clara.IsTalking = !clara.IsTalking;
+                        edith.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        summer.IsTalking = false;
+                        edward.IsTalking = false;
+                        frank.IsTalking = false;
+                        james.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC2))
+                    if (Clicked(edith))
                     {
-                        NPC2.IsTalking = !NPC2.IsTalking;
-                        NPC1.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        edith.IsTalking = !edith.IsTalking;
+                        clara.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        summer.IsTalking = false;
+                        edward.IsTalking = false;
+                        frank.IsTalking = false;
+                        james.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC3))
+                    if (Clicked(elizabeth))
                     {
-                        NPC3.IsTalking = !NPC3.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC1.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        elizabeth.IsTalking = !elizabeth.IsTalking;
+                        edith.IsTalking = false;
+                        clara.IsTalking = false;
+                        summer.IsTalking = false;
+                        edward.IsTalking = false;
+                        frank.IsTalking = false;
+                        james.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC4))
+                    if (Clicked(summer))
                     {
-                        NPC4.IsTalking = !NPC4.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC1.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        summer.IsTalking = !summer.IsTalking;
+                        edith.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        clara.IsTalking = false;
+                        edward.IsTalking = false;
+                        frank.IsTalking = false;
+                        james.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC5))
+                    if (Clicked(edward))
                     {
-                        NPC5.IsTalking = !NPC5.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC1.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        edward.IsTalking = !edward.IsTalking;
+                        edith.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        summer.IsTalking = false;
+                        clara.IsTalking = false;
+                        frank.IsTalking = false;
+                        james.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC6))
+                    if (Clicked(frank))
                     {
-                        NPC6.IsTalking = !NPC6.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC1.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        frank.IsTalking = !frank.IsTalking;
+                        edith.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        summer.IsTalking = false;
+                        edward.IsTalking = false;
+                        clara.IsTalking = false;
+                        james.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC7))
+                    if (Clicked(james))
                     {
-                        NPC7.IsTalking = !NPC7.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC1.IsTalking = false;
-                        NPC8.IsTalking = false;
+                        james.IsTalking = !james.IsTalking;
+                        edith.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        summer.IsTalking = false;
+                        edward.IsTalking = false;
+                        frank.IsTalking = false;
+                        clara.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC8))
+                    if (Clicked(ernest))
                     {
-                        NPC8.IsTalking = !NPC8.IsTalking;
-                        NPC2.IsTalking = false;
-                        NPC3.IsTalking = false;
-                        NPC4.IsTalking = false;
-                        NPC5.IsTalking = false;
-                        NPC6.IsTalking = false;
-                        NPC7.IsTalking = false;
-                        NPC1.IsTalking = false;
+                        ernest.IsTalking = !ernest.IsTalking;
+                        edith.IsTalking = false;
+                        elizabeth.IsTalking = false;
+                        summer.IsTalking = false;
+                        edward.IsTalking = false;
+                        frank.IsTalking = false;
+                        james.IsTalking = false;
+                        clara.IsTalking = false;
                     }
 
                     //if you accuse someone
                     if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are murderer, win
-                        if (NPC1.IsMurderer) 
+                        if (clara.IsMurderer) 
                         {
                             won = true;
                         }
@@ -1071,7 +1085,7 @@ namespace MurderMystery
                     //if you walk right, go back to room 1
                     if (player.Position.X > windowWidth)
                     {
-                        NPC2.IsTalking = false;
+                        edith.IsTalking = false;
                         currentRoom = Rooms.Room1;
                         player.Left();
                     }
@@ -1080,14 +1094,14 @@ namespace MurderMystery
                     if (testStairsButton.BeenClicked)
                     {
                         currentRoom = Rooms.Room4;
-                        NPC2.IsTalking = false;
+                        edith.IsTalking = false;
                         player.Left();
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC2))
+                    if (Clicked(edith))
                     {
-                        NPC2.IsTalking = !NPC2.IsTalking;
+                        edith.IsTalking = !edith.IsTalking;
                     }
 
                     //stop user from walking off screen
@@ -1100,7 +1114,7 @@ namespace MurderMystery
                     if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are murderer, win
-                        if (NPC2.IsMurderer)
+                        if (edith.IsMurderer)
                         {
                             won = true;
                         }
@@ -1124,15 +1138,15 @@ namespace MurderMystery
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room1;
-                        NPC3.IsTalking = false;
+                        elizabeth.IsTalking = false;
                         player.Right();
                     }
 
 
                     //toggle npc talking state
-                    if (Clicked(NPC3))
+                    if (Clicked(elizabeth))
                     {
-                        NPC3.IsTalking = !NPC3.IsTalking;
+                        elizabeth.IsTalking = !elizabeth.IsTalking;
                     }
 
                     if (doorButton.BeenClicked && items[1].PickedUp)
@@ -1145,7 +1159,7 @@ namespace MurderMystery
                     if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are muderer, win
-                        if (NPC3.IsMurderer)
+                        if (elizabeth.IsMurderer)
                         {
                             won = true;
                         }
@@ -1163,7 +1177,7 @@ namespace MurderMystery
                     if (testStairsButton.BeenClicked)
                     {
                         currentRoom = Rooms.Room2;
-                        NPC4.IsTalking = false;
+                        summer.IsTalking = false;
                         player.Left();
                     }
 
@@ -1171,14 +1185,14 @@ namespace MurderMystery
                     if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room5;
-                        NPC4.IsTalking = false;
+                        summer.IsTalking = false;
                         player.Left();
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC4))
+                    if (Clicked(summer))
                     {
-                        NPC4.IsTalking = !NPC4.IsTalking;
+                        summer.IsTalking = !summer.IsTalking;
                     }
 
                     // Clicked on item
@@ -1198,7 +1212,7 @@ namespace MurderMystery
                     if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are the murderer, win
-                        if (NPC4.IsMurderer)
+                        if (summer.IsMurderer)
                         {
                             won = true;
                         }
@@ -1216,7 +1230,7 @@ namespace MurderMystery
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room4;
-                        NPC5.IsTalking = false;
+                        edward.IsTalking = false;
                         player.Right();
                     }
 
@@ -1224,14 +1238,14 @@ namespace MurderMystery
                     if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room6;
-                        NPC5.IsTalking = false;
+                        edward.IsTalking = false;
                         player.Left();
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC5))
+                    if (Clicked(edward))
                     {
-                        NPC5.IsTalking = !NPC5.IsTalking;
+                        edward.IsTalking = !edward.IsTalking;
                     }
 
                     // If you click on the knife, toggle it
@@ -1245,7 +1259,7 @@ namespace MurderMystery
                     if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are the murderer, win
-                        if (NPC5.IsMurderer)
+                        if (edward.IsMurderer)
                         {
                             won = true;
                         }
@@ -1263,14 +1277,14 @@ namespace MurderMystery
                     if (player.Position.X < 0)
                     {
                         currentRoom = Rooms.Room5;
-                        NPC6.IsTalking = false;
+                        frank.IsTalking = false;
                         player.Right();
                     }
 
                     //toggle npc talking state
-                    if (Clicked(NPC6))
+                    if (Clicked(frank))
                     {
-                        NPC6.IsTalking = !NPC6.IsTalking;
+                        frank.IsTalking = !frank.IsTalking;
                     }
 
                     //stop user from walking off screen
@@ -1283,7 +1297,7 @@ namespace MurderMystery
                     if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are the murderer, win
-                        if (NPC6.IsMurderer)
+                        if (frank.IsMurderer)
                         {
                             won = true;
                         }
@@ -1306,6 +1320,15 @@ namespace MurderMystery
                     if (Clicked(document))
                     {
                         document.IsTalking = !document.IsTalking;
+                    }
+                    //stop user from walking off screen
+                    if (player.Position.X < 0)
+                    {
+                        player.Position = new Vector2(0, player.Position.Y);
+                    }
+                    if (player.Position.X > windowWidth - 50)
+                    {
+                        player.Position = new Vector2(windowWidth - 50, player.Position.Y);
                     }
                     break;
                 default:
@@ -1390,14 +1413,14 @@ namespace MurderMystery
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
 
-                    NPC1.BeingDrawn = false;
-                    NPC2.BeingDrawn = false;
-                    NPC3.BeingDrawn = false;
-                    NPC4.BeingDrawn = false;
-                    NPC5.BeingDrawn = false;
-                    NPC6.BeingDrawn = false;
-                    NPC7.BeingDrawn = false;
-                    NPC8.BeingDrawn = false;
+                    clara.BeingDrawn = false;
+                    edith.BeingDrawn = false;
+                    elizabeth.BeingDrawn = false;
+                    summer.BeingDrawn = false;
+                    edward.BeingDrawn = false;
+                    frank.BeingDrawn = false;
+                    james.BeingDrawn = false;
+                    ernest.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1415,14 +1438,14 @@ namespace MurderMystery
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
 
-                    NPC1.BeingDrawn = false;
-                    NPC2.BeingDrawn = false;
-                    NPC3.BeingDrawn = false;
-                    NPC4.BeingDrawn = false;
-                    NPC5.BeingDrawn = false;
-                    NPC6.BeingDrawn = false;
-                    NPC7.BeingDrawn = false;
-                    NPC8.BeingDrawn = false;
+                    clara.BeingDrawn = false;
+                    edith.BeingDrawn = false;
+                    elizabeth.BeingDrawn = false;
+                    summer.BeingDrawn = false;
+                    edward.BeingDrawn = false;
+                    frank.BeingDrawn = false;
+                    james.BeingDrawn = false;
+                    ernest.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1442,14 +1465,14 @@ namespace MurderMystery
                         case Rooms.Room1:
                             if (hour == 5)
                             {
-                                NPC1.BeingDrawn = true;
-                                NPC2.BeingDrawn = true;
-                                NPC3.BeingDrawn = true;
-                                NPC4.BeingDrawn = true;
-                                NPC5.BeingDrawn = true;
-                                NPC6.BeingDrawn = true;
-                                NPC7.BeingDrawn = true;
-                                NPC8.BeingDrawn = true;
+                                clara.BeingDrawn = true;
+                                edith.BeingDrawn = true;
+                                elizabeth.BeingDrawn = true;
+                                summer.BeingDrawn = true;
+                                edward.BeingDrawn = true;
+                                frank.BeingDrawn = true;
+                                james.BeingDrawn = true;
+                                ernest.BeingDrawn = true;
                                 document.BeingDrawn = false;
                                 testStairsButton.BeingDrawn = false;
                                 accuseButton.BeingDrawn = false;
@@ -1459,14 +1482,28 @@ namespace MurderMystery
                             }
                             else
                             {
-                                NPC1.BeingDrawn = true;
-                                NPC2.BeingDrawn = false;
-                                NPC3.BeingDrawn = false;
-                                NPC4.BeingDrawn = false;
-                                NPC5.BeingDrawn = false;
-                                NPC6.BeingDrawn = false;
-                                NPC7.BeingDrawn = false;
-                                NPC8.BeingDrawn = true;
+                                if (hour < 8)
+                                {
+                                    clara.BeingDrawn = true;
+                                }
+                                else
+                                {
+                                    clara.BeingDrawn = false;
+                                }
+                                edith.BeingDrawn = false;
+                                elizabeth.BeingDrawn = false;
+                                summer.BeingDrawn = false;
+                                edward.BeingDrawn = false;
+                                frank.BeingDrawn = false;
+                                james.BeingDrawn = false;
+                                if (hour < 7)
+                                {
+                                    ernest.BeingDrawn = true;
+                                }
+                                else
+                                {
+                                    ernest.BeingDrawn = false;
+                                }
                                 document.BeingDrawn = false;
                                 testStairsButton.BeingDrawn = false;
                                 accuseButton.BeingDrawn = false;
@@ -1477,14 +1514,14 @@ namespace MurderMystery
                             break;
 
                         case Rooms.Room2:
-                            NPC1.BeingDrawn = false;
-                            NPC2.BeingDrawn = true;
-                            NPC3.BeingDrawn = false;
-                            NPC4.BeingDrawn = false;
-                            NPC5.BeingDrawn = false;
-                            NPC6.BeingDrawn = false;
-                            NPC7.BeingDrawn = false;
-                            NPC8.BeingDrawn = false;
+                            clara.BeingDrawn = false;
+                            edith.BeingDrawn = true;
+                            elizabeth.BeingDrawn = false;
+                            summer.BeingDrawn = false;
+                            edward.BeingDrawn = false;
+                            frank.BeingDrawn = false;
+                            james.BeingDrawn = false;
+                            ernest.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
                             accuseButton.BeingDrawn = false;
@@ -1494,14 +1531,21 @@ namespace MurderMystery
                             break;
 
                         case Rooms.Room3:
-                            NPC1.BeingDrawn = false;
-                            NPC2.BeingDrawn = false;
-                            NPC3.BeingDrawn = true;
-                            NPC4.BeingDrawn = false;
-                            NPC5.BeingDrawn = false;
-                            NPC6.BeingDrawn = false;
-                            NPC7.BeingDrawn = false;
-                            NPC8.BeingDrawn = false;
+                            clara.BeingDrawn = false;
+                            edith.BeingDrawn = false;
+                            if (hour < 9)
+                            {
+                                elizabeth.BeingDrawn = true;
+                            }
+                            else
+                            {
+                                elizabeth.BeingDrawn = false;
+                            }
+                            summer.BeingDrawn = false;
+                            edward.BeingDrawn = false;
+                            frank.BeingDrawn = false;
+                            james.BeingDrawn = false;
+                            ernest.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1511,14 +1555,14 @@ namespace MurderMystery
                             break;
 
                         case Rooms.Room4:
-                            NPC1.BeingDrawn = false;
-                            NPC2.BeingDrawn = false;
-                            NPC3.BeingDrawn = false;
-                            NPC4.BeingDrawn = true;
-                            NPC5.BeingDrawn = false;
-                            NPC6.BeingDrawn = false;
-                            NPC7.BeingDrawn = false;
-                            NPC8.BeingDrawn = false;
+                            clara.BeingDrawn = false;
+                            edith.BeingDrawn = false;
+                            elizabeth.BeingDrawn = false;
+                            summer.BeingDrawn = true;
+                            edward.BeingDrawn = false;
+                            frank.BeingDrawn = false;
+                            james.BeingDrawn = false;
+                            ernest.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
                             accuseButton.BeingDrawn = false;
@@ -1534,14 +1578,21 @@ namespace MurderMystery
                             break;
 
                         case Rooms.Room5:
-                            NPC1.BeingDrawn = false;
-                            NPC2.BeingDrawn = false;
-                            NPC3.BeingDrawn = false;
-                            NPC4.BeingDrawn = false;
-                            NPC5.BeingDrawn = true;
-                            NPC6.BeingDrawn = false;
-                            NPC7.BeingDrawn = false;
-                            NPC8.BeingDrawn = false;
+                            clara.BeingDrawn = false;
+                            edith.BeingDrawn = false;
+                            elizabeth.BeingDrawn = false;
+                            summer.BeingDrawn = false;
+                            if (hour < 10)
+                            {
+                               edward.BeingDrawn = true;
+                            }
+                            else
+                            {
+                               edward.BeingDrawn = false;
+                            }
+                            frank.BeingDrawn = false;
+                            james.BeingDrawn = false;
+                            ernest.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1557,14 +1608,21 @@ namespace MurderMystery
                             break;
 
                         case Rooms.Room6:
-                            NPC1.BeingDrawn = false;
-                            NPC2.BeingDrawn = false;
-                            NPC3.BeingDrawn = false;
-                            NPC4.BeingDrawn = false;
-                            NPC5.BeingDrawn = false;
-                            NPC6.BeingDrawn = true;
-                            NPC7.BeingDrawn = false;
-                            NPC8.BeingDrawn = false;
+                            clara.BeingDrawn = false;
+                            edith.BeingDrawn = false;
+                            elizabeth.BeingDrawn = false;
+                            summer.BeingDrawn = false;
+                            edward.BeingDrawn = false;
+                            if (hour < 11)
+                            {
+                                frank.BeingDrawn = true;
+                            }
+                            else
+                            {
+                                frank.BeingDrawn = false;
+                            }
+                            james.BeingDrawn = false;
+                            ernest.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1573,14 +1631,14 @@ namespace MurderMystery
                             doorButton.BeingDrawn = false;
                             break;
                         case Rooms.Room7:
-                            NPC1.BeingDrawn = false;
-                            NPC2.BeingDrawn = false;
-                            NPC3.BeingDrawn = false;
-                            NPC4.BeingDrawn = false;
-                            NPC5.BeingDrawn = false;
-                            NPC6.BeingDrawn = true;
-                            NPC7.BeingDrawn = false;
-                            NPC8.BeingDrawn = false;
+                            clara.BeingDrawn = false;
+                            edith.BeingDrawn = false;
+                            elizabeth.BeingDrawn = false;
+                            summer.BeingDrawn = false;
+                            edward.BeingDrawn = false;
+                            frank.BeingDrawn = false;
+                            james.BeingDrawn = false;
+                            ernest.BeingDrawn = false;
                             document.BeingDrawn = true;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1601,14 +1659,14 @@ namespace MurderMystery
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
 
-                    NPC1.BeingDrawn = false;
-                    NPC2.BeingDrawn = false;
-                    NPC3.BeingDrawn = false;
-                    NPC4.BeingDrawn = false;
-                    NPC5.BeingDrawn = false;
-                    NPC6.BeingDrawn = false;
-                    NPC7.BeingDrawn = false;
-                    NPC8.BeingDrawn = false;
+                    clara.BeingDrawn = false;
+                    edith.BeingDrawn = false;
+                    elizabeth.BeingDrawn = false;
+                    summer.BeingDrawn = false;
+                    edward.BeingDrawn = false;
+                    frank.BeingDrawn = false;
+                    james.BeingDrawn = false;
+                    ernest.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     if (items[0].PickedUp)
@@ -1640,14 +1698,14 @@ namespace MurderMystery
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
 
-                    NPC1.BeingDrawn = false;
-                    NPC2.BeingDrawn = false;
-                    NPC3.BeingDrawn = false;
-                    NPC4.BeingDrawn = false;
-                    NPC5.BeingDrawn = false;
-                    NPC6.BeingDrawn = false;
-                    NPC7.BeingDrawn = false;
-                    NPC8.BeingDrawn = false;
+                    clara.BeingDrawn = false;
+                    edith.BeingDrawn = false;
+                    elizabeth.BeingDrawn = false;
+                    summer.BeingDrawn = false;
+                    edward.BeingDrawn = false;
+                    frank.BeingDrawn = false;
+                    james.BeingDrawn = false;
+                    ernest.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1664,14 +1722,14 @@ namespace MurderMystery
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
 
-                    NPC1.BeingDrawn = false;
-                    NPC2.BeingDrawn = false;
-                    NPC3.BeingDrawn = false;
-                    NPC4.BeingDrawn = false;
-                    NPC5.BeingDrawn = false;
-                    NPC6.BeingDrawn = false;
-                    NPC7.BeingDrawn = false;
-                    NPC8.BeingDrawn = false;
+                    clara.BeingDrawn = false;
+                    edith.BeingDrawn = false;
+                    elizabeth.BeingDrawn = false;
+                    summer.BeingDrawn = false;
+                    edward.BeingDrawn = false;
+                    frank.BeingDrawn = false;
+                    james.BeingDrawn = false;
+                    ernest.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1752,22 +1810,22 @@ namespace MurderMystery
 
             // Initializes the characters and adds them to the gameObjects list
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
-            NPC1 = new NPC("Clara Farley", false, false, new Rectangle(550, 200, 40, 107), claraFarleyTexture);
-            gameObjects.Add(NPC1);
-            NPC2 = new NPC("Edith Espinoza", false, false, new Rectangle(500, 200, 40, 109), edithEspinozaTexture);
-            gameObjects.Add(NPC2);
-            NPC3 = new NPC("Elizabeth Maxwell", false, false, new Rectangle(450, 200, 40, 107), elizabethMaxwellTexture);
-            gameObjects.Add(NPC3);
-            NPC4 = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
-            gameObjects.Add(NPC4);
-            NPC5 = new NPC("Edward Campbell", false, false, new Rectangle(350, 200, 40, 107), edwardCampellTexture);
-            gameObjects.Add(NPC5);
-            NPC6 = new NPC("Frank Espinoza", false, false, new Rectangle(300, 200, 40, 107), frankEspinozaTexture);
-            gameObjects.Add(NPC6);
-            NPC8 = new NPC("Ernest Boyd", false, false, new Rectangle(200, 200, 40, 107), ernestBoydTexture);
-            gameObjects.Add(NPC8);
-            NPC7 = new NPC("James Atkins", false, false, new Rectangle(250, 200, 40, 107), jamesAtkinsTexture);
-            gameObjects.Add(NPC7);
+            clara = new NPC("Clara Farley", false, false, new Rectangle(550, 200, 40, 107), claraFarleyTexture);
+            gameObjects.Add(clara);
+            edith = new NPC("Edith Espinoza", false, false, new Rectangle(500, 200, 40, 109), edithEspinozaTexture);
+            gameObjects.Add(edith);
+            elizabeth = new NPC("Elizabeth Maxwell", false, false, new Rectangle(450, 200, 40, 107), elizabethMaxwellTexture);
+            gameObjects.Add(elizabeth);
+            summer = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
+            gameObjects.Add(summer);
+            edward = new NPC("Edward Campbell", false, false, new Rectangle(350, 200, 40, 107), edwardCampellTexture);
+            gameObjects.Add(edward);
+            frank = new NPC("Frank Espinoza", false, false, new Rectangle(300, 200, 40, 107), frankEspinozaTexture);
+            gameObjects.Add(frank);
+            ernest = new NPC("Ernest Boyd", false, false, new Rectangle(200, 200, 40, 107), ernestBoydTexture);
+            gameObjects.Add(ernest);
+            james = new NPC("James Atkins", false, false, new Rectangle(250, 200, 40, 107), jamesAtkinsTexture);
+            gameObjects.Add(james);
             document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
             gameObjects.Add(document);
 
@@ -1853,23 +1911,23 @@ namespace MurderMystery
             }
 
             //reset dialogue positions of all npcs
-            NPC1.IsTalking = false;
-            NPC2.IsTalking = false;
-            NPC3.IsTalking = false;
-            NPC4.IsTalking = false;
-            NPC5.IsTalking = false;
-            NPC6.IsTalking = false;
-            NPC7.IsTalking = false;
-            NPC8.IsTalking = false;
+            clara.IsTalking = false;
+            edith.IsTalking = false;
+            elizabeth.IsTalking = false;
+            summer.IsTalking = false;
+            edward.IsTalking = false;
+            frank.IsTalking = false;
+            james.IsTalking = false;
+            ernest.IsTalking = false;
             document.IsTalking = false;
-            NPC1.DialogueNum = 0;
-            NPC2.DialogueNum = 0;
-            NPC3.DialogueNum = 0;
-            NPC4.DialogueNum = 0;
-            NPC5.DialogueNum = 0;
-            NPC6.DialogueNum = 0;
-            NPC7.DialogueNum = 0;
-            NPC8.DialogueNum = 0;
+            clara.DialogueNum = 0;
+            edith.DialogueNum = 0;
+            elizabeth.DialogueNum = 0;
+            summer.DialogueNum = 0;
+            edward.DialogueNum = 0;
+            frank.DialogueNum = 0;
+            james.DialogueNum = 0;
+            ernest.DialogueNum = 0;
             document.DialogueNum = 0;
         }
         #endregion
