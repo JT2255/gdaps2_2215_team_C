@@ -155,8 +155,9 @@ namespace MurderMystery
             //keep track of seconds
             currentTime = 0;
             //current hour
-            hour = 5;
+            hour = 6;
             //correctly guessed murderer
+            won = false;
             won = false;
 
             items = new List<Item>();
@@ -343,14 +344,70 @@ namespace MurderMystery
                             case Rooms.Room1:
                                 GraphicsDevice.Clear(Color.Navy);
 
-                                NPC1.Draw(_spriteBatch);
-                                NPC2.Draw(_spriteBatch);
-                                NPC3.Draw(_spriteBatch);
-                                NPC4.Draw(_spriteBatch);
-                                NPC5.Draw(_spriteBatch);
-                                NPC6.Draw(_spriteBatch);
-                                NPC7.Draw(_spriteBatch);
-                                player.Draw(_spriteBatch);
+                                if (currentTime < 115)
+                                {
+                                    NPC1.Draw(_spriteBatch);
+                                    NPC2.Draw(_spriteBatch);
+                                    NPC3.Draw(_spriteBatch);
+                                    NPC4.Draw(_spriteBatch);
+                                    NPC5.Draw(_spriteBatch);
+                                    NPC6.Draw(_spriteBatch);
+                                    NPC7.Draw(_spriteBatch);
+                                    NPC8.Draw(_spriteBatch);
+                                    player.Draw(_spriteBatch);
+
+                                    //show npc dialogue
+                                    if (NPC1.IsTalking)
+                                    {
+                                        NPC1.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC2.IsTalking)
+                                    {
+                                        NPC2.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC3.IsTalking)
+                                    {
+                                        NPC3.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC4.IsTalking)
+                                    {
+                                        NPC4.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC5.IsTalking)
+                                    {
+                                        NPC5.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC6.IsTalking)
+                                    {
+                                        NPC6.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC7.IsTalking)
+                                    {
+                                        NPC7.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+
+                                    //show npc dialogue
+                                    if (NPC8.IsTalking)
+                                    {
+                                        NPC8.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                    }
+                                }
+                                else
+                                {
+                                    GraphicsDevice.Clear(Color.Black);
+                                }
                                 break;
                             default:
                                 break;
@@ -367,6 +424,10 @@ namespace MurderMystery
                                 //draw npc
                                 NPC1.Draw(_spriteBatch);
 
+                                NPC8.Draw(_spriteBatch);
+
+                                _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
+
                                 //draw player
                                 player.Draw(_spriteBatch);
 
@@ -381,7 +442,16 @@ namespace MurderMystery
                                     }
                                 }
 
+                                //show npc dialogue
+                                if (NPC8.IsTalking)
+                                {
+                                    NPC8.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
+                                    if (items[0].PickedUp)
+                                    {
+                                        accuseButton.Draw(_spriteBatch);
+                                    }
+                                }
 
                                 break;
                             case Rooms.Room2:
@@ -707,7 +777,7 @@ namespace MurderMystery
             // Sets our flag
             bool hoveredOver = false;
 
-
+      
                 // Searches all of the game objects
                 foreach (GameObject g in gameObjects)
                 {
@@ -829,6 +899,18 @@ namespace MurderMystery
                 NPC6.DialogueNum++;
             }
 
+            //progress through npc dialogue
+            if (NPC7.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC7.DialogueNum++;
+            }
+
+            //progress through npc dialogue
+            if (NPC8.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                NPC8.DialogueNum++;
+            }
+
             //progress through document
             if (document.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
@@ -868,6 +950,104 @@ namespace MurderMystery
                     if (Clicked(NPC1))
                     {
                         NPC1.IsTalking = !NPC1.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC2))
+                    {
+                        NPC2.IsTalking = !NPC2.IsTalking;
+                        NPC1.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC3))
+                    {
+                        NPC3.IsTalking = !NPC3.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC1.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC4))
+                    {
+                        NPC4.IsTalking = !NPC4.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC1.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC5))
+                    {
+                        NPC5.IsTalking = !NPC5.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC1.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC6))
+                    {
+                        NPC6.IsTalking = !NPC6.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC1.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC7))
+                    {
+                        NPC7.IsTalking = !NPC7.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC1.IsTalking = false;
+                        NPC8.IsTalking = false;
+                    }
+
+                    //toggle npc talking state
+                    if (Clicked(NPC8))
+                    {
+                        NPC8.IsTalking = !NPC8.IsTalking;
+                        NPC2.IsTalking = false;
+                        NPC3.IsTalking = false;
+                        NPC4.IsTalking = false;
+                        NPC5.IsTalking = false;
+                        NPC6.IsTalking = false;
+                        NPC7.IsTalking = false;
+                        NPC1.IsTalking = false;
                     }
 
                     //if you accuse someone
@@ -1174,22 +1354,22 @@ namespace MurderMystery
 
         private void ProcessTimer(GameTime gameTime)
         {
-            //if current time is greater than the total time per hour, increment the hour 
-            if (currentTime > totalTime)
-            {
-                hour++;
-                currentTime = 0;
-            }
-            else
-            {
-                currentTime += gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            
-            //if time hits 12AM, end game
-            if (hour == 12)
-            {
-                currentState = State.EndMenu;
-            }
+                //if current time is greater than the total time per hour, increment the hour 
+                if (currentTime > totalTime)
+                {
+                    hour++;
+                    currentTime = 0;
+                }
+                else
+                {
+                    currentTime += gameTime.ElapsedGameTime.TotalSeconds;
+                }
+
+                //if time hits 12AM, end game
+                if (hour == 12)
+                {
+                    currentState = State.EndMenu;
+                }           
         }
 
         /// <summary>
@@ -1217,6 +1397,7 @@ namespace MurderMystery
                     NPC5.BeingDrawn = false;
                     NPC6.BeingDrawn = false;
                     NPC7.BeingDrawn = false;
+                    NPC8.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1241,6 +1422,7 @@ namespace MurderMystery
                     NPC5.BeingDrawn = false;
                     NPC6.BeingDrawn = false;
                     NPC7.BeingDrawn = false;
+                    NPC8.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1258,19 +1440,40 @@ namespace MurderMystery
                     switch (currentRoom)
                     {
                         case Rooms.Room1:
-                            NPC1.BeingDrawn = true;
-                            NPC2.BeingDrawn = false;
-                            NPC3.BeingDrawn = false;
-                            NPC4.BeingDrawn = false;
-                            NPC5.BeingDrawn = false;
-                            NPC6.BeingDrawn = false;
-                            NPC7.BeingDrawn = false;
-                            document.BeingDrawn = false;
-                            testStairsButton.BeingDrawn = false;
-                            accuseButton.BeingDrawn = false;
-                            items[0].BeingDrawn = false;
-                            items[1].BeingDrawn = false;
-                            doorButton.BeingDrawn = false;
+                            if (hour == 5)
+                            {
+                                NPC1.BeingDrawn = true;
+                                NPC2.BeingDrawn = true;
+                                NPC3.BeingDrawn = true;
+                                NPC4.BeingDrawn = true;
+                                NPC5.BeingDrawn = true;
+                                NPC6.BeingDrawn = true;
+                                NPC7.BeingDrawn = true;
+                                NPC8.BeingDrawn = true;
+                                document.BeingDrawn = false;
+                                testStairsButton.BeingDrawn = false;
+                                accuseButton.BeingDrawn = false;
+                                items[0].BeingDrawn = false;
+                                items[1].BeingDrawn = false;
+                                doorButton.BeingDrawn = false;
+                            }
+                            else
+                            {
+                                NPC1.BeingDrawn = true;
+                                NPC2.BeingDrawn = false;
+                                NPC3.BeingDrawn = false;
+                                NPC4.BeingDrawn = false;
+                                NPC5.BeingDrawn = false;
+                                NPC6.BeingDrawn = false;
+                                NPC7.BeingDrawn = false;
+                                NPC8.BeingDrawn = true;
+                                document.BeingDrawn = false;
+                                testStairsButton.BeingDrawn = false;
+                                accuseButton.BeingDrawn = false;
+                                items[0].BeingDrawn = false;
+                                items[1].BeingDrawn = false;
+                                doorButton.BeingDrawn = false;
+                            }                           
                             break;
 
                         case Rooms.Room2:
@@ -1281,6 +1484,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             NPC7.BeingDrawn = false;
+                            NPC8.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
                             accuseButton.BeingDrawn = false;
@@ -1297,6 +1501,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             NPC7.BeingDrawn = false;
+                            NPC8.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1313,6 +1518,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = false;
                             NPC7.BeingDrawn = false;
+                            NPC8.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
                             accuseButton.BeingDrawn = false;
@@ -1335,6 +1541,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = true;
                             NPC6.BeingDrawn = false;
                             NPC7.BeingDrawn = false;
+                            NPC8.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1357,6 +1564,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = true;
                             NPC7.BeingDrawn = false;
+                            NPC8.BeingDrawn = false;
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1372,6 +1580,7 @@ namespace MurderMystery
                             NPC5.BeingDrawn = false;
                             NPC6.BeingDrawn = true;
                             NPC7.BeingDrawn = false;
+                            NPC8.BeingDrawn = false;
                             document.BeingDrawn = true;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1399,6 +1608,7 @@ namespace MurderMystery
                     NPC5.BeingDrawn = false;
                     NPC6.BeingDrawn = false;
                     NPC7.BeingDrawn = false;
+                    NPC8.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     if (items[0].PickedUp)
@@ -1437,6 +1647,7 @@ namespace MurderMystery
                     NPC5.BeingDrawn = false;
                     NPC6.BeingDrawn = false;
                     NPC7.BeingDrawn = false;
+                    NPC8.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1460,6 +1671,7 @@ namespace MurderMystery
                     NPC5.BeingDrawn = false;
                     NPC6.BeingDrawn = false;
                     NPC7.BeingDrawn = false;
+                    NPC8.BeingDrawn = false;
                     document.BeingDrawn = false;
 
                     items[0].BeingDrawn = false;
@@ -1534,28 +1746,28 @@ namespace MurderMystery
             ernestBoydTexture = Content.Load<Texture2D>("ErnestBoyd");
             edwardCampellTexture = Content.Load<Texture2D>("EdwardCampbell");
             frankEspinozaTexture = Content.Load<Texture2D>("FrankEspinoza");
-            jamesAtkinsTexture = Content.Load<Texture2D>("JamesAtkinsCorpse");
+            jamesAtkinsTexture = Content.Load<Texture2D>("JamesAtkinsAlive");
             documentTexture = Content.Load<Texture2D>("document");
             // testNPCTexture = Content.Load<Texture2D>("npc");
 
             // Initializes the characters and adds them to the gameObjects list
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
-            NPC1 = new NPC("Clara Farley", false, false, new Rectangle(400, 200, 40, 107), claraFarleyTexture);
+            NPC1 = new NPC("Clara Farley", false, false, new Rectangle(550, 200, 40, 107), claraFarleyTexture);
             gameObjects.Add(NPC1);
-            NPC2 = new NPC("Edith Espinoza", false, false, new Rectangle(400, 200, 40, 109), edithEspinozaTexture);
+            NPC2 = new NPC("Edith Espinoza", false, false, new Rectangle(500, 200, 40, 109), edithEspinozaTexture);
             gameObjects.Add(NPC2);
-            NPC3 = new NPC("Elizabeth Maxwell", false, false, new Rectangle(400, 200, 40, 107), elizabethMaxwellTexture);
+            NPC3 = new NPC("Elizabeth Maxwell", false, false, new Rectangle(450, 200, 40, 107), elizabethMaxwellTexture);
             gameObjects.Add(NPC3);
             NPC4 = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
             gameObjects.Add(NPC4);
-            NPC5 = new NPC("Edward Campbell", false, false, new Rectangle(400, 200, 40, 107), edwardCampellTexture);
+            NPC5 = new NPC("Edward Campbell", false, false, new Rectangle(350, 200, 40, 107), edwardCampellTexture);
             gameObjects.Add(NPC5);
-            NPC6 = new NPC("Frank Espinoza", false, false, new Rectangle(400, 200, 40, 107), frankEspinozaTexture);
+            NPC6 = new NPC("Frank Espinoza", false, false, new Rectangle(300, 200, 40, 107), frankEspinozaTexture);
             gameObjects.Add(NPC6);
-            NPC8 = new NPC("Ernest Boyd", false, false, new Rectangle(400, 200, 40, 107), ernestBoydTexture);
-            gameObjects.Add(NPC7);
-            NPC7 = new NPC("James Atkins", false, false, new Rectangle(400, 200, 40, 107), jamesAtkinsTexture);
+            NPC8 = new NPC("Ernest Boyd", false, false, new Rectangle(200, 200, 40, 107), ernestBoydTexture);
             gameObjects.Add(NPC8);
+            NPC7 = new NPC("James Atkins", false, false, new Rectangle(250, 200, 40, 107), jamesAtkinsTexture);
+            gameObjects.Add(NPC7);
             document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
             gameObjects.Add(document);
 
@@ -1648,6 +1860,7 @@ namespace MurderMystery
             NPC5.IsTalking = false;
             NPC6.IsTalking = false;
             NPC7.IsTalking = false;
+            NPC8.IsTalking = false;
             document.IsTalking = false;
             NPC1.DialogueNum = 0;
             NPC2.DialogueNum = 0;
@@ -1656,6 +1869,7 @@ namespace MurderMystery
             NPC5.DialogueNum = 0;
             NPC6.DialogueNum = 0;
             NPC7.DialogueNum = 0;
+            NPC8.DialogueNum = 0;
             document.DialogueNum = 0;
         }
         #endregion
