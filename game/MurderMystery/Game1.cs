@@ -185,7 +185,7 @@ namespace MurderMystery
             partyMusic = Content.Load<Song>("highlanders");
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.1f;
 
             // Load in characters
             LoadCharacters();
@@ -237,7 +237,7 @@ namespace MurderMystery
                     {
                         MediaPlayer.Play(partyMusic);
                         MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Volume = 0.05f;
+                        MediaPlayer.Volume = 0.1f;
                         musicChanged = true;
                     }
 
@@ -252,7 +252,7 @@ namespace MurderMystery
                     {
                         MediaPlayer.Play(backgroundMusic);
                         MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Volume = 0.05f;
+                        MediaPlayer.Volume = 0.1f;
                         musicChanged = false;
                     }
 
