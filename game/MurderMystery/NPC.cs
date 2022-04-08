@@ -18,8 +18,9 @@ namespace MurderMystery
         private bool isMurderer;
         private bool isDead;
         private bool isTalking;
-        private string[] aliveDialogue;
-        private string[] deadDialogue;
+        private List<string> fiveDialogue;
+        private List<string> preKnifeDialogue;
+        private List<string> postKnifeDialogue;
         private int dialogueNum;
         private StreamReader reader = null;
         #endregion
@@ -93,7 +94,9 @@ namespace MurderMystery
             this.texture = texture;
             isTalking = false;
             dialogueNum = 0;
-            //this.deadDialogue = deadDialogue;
+            fiveDialogue = new List<string>();
+            preKnifeDialogue = new List<string>();
+            postKnifeDialogue = new List<string>();
 
             LoadDialogue();
         }
@@ -107,30 +110,57 @@ namespace MurderMystery
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="font"></param>
-        public void Speak(SpriteBatch sb, SpriteFont font, Texture2D dialogueBox)
+        public void Speak(SpriteBatch sb, SpriteFont font, Texture2D dialogueBox, Player player,
+            int hour, Item knife)
         {
             //draw dialogue box
-            sb.Draw(dialogueBox, new Rectangle(20, 310, 760, 100), Color.White);
+            if (isTalking)
+            {
+                sb.Draw(dialogueBox, new Rectangle(20, 310, 760, 100), Color.White);
+            }
+            
 
             // refDialouge keeps track of which dialouge to use during speaking
-            string[] refDialouge;
-            // Check if alive to set up dialouge
-            if (!isDead) 
-            {
-                refDialouge = aliveDialogue;
-            }
-            else 
-            {
-                refDialouge = deadDialogue;
-            }
+            List<string> refDialouge = null ;
 
-            // if there is still dialogue left in array, advance to next line
-            if (dialogueNum < refDialouge.Length)
+            // If Atkins hasn't died
+            if (hour == 5)
             {
-                sb.DrawString(font, $"{refDialouge[dialogueNum]}", new Vector2(50, 335), Color.Black);
+                refDialouge = fiveDialogue;
+                // if there is still dialogue left in array, advance to next line
+                if (dialogueNum < fiveDialogue.Count)
+                {
+                    sb.DrawString(font, $"{fiveDialogue[dialogueNum]}", new Vector2(50, 335), Color.Black);
+                    sb.Draw(dialogueBox, new Rectangle(40, 270, 220, 40), Color.White);
+                    sb.DrawString(font, $"{name}", new Vector2(45, 280), Color.Black);
+                }
             }
+            // If the knife has not been found and Atkins has died
+            else if (hour > 5 && !player.Inventory.Contains(knife))
+            {
+                refDialouge = preKnifeDialogue;
+                // if there is still dialogue left in array, advance to next line
+                if (dialogueNum < preKnifeDialogue.Count)
+                {
+                    sb.DrawString(font, $"{preKnifeDialogue[dialogueNum]}", new Vector2(50, 335), Color.Black);
+                    sb.Draw(dialogueBox, new Rectangle(40, 270, 220, 40), Color.White);
+                    sb.DrawString(font, $"{name}", new Vector2(45, 280), Color.Black);
+                }
+            }
+            else if (hour > 5 && player.Inventory.Contains(knife))
+            {
+                refDialouge = postKnifeDialogue;
+                // if there is still dialogue left in array, advance to next line
+                if (dialogueNum < postKnifeDialogue.Count)
+                {
+                    sb.DrawString(font, $"{postKnifeDialogue[dialogueNum]}", new Vector2(50, 335), Color.Black);
+                    sb.Draw(dialogueBox, new Rectangle(40, 270, 220, 40), Color.White);
+                    sb.DrawString(font, $"{name}", new Vector2(45, 280), Color.Black);
+                }
+            }
+           
             // if there is no more dialouge
-            else if (dialogueNum == refDialouge.Length)
+            if (dialogueNum == refDialouge.Count)
             {
                 // Stop talking
                 isTalking = false;
@@ -149,17 +179,37 @@ namespace MurderMystery
             {
                 // Open file in data_files, file needs to be the samename as npc
                 reader = new StreamReader($"../../../../../data_files/{name}.txt");
-                string lineFromFile = reader.ReadLine();
-                int index = 0;
-
-                //initialize array with given length from file
-                aliveDialogue = new string[int.Parse(lineFromFile)];
+                string lineFromFile;
 
                 //while theres still stuff, read in
                 while ((lineFromFile = reader.ReadLine()) != null)
                 {
-                    aliveDialogue[index] = lineFromFile;
-                    index++;
+                    // If the pre knife dialogue has been reached
+                    if (lineFromFile == "0")
+                    {
+                        while ((lineFromFile = reader.ReadLine()) != null)
+                        {
+                            // If the post knife dialogue has been reached
+                            if (lineFromFile == "1")
+                            {
+                                while ((lineFromFile = reader.ReadLine()) != null)
+                                {
+                                    // If we get to this point, add the dialogue to post knife
+                                    postKnifeDialogue.Add(lineFromFile);
+                                }
+                            }
+                            // If we get to this point, add the dialogue to pre knife
+                            if (lineFromFile != null)
+                            {
+                                preKnifeDialogue.Add(lineFromFile);
+                            }
+                        }
+                    }
+                    // If we get to this point, add the dialogue to pre five dialogue
+                    if (lineFromFile != null)
+                    {
+                        fiveDialogue.Add(lineFromFile);
+                    }
                 }
             }
             catch (Exception e)

@@ -346,7 +346,7 @@ namespace MurderMystery
                             //show npc dialogue
                             if (NPC1.IsTalking)
                             {
-                                NPC1.Speak(_spriteBatch, font, dialogueBox);
+                                NPC1.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                 if (items[0].PickedUp)
                                 {
@@ -370,7 +370,7 @@ namespace MurderMystery
                             //show npc dialogue
                             if (NPC2.IsTalking)
                             {
-                                NPC2.Speak(_spriteBatch, font, dialogueBox);
+                                NPC2.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                 if (items[0].PickedUp)
                                 {
@@ -393,7 +393,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC3.IsTalking)
                             {
-                                NPC3.Speak(_spriteBatch, font, dialogueBox);
+                                NPC3.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                 if (items[0].PickedUp)
                                 {
@@ -419,7 +419,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC4.IsTalking)
                             {
-                                NPC4.Speak(_spriteBatch, font, dialogueBox);
+                                NPC4.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                 if (items[0].PickedUp)
                                 {
@@ -446,7 +446,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC5.IsTalking)
                             {
-                                NPC5.Speak(_spriteBatch, font, dialogueBox);
+                                NPC5.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                 if (items[0].PickedUp)
                                 {
@@ -473,7 +473,7 @@ namespace MurderMystery
                             //draw npc dialogue
                             if (NPC6.IsTalking)
                             {
-                                NPC6.Speak(_spriteBatch, font, dialogueBox);
+                                NPC6.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                 if (items[0].PickedUp)
                                 {
@@ -1134,6 +1134,7 @@ namespace MurderMystery
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
+                    doorButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1155,6 +1156,7 @@ namespace MurderMystery
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
+                    doorButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1188,6 +1190,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            doorButton.BeingDrawn = false;
                             break;
 
                         case Rooms.Room2:
@@ -1201,6 +1204,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            doorButton.BeingDrawn = false;
                             break;
 
                         case Rooms.Room3:
@@ -1214,6 +1218,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            doorButton.BeingDrawn = true;
                             break;
 
                         case Rooms.Room4:
@@ -1225,6 +1230,7 @@ namespace MurderMystery
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = true;
                             accuseButton.BeingDrawn = false;
+                            doorButton.BeingDrawn = false;
                             if (!items[1].PickedUp)
                             {
                                 items[1].BeingDrawn = true;
@@ -1244,6 +1250,7 @@ namespace MurderMystery
                             NPC6.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
+                            doorButton.BeingDrawn = false;
                             if (!items[0].PickedUp)
                             {
                                 items[0].BeingDrawn = true;
@@ -1265,6 +1272,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            doorButton.BeingDrawn = false;
                             break;
                     }
 
@@ -1277,6 +1285,7 @@ namespace MurderMystery
                     exitButton.BeingDrawn = true;
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
+                    doorButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1312,6 +1321,7 @@ namespace MurderMystery
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
+                    doorButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
@@ -1332,6 +1342,7 @@ namespace MurderMystery
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
+                    doorButton.BeingDrawn = false;
 
                     NPC1.BeingDrawn = false;
                     NPC2.BeingDrawn = false;
