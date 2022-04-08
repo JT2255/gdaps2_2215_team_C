@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -51,6 +52,7 @@ namespace MurderMystery
 
         //Objects
         private SpriteFont font;
+        private SpriteFont titleFont;
         private Player player;
 
         #region NPCs
@@ -121,6 +123,9 @@ namespace MurderMystery
         private List<GameObject> gameObjects;
         private bool won;
         private Texture2D desk;
+        private Song backgroundMusic;
+        private Song partyMusic;
+        bool musicChanged;
         #endregion
 
         // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -153,11 +158,13 @@ namespace MurderMystery
             //time per in-game hour
             totalTime = 120;
             //keep track of seconds
-            currentTime = 0;
+            currentTime = 60;
             //current hour
-            hour = 10;
+            hour = 5;
             //correctly guessed murderer
             won = false;
+
+            musicChanged = false;
 
             items = new List<Item>();
             gameObjects = new List<GameObject>();
@@ -171,6 +178,14 @@ namespace MurderMystery
 
             // Load fonts
             font = Content.Load<SpriteFont>("font");
+            titleFont = Content.Load<SpriteFont>("titleFont");
+
+            // Load music
+            backgroundMusic = Content.Load<Song>("Illusory-Realm-MP3");
+            partyMusic = Content.Load<Song>("highlanders");
+            MediaPlayer.Play(backgroundMusic);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.05f;
 
             // Load in characters
             LoadCharacters();
@@ -198,6 +213,7 @@ namespace MurderMystery
             switch (currentState)
             {
                 case State.MainMenu:
+
                     //The Play Button
                     topButton.Update();
 
@@ -215,6 +231,30 @@ namespace MurderMystery
                     ProcessInstructions(kbState);
                     break;
                 case State.Game:
+
+                    // Plays party music during hour 5
+                    if (hour == 5 && !musicChanged)
+                    {
+                        MediaPlayer.Play(partyMusic);
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.05f;
+                        musicChanged = true;
+                    }
+
+                    // During the first death, music cuts out
+                    if (currentTime >= 115 && hour == 5)
+                    {
+                        MediaPlayer.Stop();
+                    }    
+
+                    // Plays mystery music after the first death
+                    if (hour == 6 && musicChanged)
+                    {
+                        MediaPlayer.Play(backgroundMusic);
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Volume = 0.05f;
+                        musicChanged = false;
+                    }
 
                     //the inventory
                     inventoryButton.Update();
@@ -285,22 +325,32 @@ namespace MurderMystery
             {
                 case State.MainMenu:
                     #region Main Menu
-                    // Main Menu text
-                    _spriteBatch.DrawString(font, "Main Menu\nPress P or click the play button to proceed to game" +
-                        "\nPress Q or click the exit button to leave the game", new Vector2(0, 0), Color.White);
-
+                    
                     // Main Menu Background
                     GraphicsDevice.Clear(Color.Red);
+
+                    // Sets the bottom button's new position
+                    bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                    330
+                    , menuButtonTexture.Width, menuButtonTexture.Height);
+
+                    // Sets the top button's new position
+                    topButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                    250
+                    , menuButtonTexture.Width, menuButtonTexture.Height);
 
                     //Main Menu Play Button
                     topButton.Draw(_spriteBatch, "");
 
+                    // Prints the title
+                    _spriteBatch.DrawString(titleFont, "Project Silver", new Vector2(120, 100), Color.Black);
+
                     //Hardcoded to center currently, will patch in future
-                    _spriteBatch.DrawString(font, "PLAY", new Vector2(370, 150), Color.Black);
+                    _spriteBatch.DrawString(font, "PLAY", new Vector2(370, 270), Color.Black);
 
                     //Exit game
                     bottomButton.Draw(_spriteBatch, "");
-                    _spriteBatch.DrawString(font, "EXIT", new Vector2(370, 230), Color.Black);
+                    _spriteBatch.DrawString(font, "EXIT", new Vector2(370, 350), Color.Black);
 
                     break;
                 #endregion
@@ -309,15 +359,20 @@ namespace MurderMystery
                     // Instructions background
                     GraphicsDevice.Clear(Color.DarkCyan);
 
+                    // Sets the bottom button's new position
+                    bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                        398,
+                        bottomButton.Position.Width, bottomButton.Position.Height);
+
                     // Instructions text
-                    _spriteBatch.DrawString(font, "Story Overview\nThe night is still young when you" +
-                        "are invited to a celebratory party by \nthe esteemed James Atkins. You, amid" +
+                    _spriteBatch.DrawString(font, "Story Overview\nThe night is still young when you " +
+                        "are invited to a celebratory party by\nthe esteemed James Atkins. You, amid " +
                         "his colleagues, are there\ncelebrating the discovery of a new star system, but" +
                         " perhaps that has\nsparked some jealously among them? Once the party goes awry," +
-                        " it is\n up to you to answer the classic question... who dunnit?" +
-                        "\n\nControls and Interface\nUse A and D to move left or right\nClick on NPCs" +
-                        "to talk to them and use the spacebar to advance the text\n when the dialogue box" +
-                        " is open.\nClick on items to pick them up and check on them in your inventory\nin" +
+                        " it is\nup to you to answer the classic question... who dunnit?" +
+                        "\n\nControls and Interface\nUse A and D to move left or right\nClick on NPCs " +
+                        "to talk to them and use the spacebar to advance the text\nwhen the dialogue box" +
+                        " is open.\nClick on items to pick them up and check on them in your inventory\nin " +
                         "the upper right.\nTo pause the game, click on the button next to the inventory" +
                         " icon\nOnce certain conditions are met, click the accuse button to blame an\nNPC.", new Vector2(0, 0), Color.White);
 
@@ -636,7 +691,7 @@ namespace MurderMystery
                     Vector2 startPoint = new Vector2(windowWidth / 8, windowHeight / 8); // Start Point for displaying items
                     //inventory text
                     GraphicsDevice.Clear(Color.Green);
-                    _spriteBatch.DrawString(font, "You are now in the inventory.\nPress I to go back to the game.", new Vector2(0, 0), Color.White);
+                    _spriteBatch.DrawString(font, "You are now in the inventory", new Vector2(0, 0), Color.White);
 
                     //draw exit button
                     exitButton.Draw(_spriteBatch, "");
@@ -684,6 +739,16 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
                     GraphicsDevice.Clear(Color.Cyan);
 
+                    // Sets the bottom button's new position
+                    bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                    208
+                    , menuButtonTexture.Width, menuButtonTexture.Height);
+
+                    // Sets the top button's new position
+                    topButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                    129
+                    , menuButtonTexture.Width, menuButtonTexture.Height);
+
                     //Continue
                     topButton.Draw(_spriteBatch, "");
                     _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340, 150), Color.Black);
@@ -700,14 +765,18 @@ namespace MurderMystery
                     //if guessed correctly
                     if (won)
                     {
-                        _spriteBatch.DrawString(font, "You correctly figured out the murderer!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+                        _spriteBatch.DrawString(font, "You correctly figured out the murderer!", new Vector2(160, 140), Color.White);
                     }
                     //did not guess correctly, or ran out of time
                     else
                     {
-                        _spriteBatch.DrawString(font, "You ran out of time or accused an innocent!\nPress ESC to go back to the main menu.", new Vector2(0, 0), Color.White);
+                        _spriteBatch.DrawString(font, "You ran out of time or accused an innocent!", new Vector2(150, 140), Color.White);
                     }
-                    
+
+                    // Sets the bottom button's new position
+                    bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
+                    210
+                    , menuButtonTexture.Width, menuButtonTexture.Height);
 
                     //Return to the main menu
                     bottomButton.Draw(_spriteBatch, "");
@@ -940,8 +1009,21 @@ namespace MurderMystery
 
                     player.Move(kbState, currentRoom);
 
+                    if (hour == 5)
+                    {
+                        //stop user from walking off screen
+                        if (player.Position.X < 0)
+                        {
+                            player.Position = new Vector2(0, player.Position.Y);
+                        }
+                        if (player.Position.X > windowWidth - 50)
+                        {
+                            player.Position = new Vector2(windowWidth - 50, player.Position.Y);
+                        }
+                    }
+
                     //if you walk to the left, go to room 2
-                    if (player.Position.X < 0)
+                    else if (player.Position.X < 0)
                     {
                         // Change Room
                         currentRoom = Rooms.Room2;
@@ -952,7 +1034,7 @@ namespace MurderMystery
                     }
 
                     //if you walk to the right, go to room 3
-                    if (player.Position.X > windowWidth)
+                    else if (player.Position.X > windowWidth)
                     {
                         currentRoom = Rooms.Room3;
                         player.Left();
@@ -1479,6 +1561,24 @@ namespace MurderMystery
                                 items[0].BeingDrawn = false;
                                 items[1].BeingDrawn = false;
                                 doorButton.BeingDrawn = false;
+                                // During the first death, no one can be clicked
+                                if (currentTime >= 115)
+                                {
+                                    clara.BeingDrawn = false;
+                                    edith.BeingDrawn = false;
+                                    elizabeth.BeingDrawn = false;
+                                    summer.BeingDrawn = false;
+                                    edward.BeingDrawn = false;
+                                    frank.BeingDrawn = false;
+                                    james.BeingDrawn = false;
+                                    ernest.BeingDrawn = false;
+                                    document.BeingDrawn = false;
+                                    testStairsButton.BeingDrawn = false;
+                                    accuseButton.BeingDrawn = false;
+                                    items[0].BeingDrawn = false;
+                                    items[1].BeingDrawn = false;
+                                    doorButton.BeingDrawn = false;
+                                }
                             }
                             else
                             {
@@ -1849,7 +1949,7 @@ namespace MurderMystery
             // Initializes the buttons
             topButton = new Button("Menu", menuButtonTexture, font,
                 new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
-                GraphicsDevice.Viewport.Height / 3 - menuButtonTexture.Height / 2
+                250
                 , menuButtonTexture.Width, menuButtonTexture.Height));
             gameObjects.Add(topButton);
 
@@ -1864,7 +1964,7 @@ namespace MurderMystery
 
             bottomButton = new Button("Menu", menuButtonTexture, font,
                 new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
-                GraphicsDevice.Viewport.Height / 2 - menuButtonTexture.Height / 2
+                330
                 , menuButtonTexture.Width, menuButtonTexture.Height));
             gameObjects.Add(bottomButton);
 

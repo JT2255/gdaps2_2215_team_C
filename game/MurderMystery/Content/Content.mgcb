@@ -188,6 +188,18 @@
 /processorParam:TextureFormat=Color
 /build:FrankEspinoza.png
 
+#begin highlanders.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:highlanders.mp3
+
+#begin Illusory-Realm-MP3.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Illusory-Realm-MP3.mp3
+
 #begin InventorySingle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -355,4 +367,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SummerSprite.png
+
+#begin titleFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:titleFont.spritefont
 
