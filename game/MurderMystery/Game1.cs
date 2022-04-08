@@ -160,7 +160,7 @@ namespace MurderMystery
             //keep track of seconds
             currentTime = 60;
             //current hour
-            hour = 6;
+            hour = 5;
             //correctly guessed murderer
             won = false;
 
@@ -2030,6 +2030,7 @@ namespace MurderMystery
             james.DialogueNum = 0;
             ernest.DialogueNum = 0;
             document.DialogueNum = 0;
+            hour = 5;
         }
         #endregion
     }
