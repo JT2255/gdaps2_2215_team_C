@@ -20,6 +20,8 @@ namespace MurderMystery
         private SpriteFont font;
         #endregion
 
+      
+
         //Constructor
         #region Constructor
         public Button(string name, Texture2D texture, SpriteFont font, Rectangle position)
@@ -50,6 +52,11 @@ namespace MurderMystery
                 beenClicked = value;
             }
         }
+
+        //public Rectangle Position
+        //{
+        //    set { position = value; }
+        //}
         #endregion
 
         //Methods

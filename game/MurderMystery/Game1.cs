@@ -342,6 +342,7 @@ namespace MurderMystery
                             
                             //draw stairs and npc
                             testStairsButton.Draw(_spriteBatch);
+                            testStairsButton.Position = new Rectangle(0, 25, 114, 309);
                             NPC2.Draw(_spriteBatch);
 
                             //show npc dialogue
@@ -354,6 +355,8 @@ namespace MurderMystery
                                     accuseButton.Draw(_spriteBatch);
                                 }
                             }
+
+
 
                             //draw player
                             player.Draw(_spriteBatch);
@@ -389,6 +392,8 @@ namespace MurderMystery
                             
                             //draw stairs and npc
                             testStairsButton.Draw(_spriteBatch);
+                            testStairsButton.Position = new Rectangle(0, 400, 114, 309);
+
                             NPC4.Draw(_spriteBatch);
 
                             //draw npc dialogue
@@ -1397,7 +1402,7 @@ namespace MurderMystery
             pauseTexture = Content.Load<Texture2D>("PauseButton");
             inventoryTexture = Content.Load<Texture2D>("InventorySingle");
             exitTexture = Content.Load<Texture2D>("ExitBox");
-            testStairs = Content.Load<Texture2D>("stairsTest");
+            testStairs = Content.Load<Texture2D>("SpiralStaircase");
             accuseTexture = Content.Load<Texture2D>("accuseButtonTexture");
 
             // Initializes the buttons
@@ -1427,7 +1432,7 @@ namespace MurderMystery
             gameObjects.Add(exitButton);
 
             testStairsButton = new Button("", testStairs, font,
-                new Rectangle(0, 100, 100, windowHeight));
+                new Rectangle(0, 25, 114, 309));
             gameObjects.Add(testStairsButton);
 
             accuseButton = new Button("", accuseTexture, font,
