@@ -28,7 +28,8 @@ namespace MurderMystery
         Room3,
         Room4,
         Room5,
-        Room6
+        Room6,
+        Room7
     }
 
     public class Game1 : Game
@@ -69,6 +70,7 @@ namespace MurderMystery
         private Button exitButton;
         private Button testStairsButton;
         private Button accuseButton;
+        private Button doorButton;
         #endregion
 
         //Configs
@@ -79,11 +81,15 @@ namespace MurderMystery
         //Textures
         #region Character Textures
         private Texture2D playerTexture;
-        private Texture2D testNPCTexture;
+       // private Texture2D testNPCTexture;
         private Texture2D claraFarleyTexture;
         private Texture2D edithEspinozaTexture;
         private Texture2D elizabethMaxwellTexture;
         private Texture2D summerHinesTexture;
+        private Texture2D corpseTexture; 
+        private Texture2D edwardCampellTexture;
+        private Texture2D ernestBoydTexture;
+        private Texture2D frankEspinozaTexture;
         #endregion
 
         #region Button Textures 
@@ -93,6 +99,7 @@ namespace MurderMystery
         private Texture2D exitTexture;
         private Texture2D testStairs;
         private Texture2D accuseTexture;
+        private Texture2D doorTexture;
         #endregion
 
         //text box texture
@@ -210,6 +217,9 @@ namespace MurderMystery
 
                     //stair button
                     testStairsButton.Update();
+
+                    //door button
+                    doorButton.Update();
 
                     //accuse button
                     accuseButton.Update();
@@ -381,7 +391,7 @@ namespace MurderMystery
                                 }
                             }
 
-                            
+                            doorButton.Draw(_spriteBatch);
 
                             //draw player
                             player.Draw(_spriteBatch);
@@ -464,6 +474,10 @@ namespace MurderMystery
                             //draw player
                             player.Draw(_spriteBatch);
 
+                            break;
+                        case Rooms.Room7:
+                            GraphicsDevice.Clear(Color.Khaki);
+                            player.Draw(_spriteBatch);
                             break;
                         default:
                             break;
@@ -615,7 +629,7 @@ namespace MurderMystery
             {
                 // if mouse is clicked, would return true,
                 // else would return false
-                return SingleMousePress(mState);
+                return (SingleMousePress(mState) && HoverLogic());
             }
             else // Mouse is not intersecting obj
             {
@@ -626,7 +640,7 @@ namespace MurderMystery
         /// <summary>
         /// Hover logic to change mouse cursor
         /// </summary>
-        private void HoverLogic()
+        private bool HoverLogic()
         {
             // Sets our flag
             bool hoveredOver = false;
@@ -649,6 +663,7 @@ namespace MurderMystery
             {
                 Mouse.SetCursor(MouseCursor.Arrow);
             }
+            return hoveredOver;
         }
         #endregion
 
@@ -784,7 +799,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked)
+                    if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are murderer, win
                         if (NPC1.IsMurderer) 
@@ -830,7 +845,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked)
+                    if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are murderer, win
                         if (NPC2.IsMurderer)
@@ -868,8 +883,14 @@ namespace MurderMystery
                         NPC3.IsTalking = !NPC3.IsTalking;
                     }
 
+                    if (doorButton.BeenClicked && items[1].PickedUp)
+                    {
+                        currentRoom = Rooms.Room7;
+                        player.Center();
+                    }
+
                     //if you accuse someone
-                    if (accuseButton.BeenClicked)
+                    if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are muderer, win
                         if (NPC3.IsMurderer)
@@ -922,7 +943,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked)
+                    if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are the murderer, win
                         if (NPC4.IsMurderer)
@@ -969,7 +990,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked)
+                    if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are the murderer, win
                         if (NPC5.IsMurderer)
@@ -1007,7 +1028,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked)
+                    if (accuseButton.BeenClicked && items[0].PickedUp)
                     {
                         //if they are the murderer, win
                         if (NPC6.IsMurderer)
@@ -1019,6 +1040,9 @@ namespace MurderMystery
                         currentState = State.EndMenu;
                     }
 
+                    break;
+                case Rooms.Room7:
+                    player.Move(kbState, currentRoom);
                     break;
                 default:
                     break;
@@ -1374,7 +1398,11 @@ namespace MurderMystery
             edithEspinozaTexture = Content.Load<Texture2D>("EdithSprite");
             elizabethMaxwellTexture = Content.Load<Texture2D>("ElizabethSprite");
             summerHinesTexture = Content.Load<Texture2D>("SummerSprite");
-            testNPCTexture = Content.Load<Texture2D>("npc");
+            corpseTexture = Content.Load<Texture2D>("JamesAtkins");
+            ernestBoydTexture = Content.Load<Texture2D>("ErnestBoyd");
+            edwardCampellTexture = Content.Load<Texture2D>("EdwardCampbell");
+            frankEspinozaTexture = Content.Load<Texture2D>("FrankEspinoza");
+           // testNPCTexture = Content.Load<Texture2D>("npc");
 
             // Initializes the characters and adds them to the gameObjects list
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
@@ -1386,9 +1414,9 @@ namespace MurderMystery
             gameObjects.Add(NPC3);
             NPC4 = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
             gameObjects.Add(NPC4);
-            NPC5 = new NPC("test5", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC5 = new NPC("Edward Campbell", false, false, new Rectangle(400, 200, 40, 107), edwardCampellTexture);
             gameObjects.Add(NPC5);
-            NPC6 = new NPC("test6", false, false, new Rectangle(400, 0, 100, 100), testNPCTexture);
+            NPC6 = new NPC("Frank Espinoza", false, false, new Rectangle(400, 200, 40, 107), frankEspinozaTexture);
             gameObjects.Add(NPC6);
         }
 
@@ -1404,6 +1432,7 @@ namespace MurderMystery
             exitTexture = Content.Load<Texture2D>("ExitBox");
             testStairs = Content.Load<Texture2D>("SpiralStaircase");
             accuseTexture = Content.Load<Texture2D>("accuseButtonTexture");
+            doorTexture = Content.Load<Texture2D>("door");
 
             // Initializes the buttons
             topButton = new Button("Menu", menuButtonTexture, font,
@@ -1438,6 +1467,10 @@ namespace MurderMystery
             accuseButton = new Button("", accuseTexture, font,
                 new Rectangle(630, 250, 150, 50));
             gameObjects.Add(accuseButton);
+
+            doorButton = new Button("", doorTexture, font,
+                new Rectangle(windowWidth - 185, 167, 92, 142));
+            gameObjects.Add(doorButton);
         }
 
         /// <summary>

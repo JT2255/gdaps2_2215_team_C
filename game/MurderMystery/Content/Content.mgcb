@@ -73,6 +73,18 @@
 /processorParam:TextureFormat=Color
 /build:dialogueBox.png
 
+#begin door.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:door.png
+
 #begin EdithSprite.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -85,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:EdithSprite.png
 
+#begin EdwardCampbell.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:EdwardCampbell.png
+
 #begin ElizabethSprite.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,6 +120,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ElizabethSprite.png
+
+#begin ErnestBoyd.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ErnestBoyd.png
 
 #begin ExitBox.png
 /importer:TextureImporter
@@ -116,6 +152,18 @@
 /processorParam:TextureFormat=Compressed
 /build:font.spritefont
 
+#begin FrankEspinoza.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:FrankEspinoza.png
+
 #begin InventorySingle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -127,6 +175,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:InventorySingle.png
+
+#begin JamesAtkins.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:JamesAtkins.png
 
 #begin KeyA.png
 /importer:TextureImporter
