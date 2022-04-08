@@ -68,6 +68,7 @@ namespace MurderMystery
         private Button topButton;
         private Button pauseButton;
         private Button bottomButton;
+        private Button continueButton;
         private Button inventoryButton;
         private Button exitButton;
         private Button testStairsButton;
@@ -205,7 +206,7 @@ namespace MurderMystery
                     break;
                 case State.Instructions:
                     //the continue button
-                    bottomButton.Update();
+                    continueButton.Update();
 
                     //Process instruction menu
                     ProcessInstructions(kbState);
@@ -303,16 +304,24 @@ namespace MurderMystery
                 case State.Instructions:
                     #region Instructions
                     // Instructions background
-                    GraphicsDevice.Clear(Color.Pink);
+                    GraphicsDevice.Clear(Color.DarkCyan);
 
                     // Instructions text
-                    _spriteBatch.DrawString(font, "Instructions\nUse A and D to move\nClick on NPCs to talk and use spacebar to advance text\n" +
-                        "Click on items to pick them up\nPress P to enter the game or click the continue button to proceed", new Vector2(0, 0), Color.White);
+                    _spriteBatch.DrawString(font, "Story Overview\nThe night is still young when you" +
+                        "are invited to a celebratory party by \nthe esteemed James Atkins. You, amid" +
+                        "his colleagues, are there\ncelebrating the discovery of a new star system, but" +
+                        " perhaps that has\nsparked some jealously among them? Once the party goes awry," +
+                        " it is\n up to you to answer the classic question... who dunnit?" +
+                        "\n\nControls and Interface\nUse A and D to move left or right\nClick on NPCs" +
+                        "to talk to them and use the spacebar to advance the text\n when the dialogue box" +
+                        " is open.\nClick on items to pick them up and check on them in your inventory\nin" +
+                        "the upper right.\nTo pause the game, click on the button next to the inventory" +
+                        " icon\nOnce certain conditions are met, click the accuse button to blame an\nNPC.", new Vector2(0, 0), Color.White);
 
                     //draw button
-                    bottomButton.Draw(_spriteBatch, "");
-                    _spriteBatch.DrawString(font, "CONTINUE", new Vector2(340,230), Color.Black);
-           
+                    continueButton.Draw(_spriteBatch, "");
+                    _spriteBatch.DrawString(font, "CONTINUE", new Vector2(330,420), Color.Black);
+          
                     break;
                 #endregion
                 case State.Game:
@@ -695,7 +704,7 @@ namespace MurderMystery
         /// <param name="kbState"></param>
         private void ProcessInstructions(KeyboardState kbState)
         {
-            if (SingleKeyPress(Keys.P, kbState) || bottomButton.BeenClicked)
+            if (SingleKeyPress(Keys.P, kbState) || continueButton.BeenClicked)
             {
                 currentState = State.Game;
                 //Reset or Set the Game
@@ -1460,6 +1469,11 @@ namespace MurderMystery
                 new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
                 GraphicsDevice.Viewport.Height / 2 - menuButtonTexture.Height / 2
                 , menuButtonTexture.Width, menuButtonTexture.Height));
+            gameObjects.Add(bottomButton);
+
+            continueButton = new Button("Menu", menuButtonTexture, font,
+                new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2, 400,
+                menuButtonTexture.Width, menuButtonTexture.Height));
             gameObjects.Add(bottomButton);
 
             exitButton = new Button("Exit", exitTexture, font,
