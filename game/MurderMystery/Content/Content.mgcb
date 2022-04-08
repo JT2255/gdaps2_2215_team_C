@@ -176,7 +176,7 @@
 /processorParam:TextureFormat=Color
 /build:InventorySingle.png
 
-#begin JamesAtkins.png
+#begin JamesAtkinsCorpse.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -186,7 +186,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:JamesAtkins.png;JamesAtkinsCorpse.png
+/build:JamesAtkinsCorpse.png
 
 #begin KeyA.png
 /importer:TextureImporter

@@ -1403,7 +1403,7 @@ namespace MurderMystery
             ernestBoydTexture = Content.Load<Texture2D>("ErnestBoyd");
             edwardCampellTexture = Content.Load<Texture2D>("EdwardCampbell");
             frankEspinozaTexture = Content.Load<Texture2D>("FrankEspinoza");
-            jamesAtkinsTexture = Content.Load<Texture2D>("JamesAtkins");
+            jamesAtkinsTexture = Content.Load<Texture2D>("JamesAtkinsCorpse");
             // testNPCTexture = Content.Load<Texture2D>("npc");
 
             // Initializes the characters and adds them to the gameObjects list
