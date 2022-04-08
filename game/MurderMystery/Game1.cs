@@ -160,7 +160,7 @@ namespace MurderMystery
             //keep track of seconds
             currentTime = 60;
             //current hour
-            hour = 5;
+            hour = 6;
             //correctly guessed murderer
             won = false;
 
@@ -1147,7 +1147,8 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp)
+                    if (accuseButton.BeenClicked && items[0].PickedUp && (clara.IsTalking
+                        || ernest.IsTalking))
                     {
                         //if they are murderer, win
                         if (clara.IsMurderer) 
@@ -1193,7 +1194,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp)
+                    if (accuseButton.BeenClicked && items[0].PickedUp && edith.IsTalking)
                     {
                         //if they are murderer, win
                         if (edith.IsMurderer)
@@ -1238,7 +1239,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp)
+                    if (accuseButton.BeenClicked && items[0].PickedUp && elizabeth.IsTalking)
                     {
                         //if they are muderer, win
                         if (elizabeth.IsMurderer)
@@ -1291,7 +1292,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp)
+                    if (accuseButton.BeenClicked && items[0].PickedUp && summer.IsTalking)
                     {
                         //if they are the murderer, win
                         if (summer.IsMurderer)
@@ -1338,7 +1339,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp)
+                    if (accuseButton.BeenClicked && items[0].PickedUp && edward.IsTalking)
                     {
                         //if they are the murderer, win
                         if (edward.IsMurderer)
@@ -1376,7 +1377,7 @@ namespace MurderMystery
                     }
 
                     //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp)
+                    if (accuseButton.BeenClicked && items[0].PickedUp && frank.IsTalking)
                     {
                         //if they are the murderer, win
                         if (frank.IsMurderer)
@@ -1986,7 +1987,7 @@ namespace MurderMystery
             gameObjects.Add(accuseButton);
 
             doorButton = new Button("", doorTexture, font,
-                new Rectangle(windowWidth - 185, 167, 92, 142));
+                new Rectangle(100, 167, 92, 142));
             gameObjects.Add(doorButton);
 
         }
