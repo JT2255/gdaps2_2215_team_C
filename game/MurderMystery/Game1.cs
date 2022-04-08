@@ -60,6 +60,8 @@ namespace MurderMystery
         private NPC NPC4;
         private NPC NPC5;
         private NPC NPC6;
+        private NPC NPC7;
+        private NPC NPC8;
         #endregion
 
         #region Buttons
@@ -86,7 +88,8 @@ namespace MurderMystery
         private Texture2D edithEspinozaTexture;
         private Texture2D elizabethMaxwellTexture;
         private Texture2D summerHinesTexture;
-        private Texture2D corpseTexture; 
+        private Texture2D corpseTexture;
+        private Texture2D jamesAtkinsTexture;
         private Texture2D edwardCampellTexture;
         private Texture2D ernestBoydTexture;
         private Texture2D frankEspinozaTexture;
@@ -365,8 +368,6 @@ namespace MurderMystery
                                     accuseButton.Draw(_spriteBatch);
                                 }
                             }
-
-
 
                             //draw player
                             player.Draw(_spriteBatch);
@@ -1398,11 +1399,12 @@ namespace MurderMystery
             edithEspinozaTexture = Content.Load<Texture2D>("EdithSprite");
             elizabethMaxwellTexture = Content.Load<Texture2D>("ElizabethSprite");
             summerHinesTexture = Content.Load<Texture2D>("SummerSprite");
-            corpseTexture = Content.Load<Texture2D>("JamesAtkins");
+            corpseTexture = Content.Load<Texture2D>("JamesAtkinsCorpse");
             ernestBoydTexture = Content.Load<Texture2D>("ErnestBoyd");
             edwardCampellTexture = Content.Load<Texture2D>("EdwardCampbell");
             frankEspinozaTexture = Content.Load<Texture2D>("FrankEspinoza");
-           // testNPCTexture = Content.Load<Texture2D>("npc");
+            jamesAtkinsTexture = Content.Load<Texture2D>("JamesAtkins");
+            // testNPCTexture = Content.Load<Texture2D>("npc");
 
             // Initializes the characters and adds them to the gameObjects list
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
@@ -1417,6 +1419,10 @@ namespace MurderMystery
             NPC5 = new NPC("Edward Campbell", false, false, new Rectangle(400, 200, 40, 107), edwardCampellTexture);
             gameObjects.Add(NPC5);
             NPC6 = new NPC("Frank Espinoza", false, false, new Rectangle(400, 200, 40, 107), frankEspinozaTexture);
+            gameObjects.Add(NPC6);
+            NPC7 = new NPC("Ernest Boyd", false, false, new Rectangle(400, 200, 40, 107), ernestBoydTexture);
+            gameObjects.Add(NPC7);
+            NPC8 = new NPC("James Atkins", false, false, new Rectangle(400, 200, 40, 107), jamesAtkinsTexture);
             gameObjects.Add(NPC6);
         }
 

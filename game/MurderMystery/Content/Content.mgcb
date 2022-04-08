@@ -186,7 +186,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:JamesAtkins.png
+/build:JamesAtkins.png;JamesAtkinsCorpse.png
 
 #begin KeyA.png
 /importer:TextureImporter
