@@ -65,6 +65,7 @@ namespace MurderMystery
         private NPC james;
         private NPC ernest;
         private NPC document;
+        private NPC doorButton;
         #endregion
 
         #region Buttons
@@ -76,7 +77,6 @@ namespace MurderMystery
         private Button exitButton;
         private Button testStairsButton;
         private Button accuseButton;
-        private Button doorButton;
         #endregion
 
         //Configs
@@ -98,6 +98,7 @@ namespace MurderMystery
         private Texture2D ernestBoydTexture;
         private Texture2D frankEspinozaTexture;
         private Texture2D documentTexture;
+        private Texture2D doorTexture;
         #endregion
 
         #region Button Textures 
@@ -107,7 +108,6 @@ namespace MurderMystery
         private Texture2D exitTexture;
         private Texture2D testStairs;
         private Texture2D accuseTexture;
-        private Texture2D doorTexture;
         #endregion
 
         //text box texture
@@ -264,9 +264,6 @@ namespace MurderMystery
 
                     //stair button
                     testStairsButton.Update();
-
-                    //door button
-                    doorButton.Update();
 
                     //accuse button
                     accuseButton.Update();
@@ -566,7 +563,10 @@ namespace MurderMystery
 
                                 doorButton.Draw(_spriteBatch);
 
-
+                                if (doorButton.IsTalking)
+                                {
+                                    doorButton.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+                                }
 
                                 break;
                             case Rooms.Room4:
@@ -953,6 +953,12 @@ namespace MurderMystery
             }
 
             //progress through npc dialogue
+            if (doorButton.IsTalking && SingleKeyPress(Keys.Space, kbState))
+            {
+                doorButton.DialogueNum++;
+            }
+
+            //progress through npc dialogue
             if (edith.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
                 edith.DialogueNum++;
@@ -1222,6 +1228,7 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room1;
                         elizabeth.IsTalking = false;
+                        doorButton.IsTalking = false;
                         player.Right();
                     }
 
@@ -1230,12 +1237,19 @@ namespace MurderMystery
                     if (Clicked(elizabeth))
                     {
                         elizabeth.IsTalking = !elizabeth.IsTalking;
+                        doorButton.IsTalking = false;
                     }
 
-                    if (doorButton.BeenClicked && items[1].PickedUp)
+
+                    if (Clicked(doorButton) && items[1].PickedUp)
                     {
                         currentRoom = Rooms.Room7;
                         player.Center();
+                    }
+                    else if (Clicked(doorButton))
+                    {
+                        doorButton.IsTalking = !doorButton.IsTalking;
+                        elizabeth.IsTalking = false;
                     }
 
                     //if you accuse someone
@@ -1393,7 +1407,7 @@ namespace MurderMystery
                 case Rooms.Room7:
                     player.Move(kbState, currentRoom);
 
-                    if (doorButton.BeenClicked && items[1].PickedUp)
+                    if (Clicked(doorButton) && items[1].PickedUp)
                     {
                         currentRoom = Rooms.Room3;
                         document.IsTalking = false;
@@ -1907,6 +1921,7 @@ namespace MurderMystery
             frankEspinozaTexture = Content.Load<Texture2D>("FrankEspinoza");
             jamesAtkinsTexture = Content.Load<Texture2D>("JamesAtkinsAlive");
             documentTexture = Content.Load<Texture2D>("document");
+            doorTexture = Content.Load<Texture2D>("door");
             // testNPCTexture = Content.Load<Texture2D>("npc");
 
             // Initializes the characters and adds them to the gameObjects list
@@ -1929,7 +1944,8 @@ namespace MurderMystery
             gameObjects.Add(james);
             document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
             gameObjects.Add(document);
-
+            doorButton = new NPC("Door", false, false, new Rectangle(100, 167, 92, 142), doorTexture);
+            gameObjects.Add(doorButton);
         }
 
         /// <summary>
@@ -1944,7 +1960,7 @@ namespace MurderMystery
             exitTexture = Content.Load<Texture2D>("ExitBox");
             testStairs = Content.Load<Texture2D>("SpiralStaircase");
             accuseTexture = Content.Load<Texture2D>("accuseButtonTexture");
-            doorTexture = Content.Load<Texture2D>("door");
+            
             desk = Content.Load<Texture2D>("desk");
 
             // Initializes the buttons
@@ -1985,11 +2001,6 @@ namespace MurderMystery
             accuseButton = new Button("", accuseTexture, font,
                 new Rectangle(630, 250, 150, 50));
             gameObjects.Add(accuseButton);
-
-            doorButton = new Button("", doorTexture, font,
-                new Rectangle(100, 167, 92, 142));
-            gameObjects.Add(doorButton);
-
         }
 
         /// <summary>

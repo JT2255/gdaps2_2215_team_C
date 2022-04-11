@@ -1,2 +1,2 @@
 Knife,A knife with the letter E engraved on the handle,0,BloodyKnife,500,10,84,15
-Key A,A mysterious key,1,KeyA,200,30,56,62
+Key A,A key for a door,1,KeyA,200,30,56,62
