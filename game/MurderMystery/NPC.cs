@@ -222,6 +222,12 @@ namespace MurderMystery
                 reader.Close();
             }
         }
+
+        public void HoverName(SpriteBatch sb, SpriteFont font, Texture2D dialogueBox)
+        {
+            sb.Draw(dialogueBox, new Rectangle(position.X, position.Y - 45, 205, 30), Color.White);
+            sb.DrawString(font, $"{name}", new Vector2(position.X, position.Y - 40), Color.Black);
+        }
         #endregion
 
         // ~~~ OVERRIDES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

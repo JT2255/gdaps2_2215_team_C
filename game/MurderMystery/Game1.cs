@@ -121,6 +121,7 @@ namespace MurderMystery
         private int hour;
         private List<Rectangle> itemInvPos;
         private List<GameObject> gameObjects;
+        private List<NPC> npcs;
         private bool won;
         private Texture2D desk;
         private Song backgroundMusic;
@@ -168,6 +169,7 @@ namespace MurderMystery
 
             items = new List<Item>();
             gameObjects = new List<GameObject>();
+            npcs = new List<NPC>();
 
             base.Initialize();
         }
@@ -388,6 +390,14 @@ namespace MurderMystery
                     pauseButton.Draw(_spriteBatch, "");
                     inventoryButton.Draw(_spriteBatch, "");
 
+                    foreach (NPC npc in npcs)
+                    {
+                        if (npc.Hover(mState))
+                        {
+                            npc.HoverName(_spriteBatch, font, dialogueBox);
+                        }
+                    }
+
                     if (hour == 5)
                     {
                         switch (currentRoom)
@@ -453,7 +463,7 @@ namespace MurderMystery
                                     if (ernest.IsTalking)
                                     {
                                         ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
-                                    }
+                                    }                            
                                 }
                                 else
                                 {
@@ -862,25 +872,25 @@ namespace MurderMystery
 
       
                 // Searches all of the game objects
-                foreach (GameObject g in gameObjects)
+            foreach (GameObject g in gameObjects)
+            {
+                // If we're hovering over any of them, set the flag
+                if (g.Hover(mState))
                 {
-                    // If we're hovering over any of them, set the flag
-                    if (g.Hover(mState))
-                    {
-                        hoveredOver = true;
-                    }
+                    hoveredOver = true;
                 }
+            }
                 // If the flag has been set
-                if (hoveredOver)
-                {
-                    Mouse.SetCursor(MouseCursor.Hand);
-                }
-                else
-                {
-                    Mouse.SetCursor(MouseCursor.Arrow);
-                }
-            
-
+            if (hoveredOver)
+            {
+                Mouse.SetCursor(MouseCursor.Hand);
+            }
+            else
+            {
+                Mouse.SetCursor(MouseCursor.Arrow);
+            }
+                
+           
             
             return hoveredOver;
         }
@@ -1928,20 +1938,28 @@ namespace MurderMystery
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             clara = new NPC("Clara Farley", false, false, new Rectangle(550, 200, 40, 107), claraFarleyTexture);
             gameObjects.Add(clara);
+            npcs.Add(clara);
             edith = new NPC("Edith Espinoza", false, false, new Rectangle(500, 200, 40, 109), edithEspinozaTexture);
             gameObjects.Add(edith);
+            npcs.Add(edith);
             elizabeth = new NPC("Elizabeth Maxwell", false, false, new Rectangle(450, 200, 40, 107), elizabethMaxwellTexture);
             gameObjects.Add(elizabeth);
+            npcs.Add(elizabeth);
             summer = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
             gameObjects.Add(summer);
+            npcs.Add(summer);
             edward = new NPC("Edward Campbell", false, false, new Rectangle(350, 200, 40, 107), edwardCampellTexture);
             gameObjects.Add(edward);
+            npcs.Add(edward);
             frank = new NPC("Frank Espinoza", false, false, new Rectangle(300, 200, 40, 107), frankEspinozaTexture);
             gameObjects.Add(frank);
+            npcs.Add(frank);
             ernest = new NPC("Ernest Boyd", false, false, new Rectangle(200, 200, 40, 107), ernestBoydTexture);
             gameObjects.Add(ernest);
+            npcs.Add(ernest);
             james = new NPC("James Atkins", false, false, new Rectangle(250, 200, 40, 107), jamesAtkinsTexture);
             gameObjects.Add(james);
+            npcs.Add(james);
             document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
             gameObjects.Add(document);
             doorButton = new NPC("Door", false, false, new Rectangle(100, 167, 92, 142), doorTexture);
