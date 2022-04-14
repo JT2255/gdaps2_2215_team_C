@@ -29,7 +29,6 @@ namespace MurderMystery
         Room3,
         Room4,
         Room5,
-        Room6,
         Room7
     }
 
@@ -108,6 +107,15 @@ namespace MurderMystery
         private Texture2D exitTexture;
         private Texture2D testStairs;
         private Texture2D accuseTexture;
+        #endregion
+
+        #region Map Textures
+        private Texture2D map1;
+        private Texture2D map2;
+        private Texture2D map3;
+        private Texture2D map4;
+        private Texture2D map5;
+        private Texture2D map7;
         #endregion
 
         //text box texture
@@ -197,6 +205,9 @@ namespace MurderMystery
 
             // Load In Items
             LoadItems();
+
+            //Load in Map Textures
+            LoadMap();
         }
 
         protected override void Update(GameTime gameTime)
@@ -398,6 +409,8 @@ namespace MurderMystery
                         }
                     }
 
+                    
+
                     if (hour == 5)
                     {
                         switch (currentRoom)
@@ -482,15 +495,9 @@ namespace MurderMystery
                             case Rooms.Room1:
                                 GraphicsDevice.Clear(Color.Navy);
 
-                                // Clara dies at 8
                                 if (hour < 8)
                                 {
                                     clara.Draw(_spriteBatch);
-                                }
-                                // Earnest dies at 7
-                                if (hour < 7)
-                                {
-                                    ernest.Draw(_spriteBatch);
                                 }
                                 
                                 _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
@@ -508,18 +515,6 @@ namespace MurderMystery
                                         accuseButton.Draw(_spriteBatch);
                                     }
                                 }
-
-                                //show npc dialogue
-                                if (ernest.IsTalking && ernest.BeingDrawn)
-                                {
-                                    ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
-
-                                    if (items[0].PickedUp)
-                                    {
-                                        accuseButton.Draw(_spriteBatch);
-                                    }
-                                }
-
                                 break;
                             case Rooms.Room2:
 
@@ -528,7 +523,13 @@ namespace MurderMystery
                                 //draw stairs and npc
                                 testStairsButton.Draw(_spriteBatch);
                                 testStairsButton.Position = new Rectangle(0, 25, 114, 309);
+
                                 edith.Draw(_spriteBatch);
+
+                                if (hour < 11)
+                                {
+                                    frank.Draw(_spriteBatch);
+                                }                          
 
                                 //draw player
                                 player.Draw(_spriteBatch);
@@ -544,7 +545,15 @@ namespace MurderMystery
                                     }
                                 }
 
+                                if (frank.IsTalking && frank.BeingDrawn)
+                                {
+                                    frank.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
+                                    if (items[0].PickedUp)
+                                    {
+                                        accuseButton.Draw(_spriteBatch);
+                                    }
+                                }
 
                                 break;
                             case Rooms.Room3:
@@ -556,9 +565,17 @@ namespace MurderMystery
                                 {
                                     elizabeth.Draw(_spriteBatch);
                                 }
+
+                                if (hour < 7)
+                                {
+                                    ernest.Draw(_spriteBatch);
+                                }
                                 
                                 //draw player
                                 player.Draw(_spriteBatch);
+
+                                //draw button
+                                doorButton.Draw(_spriteBatch);
 
                                 //draw npc dialogue
                                 if (elizabeth.IsTalking && elizabeth.BeingDrawn)
@@ -571,7 +588,15 @@ namespace MurderMystery
                                     }
                                 }
 
-                                doorButton.Draw(_spriteBatch);
+                                if (ernest.IsTalking && ernest.BeingDrawn)
+                                {
+                                    ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+
+                                    if (items[0].PickedUp)
+                                    {
+                                        accuseButton.Draw(_spriteBatch);
+                                    }
+                                }
 
                                 if (doorButton.IsTalking)
                                 {
@@ -588,6 +613,11 @@ namespace MurderMystery
 
                                 summer.Draw(_spriteBatch);
 
+                                if (hour < 10)
+                                {
+                                    edward.Draw(_spriteBatch);
+                                }
+
                                 //draw player
                                 player.Draw(_spriteBatch);
 
@@ -595,6 +625,16 @@ namespace MurderMystery
                                 if (summer.IsTalking && summer.BeingDrawn)
                                 {
                                     summer.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
+
+                                    if (items[0].PickedUp)
+                                    {
+                                        accuseButton.Draw(_spriteBatch);
+                                    }
+                                }
+
+                                if (edward.IsTalking && edward.BeingDrawn)
+                                {
+                                    edward.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
 
                                     if (items[0].PickedUp)
                                     {
@@ -614,56 +654,14 @@ namespace MurderMystery
                             case Rooms.Room5:
                                 GraphicsDevice.Clear(Color.DarkSlateGray);
 
-                                // Edward dies at 10
-                                if (hour < 10)
-                                {
-                                    edward.Draw(_spriteBatch);
-                                }
-                                
                                 //draw player
                                 player.Draw(_spriteBatch);
 
-                                //draw npc dialogue
-                                if (edward.IsTalking && edward.BeingDrawn)
-                                {
-                                    edward.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
-
-                                    if (items[0].PickedUp)
-                                    {
-                                        accuseButton.Draw(_spriteBatch);
-                                    }
-                                }
 
                                 // If the knife is not picked up, draw it
                                 if (!items[0].PickedUp)
                                 {
                                     items[0].Draw(_spriteBatch);
-                                }
-
-
-
-                                break;
-                            case Rooms.Room6:
-                                GraphicsDevice.Clear(Color.DarkViolet);
-
-                                // Frank dies at 11
-                                if (hour < 11)
-                                {
-                                    frank.Draw(_spriteBatch);
-                                }
-
-                                //draw player
-                                player.Draw(_spriteBatch);
-
-                                //draw npc dialogue
-                                if (frank.IsTalking && frank.BeingDrawn)
-                                {
-                                    frank.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
-
-                                    if (items[0].PickedUp)
-                                    {
-                                        accuseButton.Draw(_spriteBatch);
-                                    }
                                 }
 
 
@@ -692,7 +690,7 @@ namespace MurderMystery
                         }
                     }
 
-                    
+                    player.DrawMap(_spriteBatch, map1, map2, map3, map4, map5, map7, currentRoom);
 
                     break;
                 #endregion
@@ -799,6 +797,7 @@ namespace MurderMystery
                     break;
             }
             #endregion
+
             ShapeBatch.End();
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -1201,6 +1200,13 @@ namespace MurderMystery
                     if (Clicked(edith))
                     {
                         edith.IsTalking = !edith.IsTalking;
+                        frank.IsTalking = false;
+                    }
+
+                    if (Clicked(frank))
+                    {
+                        frank.IsTalking = !frank.IsTalking;
+                        edith.IsTalking = false;
                     }
 
                     //stop user from walking off screen
@@ -1218,6 +1224,19 @@ namespace MurderMystery
                             won = true;
                         }
                         
+                        //go to end menu
+                        currentState = State.EndMenu;
+                    }
+
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked && items[0].PickedUp && frank.IsTalking)
+                    {
+                        //if they are murderer, win
+                        if (frank.IsMurderer)
+                        {
+                            won = true;
+                        }
+
                         //go to end menu
                         currentState = State.EndMenu;
                     }
@@ -1247,6 +1266,14 @@ namespace MurderMystery
                     if (Clicked(elizabeth))
                     {
                         elizabeth.IsTalking = !elizabeth.IsTalking;
+                        ernest.IsTalking = false;
+                        doorButton.IsTalking = false;
+                    }
+
+                    if (Clicked(ernest))
+                    {
+                        ernest.IsTalking = !ernest.IsTalking;
+                        elizabeth.IsTalking = false;
                         doorButton.IsTalking = false;
                     }
 
@@ -1260,6 +1287,7 @@ namespace MurderMystery
                     {
                         doorButton.IsTalking = !doorButton.IsTalking;
                         elizabeth.IsTalking = false;
+                        ernest.IsTalking = false;
                     }
 
                     //if you accuse someone
@@ -1267,6 +1295,19 @@ namespace MurderMystery
                     {
                         //if they are muderer, win
                         if (elizabeth.IsMurderer)
+                        {
+                            won = true;
+                        }
+
+                        //go to end menu
+                        currentState = State.EndMenu;
+                    }
+
+                    //if you accuse someone
+                    if (accuseButton.BeenClicked && items[0].PickedUp && ernest.IsTalking)
+                    {
+                        //if they are muderer, win
+                        if (ernest.IsMurderer)
                         {
                             won = true;
                         }
@@ -1285,6 +1326,7 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room2;
                         summer.IsTalking = false;
+                        edward.IsTalking = false;
                         player.Left();
                     }
 
@@ -1293,6 +1335,7 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room5;
                         summer.IsTalking = false;
+                        edward.IsTalking = false;
                         player.Left();
                     }
 
@@ -1300,6 +1343,11 @@ namespace MurderMystery
                     if (Clicked(summer))
                     {
                         summer.IsTalking = !summer.IsTalking;
+                    }
+
+                    if (Clicked(edward))
+                    {
+                        edward.IsTalking = !edward.IsTalking;
                     }
 
                     // Clicked on item
@@ -1328,40 +1376,6 @@ namespace MurderMystery
                         currentState = State.EndMenu;
                     }
 
-                    break;
-                case Rooms.Room5:
-
-                    player.Move(kbState, currentRoom);
-
-                    //if you move to left, go to room 4
-                    if (player.Position.X < 0)
-                    {
-                        currentRoom = Rooms.Room4;
-                        edward.IsTalking = false;
-                        player.Right();
-                    }
-
-                    //if you move to right, go to room 6
-                    if (player.Position.X > windowWidth)
-                    {
-                        currentRoom = Rooms.Room6;
-                        edward.IsTalking = false;
-                        player.Left();
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(edward))
-                    {
-                        edward.IsTalking = !edward.IsTalking;
-                    }
-
-                    // If you click on the knife, toggle it
-                    if (Clicked(items[0]))
-                    {
-                        items[0].PickedUp = true;
-                        player.Inventory.Add(items[0]);
-                    }
-
                     //if you accuse someone
                     if (accuseButton.BeenClicked && items[0].PickedUp && edward.IsTalking)
                     {
@@ -1376,22 +1390,23 @@ namespace MurderMystery
                     }
 
                     break;
-                case Rooms.Room6:
+                case Rooms.Room5:
 
                     player.Move(kbState, currentRoom);
 
-                    //if you move to left, go to room 5
+                    //if you move to left, go to room 4
                     if (player.Position.X < 0)
                     {
-                        currentRoom = Rooms.Room5;
-                        frank.IsTalking = false;
+                        currentRoom = Rooms.Room4;
+                        edward.IsTalking = false;
                         player.Right();
                     }
 
-                    //toggle npc talking state
-                    if (Clicked(frank))
+                    // If you click on the knife, toggle it
+                    if (Clicked(items[0]))
                     {
-                        frank.IsTalking = !frank.IsTalking;
+                        items[0].PickedUp = true;
+                        player.Inventory.Add(items[0]);
                     }
 
                     //stop user from walking off screen
@@ -1399,20 +1414,6 @@ namespace MurderMystery
                     {
                         player.Position = new Vector2(windowWidth - 45, player.Position.Y);
                     }
-
-                    //if you accuse someone
-                    if (accuseButton.BeenClicked && items[0].PickedUp && frank.IsTalking)
-                    {
-                        //if they are the murderer, win
-                        if (frank.IsMurderer)
-                        {
-                            won = true;
-                        }
-
-                        //go to end menu
-                        currentState = State.EndMenu;
-                    }
-
                     break;
                 case Rooms.Room7:
                     player.Move(kbState, currentRoom);
@@ -1621,14 +1622,6 @@ namespace MurderMystery
                                 edward.BeingDrawn = false;
                                 frank.BeingDrawn = false;
                                 james.BeingDrawn = false;
-                                if (hour < 7)
-                                {
-                                    ernest.BeingDrawn = true;
-                                }
-                                else
-                                {
-                                    ernest.BeingDrawn = false;
-                                }
                                 document.BeingDrawn = false;
                                 testStairsButton.BeingDrawn = false;
                                 accuseButton.BeingDrawn = false;
@@ -1644,7 +1637,14 @@ namespace MurderMystery
                             elizabeth.BeingDrawn = false;
                             summer.BeingDrawn = false;
                             edward.BeingDrawn = false;
-                            frank.BeingDrawn = false;
+                            if (hour < 11)
+                            {
+                                frank.BeingDrawn = true;
+                            }
+                            else
+                            {
+                                frank.BeingDrawn = false;
+                            }
                             james.BeingDrawn = false;
                             ernest.BeingDrawn = false;
                             document.BeingDrawn = false;
@@ -1670,7 +1670,14 @@ namespace MurderMystery
                             edward.BeingDrawn = false;
                             frank.BeingDrawn = false;
                             james.BeingDrawn = false;
-                            ernest.BeingDrawn = false;
+                            if (hour < 7)
+                            {
+                                ernest.BeingDrawn = true;
+                            }
+                            else
+                            {
+                                ernest.BeingDrawn = false;
+                            }
                             document.BeingDrawn = false;
                             testStairsButton.BeingDrawn = false;
                             accuseButton.BeingDrawn = false;
@@ -1684,7 +1691,14 @@ namespace MurderMystery
                             edith.BeingDrawn = false;
                             elizabeth.BeingDrawn = false;
                             summer.BeingDrawn = true;
-                            edward.BeingDrawn = false;
+                            if (hour < 10)
+                            {
+                                edward.BeingDrawn = true;
+                            }
+                            else
+                            {
+                                edward.BeingDrawn = false;
+                            }
                             frank.BeingDrawn = false;
                             james.BeingDrawn = false;
                             ernest.BeingDrawn = false;
@@ -1707,14 +1721,7 @@ namespace MurderMystery
                             edith.BeingDrawn = false;
                             elizabeth.BeingDrawn = false;
                             summer.BeingDrawn = false;
-                            if (hour < 10)
-                            {
-                               edward.BeingDrawn = true;
-                            }
-                            else
-                            {
-                               edward.BeingDrawn = false;
-                            }
+                            edward.BeingDrawn = false;
                             frank.BeingDrawn = false;
                             james.BeingDrawn = false;
                             ernest.BeingDrawn = false;
@@ -1730,30 +1737,6 @@ namespace MurderMystery
                             {
                                 items[0].BeingDrawn = false;
                             }
-                            break;
-
-                        case Rooms.Room6:
-                            clara.BeingDrawn = false;
-                            edith.BeingDrawn = false;
-                            elizabeth.BeingDrawn = false;
-                            summer.BeingDrawn = false;
-                            edward.BeingDrawn = false;
-                            if (hour < 11)
-                            {
-                                frank.BeingDrawn = true;
-                            }
-                            else
-                            {
-                                frank.BeingDrawn = false;
-                            }
-                            james.BeingDrawn = false;
-                            ernest.BeingDrawn = false;
-                            document.BeingDrawn = false;
-                            testStairsButton.BeingDrawn = false;
-                            accuseButton.BeingDrawn = false;
-                            items[0].BeingDrawn = false;
-                            items[1].BeingDrawn = false;
-                            doorButton.BeingDrawn = false;
                             break;
                         case Rooms.Room7:
                             clara.BeingDrawn = false;
@@ -1964,6 +1947,16 @@ namespace MurderMystery
             gameObjects.Add(document);
             doorButton = new NPC("Door", false, false, new Rectangle(100, 167, 92, 142), doorTexture);
             gameObjects.Add(doorButton);
+        }
+
+        public void LoadMap()
+        {
+            map1 = Content.Load<Texture2D>("mapRoom1");
+            map2 = Content.Load<Texture2D>("mapRoom2");
+            map3 = Content.Load<Texture2D>("mapRoom3");
+            map4 = Content.Load<Texture2D>("mapRoom4");
+            map5 = Content.Load<Texture2D>("mapRoom5");
+            map7 = Content.Load<Texture2D>("mapRoom7");
         }
 
         /// <summary>

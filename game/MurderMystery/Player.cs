@@ -93,7 +93,7 @@ namespace MurderMystery
             this.texture = texture;
             this.windowWidth = width;
             this.windowHeight = height;
-            moveSpeed = 4;
+            moveSpeed = 5;
             inventory = new List<Item>();
             // clues = new Dictionary<bool, string>();
             fps = 6;
@@ -260,6 +260,34 @@ namespace MurderMystery
             position.X = 0;
         }
         #endregion
+
+        public void DrawMap(SpriteBatch sb, Texture2D map1, Texture2D map2, Texture2D map3,
+            Texture2D map4, Texture2D map5, Texture2D map7, Rooms room)
+        {
+            switch (room)
+            {
+                case Rooms.Room1:
+                    sb.Draw(map1, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                case Rooms.Room2:
+                    sb.Draw(map2, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                case Rooms.Room3:
+                    sb.Draw(map3, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                case Rooms.Room4:
+                    sb.Draw(map4, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                case Rooms.Room5:
+                    sb.Draw(map5, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                case Rooms.Room7:
+                    sb.Draw(map7, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         #endregion
 
