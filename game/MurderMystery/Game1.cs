@@ -605,7 +605,7 @@ namespace MurderMystery
 
                                 break;
                             case Rooms.Room4:
-                                GraphicsDevice.Clear(Color.Black);
+                                GraphicsDevice.Clear(Color.DarkGray);
 
                                 //draw stairs and npc
                                 testStairsButton.Draw(_spriteBatch);
