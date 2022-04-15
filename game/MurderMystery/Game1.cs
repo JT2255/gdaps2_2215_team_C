@@ -1638,6 +1638,7 @@ namespace MurderMystery
                                 edward.BeingDrawn = false;
                                 frank.BeingDrawn = false;
                                 james.BeingDrawn = false;
+                                ernest.BeingDrawn = false;
                                 document.BeingDrawn = false;
                                 testStairsButton.BeingDrawn = false;
                                 accuseButton.BeingDrawn = false;
