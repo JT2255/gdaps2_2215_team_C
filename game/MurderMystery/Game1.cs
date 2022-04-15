@@ -160,7 +160,7 @@ namespace MurderMystery
             // Position of character
             playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
 
-            //initialize dialogue boc
+            //initialize dialogue box
             dialogueBox = Content.Load<Texture2D>("dialogueBox");
 
             itemInvPos = new List<Rectangle>();
@@ -501,6 +501,12 @@ namespace MurderMystery
                                 }
                                 
                                 _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
+
+                                // If the ring is not picked up, draw it
+                                if (!items[2].PickedUp)
+                                {
+                                    items[2].Draw(_spriteBatch);
+                                }
 
                                 //draw player
                                 player.Draw(_spriteBatch);
@@ -1175,6 +1181,13 @@ namespace MurderMystery
                         currentState = State.EndMenu;
                     }
 
+                    //if they pick up the ring
+                    if (Clicked(items[2]))
+                    {
+                        items[2].PickedUp = true;
+                        player.Inventory.Add(items[2]);
+                    }
+
                     break;
                 case Rooms.Room2:
 
@@ -1533,6 +1546,7 @@ namespace MurderMystery
 
                     items[0].BeingDrawn = false;
                     items[1].BeingDrawn = false;
+                    items[2].BeingDrawn = false;
 
                     break;
                 case State.Instructions:
@@ -1558,6 +1572,7 @@ namespace MurderMystery
 
                     items[0].BeingDrawn = false;
                     items[1].BeingDrawn = false;
+                    items[2].BeingDrawn = false;
 
                     break;
                 case State.Game:
@@ -1586,6 +1601,7 @@ namespace MurderMystery
                                 accuseButton.BeingDrawn = false;
                                 items[0].BeingDrawn = false;
                                 items[1].BeingDrawn = false;
+                                items[2].BeingDrawn = false;
                                 doorButton.BeingDrawn = false;
                                 // During the first death, no one can be clicked
                                 if (currentTime >= 115)
@@ -1627,6 +1643,14 @@ namespace MurderMystery
                                 accuseButton.BeingDrawn = false;
                                 items[0].BeingDrawn = false;
                                 items[1].BeingDrawn = false;
+                                if (!items[2].PickedUp)
+                                {
+                                    items[2].BeingDrawn = true;
+                                }
+                                else
+                                {
+                                    items[2].BeingDrawn = false;
+                                }
                                 doorButton.BeingDrawn = false;
                             }                           
                             break;
@@ -1652,6 +1676,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            items[2].BeingDrawn = false;
                             doorButton.BeingDrawn = false;
                             break;
 
@@ -1683,6 +1708,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            items[2].BeingDrawn = false;
                             doorButton.BeingDrawn = true;
                             break;
 
@@ -1714,6 +1740,7 @@ namespace MurderMystery
                             {
                                 items[1].BeingDrawn = false;
                             }
+                            items[2].BeingDrawn = false;
                             break;
 
                         case Rooms.Room5:
@@ -1737,6 +1764,7 @@ namespace MurderMystery
                             {
                                 items[0].BeingDrawn = false;
                             }
+                            items[2].BeingDrawn = false;
                             break;
                         case Rooms.Room7:
                             clara.BeingDrawn = false;
@@ -1752,6 +1780,7 @@ namespace MurderMystery
                             accuseButton.BeingDrawn = false;
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
+                            items[2].BeingDrawn = false;
                             doorButton.BeingDrawn = true;
                             break;
                     }
@@ -1792,6 +1821,14 @@ namespace MurderMystery
                     else
                     {
                         items[1].BeingDrawn = false;
+                    }
+                    if (items[2].PickedUp)
+                    {
+                        items[2].BeingDrawn = true;
+                    }
+                    else
+                    {
+                        items[2].BeingDrawn = false;
                     }
 
                     break;
