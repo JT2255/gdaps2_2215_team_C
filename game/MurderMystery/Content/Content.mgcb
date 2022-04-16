@@ -25,6 +25,24 @@
 /processorParam:TextureFormat=Color
 /build:accuseButtonTexture.png
 
+#begin BadEnd.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BadEnd.mp3
+
+#begin Blood.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Blood.png
+
 #begin BloodyKnife.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -60,6 +78,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ClaraSprite.png
+
+#begin deathBell.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:deathBell.wav
 
 #begin desk.png
 /importer:TextureImporter
@@ -187,6 +211,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:FrankEspinoza.png
+
+#begin GameMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:GameMusic.mp3
 
 #begin highlanders.mp3
 /importer:Mp3Importer
@@ -380,6 +410,12 @@
 /processorParam:TextureFormat=Color
 /build:npc.png
 
+#begin PartyMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:PartyMusic.mp3
+
 #begin PauseButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -452,22 +488,16 @@
 /processorParam:TextureFormat=Color
 /build:summersRing.png
 
-#begin summersRing.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:summersRing.png
-
 #begin titleFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:titleFont.spritefont
+
+#begin TitleMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:TitleMusic.mp3
 
