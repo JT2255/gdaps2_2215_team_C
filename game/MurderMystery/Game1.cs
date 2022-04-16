@@ -65,6 +65,7 @@ namespace MurderMystery
         private NPC ernest;
         private NPC document;
         private NPC doorButton;
+        private NPC deadAtkins;
         #endregion
 
         #region Buttons
@@ -407,9 +408,7 @@ namespace MurderMystery
                         {
                             npc.HoverName(_spriteBatch, font, dialogueBox);
                         }
-                    }
-
-                    
+                    }                    
 
                     if (hour == 5)
                     {
@@ -500,7 +499,9 @@ namespace MurderMystery
                                     clara.Draw(_spriteBatch);
                                 }
                                 
-                                _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
+                               //s _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
+
+                                deadAtkins.Draw(_spriteBatch);
 
                                 // If the ring is not picked up, draw it
                                 if (!items[2].PickedUp)
@@ -1041,6 +1042,97 @@ namespace MurderMystery
                         {
                             player.Position = new Vector2(windowWidth - 50, player.Position.Y);
                         }
+
+                        //toggle npc talking state
+                        if (Clicked(edith))
+                        {
+                            edith.IsTalking = !edith.IsTalking;
+                            clara.IsTalking = false;
+                            elizabeth.IsTalking = false;
+                            summer.IsTalking = false;
+                            edward.IsTalking = false;
+                            frank.IsTalking = false;
+                            james.IsTalking = false;
+                            ernest.IsTalking = false;
+                        }
+
+                        //toggle npc talking state
+                        if (Clicked(elizabeth))
+                        {
+                            elizabeth.IsTalking = !elizabeth.IsTalking;
+                            edith.IsTalking = false;
+                            clara.IsTalking = false;
+                            summer.IsTalking = false;
+                            edward.IsTalking = false;
+                            frank.IsTalking = false;
+                            james.IsTalking = false;
+                            ernest.IsTalking = false;
+                        }
+
+                        //toggle npc talking state
+                        if (Clicked(summer))
+                        {
+                            summer.IsTalking = !summer.IsTalking;
+                            edith.IsTalking = false;
+                            elizabeth.IsTalking = false;
+                            clara.IsTalking = false;
+                            edward.IsTalking = false;
+                            frank.IsTalking = false;
+                            james.IsTalking = false;
+                            ernest.IsTalking = false;
+                        }
+
+                        //toggle npc talking state
+                        if (Clicked(edward))
+                        {
+                            edward.IsTalking = !edward.IsTalking;
+                            edith.IsTalking = false;
+                            elizabeth.IsTalking = false;
+                            summer.IsTalking = false;
+                            clara.IsTalking = false;
+                            frank.IsTalking = false;
+                            james.IsTalking = false;
+                            ernest.IsTalking = false;
+                        }
+
+                        //toggle npc talking state
+                        if (Clicked(frank))
+                        {
+                            frank.IsTalking = !frank.IsTalking;
+                            edith.IsTalking = false;
+                            elizabeth.IsTalking = false;
+                            summer.IsTalking = false;
+                            edward.IsTalking = false;
+                            clara.IsTalking = false;
+                            james.IsTalking = false;
+                            ernest.IsTalking = false;
+                        }
+
+                        //toggle npc talking state
+                        if (Clicked(james))
+                        {
+                            james.IsTalking = !james.IsTalking;
+                            edith.IsTalking = false;
+                            elizabeth.IsTalking = false;
+                            summer.IsTalking = false;
+                            edward.IsTalking = false;
+                            frank.IsTalking = false;
+                            clara.IsTalking = false;
+                            ernest.IsTalking = false;
+                        }
+
+                        //toggle npc talking state
+                        if (Clicked(ernest))
+                        {
+                            ernest.IsTalking = !ernest.IsTalking;
+                            edith.IsTalking = false;
+                            elizabeth.IsTalking = false;
+                            summer.IsTalking = false;
+                            edward.IsTalking = false;
+                            frank.IsTalking = false;
+                            james.IsTalking = false;
+                            clara.IsTalking = false;
+                        }
                     }
 
                     //if you walk to the left, go to room 2
@@ -1076,96 +1168,7 @@ namespace MurderMystery
                         ernest.IsTalking = false;
                     }
 
-                    //toggle npc talking state
-                    if (Clicked(edith))
-                    {
-                        edith.IsTalking = !edith.IsTalking;
-                        clara.IsTalking = false;
-                        elizabeth.IsTalking = false;
-                        summer.IsTalking = false;
-                        edward.IsTalking = false;
-                        frank.IsTalking = false;
-                        james.IsTalking = false;
-                        ernest.IsTalking = false;
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(elizabeth))
-                    {
-                        elizabeth.IsTalking = !elizabeth.IsTalking;
-                        edith.IsTalking = false;
-                        clara.IsTalking = false;
-                        summer.IsTalking = false;
-                        edward.IsTalking = false;
-                        frank.IsTalking = false;
-                        james.IsTalking = false;
-                        ernest.IsTalking = false;
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(summer))
-                    {
-                        summer.IsTalking = !summer.IsTalking;
-                        edith.IsTalking = false;
-                        elizabeth.IsTalking = false;
-                        clara.IsTalking = false;
-                        edward.IsTalking = false;
-                        frank.IsTalking = false;
-                        james.IsTalking = false;
-                        ernest.IsTalking = false;
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(edward))
-                    {
-                        edward.IsTalking = !edward.IsTalking;
-                        edith.IsTalking = false;
-                        elizabeth.IsTalking = false;
-                        summer.IsTalking = false;
-                        clara.IsTalking = false;
-                        frank.IsTalking = false;
-                        james.IsTalking = false;
-                        ernest.IsTalking = false;
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(frank))
-                    {
-                        frank.IsTalking = !frank.IsTalking;
-                        edith.IsTalking = false;
-                        elizabeth.IsTalking = false;
-                        summer.IsTalking = false;
-                        edward.IsTalking = false;
-                        clara.IsTalking = false;
-                        james.IsTalking = false;
-                        ernest.IsTalking = false;
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(james))
-                    {
-                        james.IsTalking = !james.IsTalking;
-                        edith.IsTalking = false;
-                        elizabeth.IsTalking = false;
-                        summer.IsTalking = false;
-                        edward.IsTalking = false;
-                        frank.IsTalking = false;
-                        clara.IsTalking = false;
-                        ernest.IsTalking = false;
-                    }
-
-                    //toggle npc talking state
-                    if (Clicked(ernest))
-                    {
-                        ernest.IsTalking = !ernest.IsTalking;
-                        edith.IsTalking = false;
-                        elizabeth.IsTalking = false;
-                        summer.IsTalking = false;
-                        edward.IsTalking = false;
-                        frank.IsTalking = false;
-                        james.IsTalking = false;
-                        clara.IsTalking = false;
-                    }
+                   
 
                     //if you accuse someone
                     if (accuseButton.BeenClicked && items[0].PickedUp && (clara.IsTalking
@@ -1533,6 +1536,7 @@ namespace MurderMystery
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
+                    deadAtkins.BeingDrawn = false;
 
                     clara.BeingDrawn = false;
                     edith.BeingDrawn = false;
@@ -1559,6 +1563,7 @@ namespace MurderMystery
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
+                    deadAtkins.BeingDrawn = false;
 
                     clara.BeingDrawn = false;
                     edith.BeingDrawn = false;
@@ -1582,6 +1587,7 @@ namespace MurderMystery
                     inventoryButton.BeingDrawn = true;
                     exitButton.BeingDrawn = false;
                     pauseButton.BeingDrawn = true;
+                    deadAtkins.BeingDrawn = false;
                     
                     switch (currentRoom)
                     {
@@ -1603,6 +1609,7 @@ namespace MurderMystery
                                 items[1].BeingDrawn = false;
                                 items[2].BeingDrawn = false;
                                 doorButton.BeingDrawn = false;
+                                deadAtkins.BeingDrawn = false;
                                 // During the first death, no one can be clicked
                                 if (currentTime >= 115)
                                 {
@@ -1620,6 +1627,7 @@ namespace MurderMystery
                                     items[0].BeingDrawn = false;
                                     items[1].BeingDrawn = false;
                                     doorButton.BeingDrawn = false;
+                                    deadAtkins.BeingDrawn = false;
                                 }
                             }
                             else
@@ -1642,6 +1650,7 @@ namespace MurderMystery
                                 document.BeingDrawn = false;
                                 testStairsButton.BeingDrawn = false;
                                 accuseButton.BeingDrawn = false;
+                                deadAtkins.BeingDrawn = true;
                                 items[0].BeingDrawn = false;
                                 items[1].BeingDrawn = false;
                                 if (!items[2].PickedUp)
@@ -1662,6 +1671,7 @@ namespace MurderMystery
                             elizabeth.BeingDrawn = false;
                             summer.BeingDrawn = false;
                             edward.BeingDrawn = false;
+                            deadAtkins.BeingDrawn = false;
                             if (hour < 11)
                             {
                                 frank.BeingDrawn = true;
@@ -1684,6 +1694,7 @@ namespace MurderMystery
                         case Rooms.Room3:
                             clara.BeingDrawn = false;
                             edith.BeingDrawn = false;
+                            deadAtkins.BeingDrawn = false;
                             if (hour < 9)
                             {
                                 elizabeth.BeingDrawn = true;
@@ -1718,6 +1729,7 @@ namespace MurderMystery
                             edith.BeingDrawn = false;
                             elizabeth.BeingDrawn = false;
                             summer.BeingDrawn = true;
+                            deadAtkins.BeingDrawn = false;
                             if (hour < 10)
                             {
                                 edward.BeingDrawn = true;
@@ -1748,6 +1760,7 @@ namespace MurderMystery
                             clara.BeingDrawn = false;
                             edith.BeingDrawn = false;
                             elizabeth.BeingDrawn = false;
+                            deadAtkins.BeingDrawn = false;
                             summer.BeingDrawn = false;
                             edward.BeingDrawn = false;
                             frank.BeingDrawn = false;
@@ -1770,6 +1783,7 @@ namespace MurderMystery
                         case Rooms.Room7:
                             clara.BeingDrawn = false;
                             edith.BeingDrawn = false;
+                            deadAtkins.BeingDrawn = false;
                             elizabeth.BeingDrawn = false;
                             summer.BeingDrawn = false;
                             edward.BeingDrawn = false;
@@ -1793,6 +1807,7 @@ namespace MurderMystery
                     inventoryButton.BeingDrawn = false;
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = true;
+                    deadAtkins.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
@@ -1841,6 +1856,7 @@ namespace MurderMystery
                     pauseButton.BeingDrawn = false;
                     exitButton.BeingDrawn = false;
                     testStairsButton.BeingDrawn = false;
+                    deadAtkins.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
 
@@ -1867,7 +1883,7 @@ namespace MurderMystery
                     testStairsButton.BeingDrawn = false;
                     accuseButton.BeingDrawn = false;
                     doorButton.BeingDrawn = false;
-
+                    deadAtkins.BeingDrawn = false;
                     clara.BeingDrawn = false;
                     edith.BeingDrawn = false;
                     elizabeth.BeingDrawn = false;
@@ -1985,6 +2001,9 @@ namespace MurderMystery
             gameObjects.Add(document);
             doorButton = new NPC("Door", false, false, new Rectangle(100, 167, 92, 142), doorTexture);
             gameObjects.Add(doorButton);
+            deadAtkins = new NPC("Dead Atkins", false, false, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), corpseTexture);
+            gameObjects.Add(deadAtkins);
+            npcs.Add(deadAtkins);
         }
 
         public void LoadMap()
