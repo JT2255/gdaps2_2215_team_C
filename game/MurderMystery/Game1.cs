@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -133,8 +134,11 @@ namespace MurderMystery
         private List<NPC> npcs;
         private bool won;
         private Texture2D desk;
+        private Song mainMenuMusic;
         private Song backgroundMusic;
         private Song partyMusic;
+        private Song badEnd;
+        private Dictionary<String, SoundEffect> soundEffects;
         bool musicChanged;
         #endregion
 
@@ -192,11 +196,23 @@ namespace MurderMystery
             titleFont = Content.Load<SpriteFont>("titleFont");
 
             // Load music
-            backgroundMusic = Content.Load<Song>("Illusory-Realm-MP3");
-            partyMusic = Content.Load<Song>("highlanders");
-            MediaPlayer.Play(backgroundMusic);
+            mainMenuMusic = Content.Load<Song>("TitleMusic");
+            backgroundMusic = Content.Load<Song>("GameMusic");
+            partyMusic = Content.Load<Song>("PartyMusic");
+            badEnd = Content.Load<Song>("BadEnd");
+            MediaPlayer.Play(mainMenuMusic);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.Volume = 0.2f;
+
+            //Sound Effects
+            soundEffects = new Dictionary<string, SoundEffect>();
+            soundEffects.Add("Death", Content.Load<SoundEffect>("Stab"));
+            soundEffects.Add("Bell", Content.Load<SoundEffect>("deathBell"));
+            soundEffects.Add("Stairwell", Content.Load<SoundEffect>("Womens_shoes_2"));
+            //Playing a sound effect looks like this. v
+            //soundEffects["Item"].Play();
+            SoundEffect.MasterVolume = 0.2f;
+        
 
             // Load in characters
             LoadCharacters();
@@ -231,7 +247,7 @@ namespace MurderMystery
                     //The Play Button
                     topButton.Update();
 
-                    //Play Exit Button (currently does nothing)
+                    //Play Exit Button
                     bottomButton.Update();
 
                     //Process main menu

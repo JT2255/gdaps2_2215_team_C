@@ -452,6 +452,12 @@
 /processorParam:TextureFormat=Color
 /build:SpiralStaircase.png
 
+#begin Stab.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Stab.wav
+
 #begin stairsTest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -500,4 +506,10 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:TitleMusic.mp3
+
+#begin Womens_shoes_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Womens_shoes_2.wav
 
