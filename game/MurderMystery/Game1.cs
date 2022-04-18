@@ -547,6 +547,12 @@ namespace MurderMystery
                                 testStairsButton.Draw(_spriteBatch);
                                 testStairsButton.Position = new Rectangle(0, 25, 114, 309);
 
+                                //If the cloth is not picked up, draw it
+                                if (!items[3].PickedUp)
+                                {
+                                    items[3].Draw(_spriteBatch);
+                                }
+
                                 edith.Draw(_spriteBatch);
 
                                 if (hour < 11)
@@ -1273,6 +1279,13 @@ namespace MurderMystery
                         currentState = State.EndMenu;
                     }
 
+                    //if they pick up the cloth
+                    if (Clicked(items[3]))
+                    {
+                        items[3].PickedUp = true;
+                        player.Inventory.Add(items[3]);
+                    }
+
                     break;
                 case Rooms.Room3:
 
@@ -1624,6 +1637,7 @@ namespace MurderMystery
                                 items[0].BeingDrawn = false;
                                 items[1].BeingDrawn = false;
                                 items[2].BeingDrawn = false;
+                                items[3].BeingDrawn = false;
                                 doorButton.BeingDrawn = false;
                                 deadAtkins.BeingDrawn = false;
                                 // During the first death, no one can be clicked
@@ -1704,6 +1718,14 @@ namespace MurderMystery
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
                             items[2].BeingDrawn = false;
+                            if (!items[3].PickedUp)
+                            {
+                                items[3].BeingDrawn = true;
+                            }
+                            else
+                            {
+                                items[3].BeingDrawn = false;
+                            }
                             doorButton.BeingDrawn = false;
                             break;
 
@@ -1737,6 +1759,7 @@ namespace MurderMystery
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
                             items[2].BeingDrawn = false;
+                            items[3].BeingDrawn = false;
                             doorButton.BeingDrawn = true;
                             break;
 
@@ -1770,6 +1793,7 @@ namespace MurderMystery
                                 items[1].BeingDrawn = false;
                             }
                             items[2].BeingDrawn = false;
+                            items[3].BeingDrawn = false;
                             break;
 
                         case Rooms.Room5:
@@ -1795,6 +1819,7 @@ namespace MurderMystery
                                 items[0].BeingDrawn = false;
                             }
                             items[2].BeingDrawn = false;
+                            items[3].BeingDrawn = false;
                             break;
                         case Rooms.Room7:
                             clara.BeingDrawn = false;
@@ -1812,6 +1837,7 @@ namespace MurderMystery
                             items[0].BeingDrawn = false;
                             items[1].BeingDrawn = false;
                             items[2].BeingDrawn = false;
+                            items[3].BeingDrawn = false;
                             doorButton.BeingDrawn = true;
                             break;
                     }
@@ -1861,6 +1887,14 @@ namespace MurderMystery
                     else
                     {
                         items[2].BeingDrawn = false;
+                    }
+                    if (items[3].PickedUp)
+                    {
+                        items[3].BeingDrawn = true;
+                    }
+                    else
+                    {
+                        items[3].BeingDrawn = false;
                     }
 
                     break;
