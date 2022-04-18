@@ -153,8 +153,8 @@ namespace MurderMystery
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
 
-            // Game starts at the main menu by default
-            currentState = State.MainMenu;
+           // Game starts at the main menu by default
+           currentState = State.MainMenu;
             // Game starts in the first room by default
             currentRoom = Rooms.Room1;
 
