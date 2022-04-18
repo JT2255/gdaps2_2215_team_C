@@ -138,6 +138,7 @@ namespace MurderMystery
         private Song backgroundMusic;
         private Song partyMusic;
         private Song badEnd;
+        private Dictionary<String, SoundEffect> soundEffects;
         bool musicChanged;
         #endregion
 
@@ -202,6 +203,13 @@ namespace MurderMystery
             MediaPlayer.Play(mainMenuMusic);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.2f;
+
+            //Sound Effects
+            soundEffects = new Dictionary<string, SoundEffect>();
+            soundEffects.Add("Death", Content.Load<SoundEffect>("Stab"));
+            soundEffects.Add("Bell", Content.Load<SoundEffect>("deathBell"));
+            SoundEffect.MasterVolume = 0.2f;
+        
 
             // Load in characters
             LoadCharacters();
