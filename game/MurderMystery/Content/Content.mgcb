@@ -507,3 +507,9 @@
 /processorParam:Quality=Best
 /build:TitleMusic.mp3
 
+#begin Womens_shoes_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Womens_shoes_2.wav
+

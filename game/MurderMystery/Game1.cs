@@ -208,6 +208,9 @@ namespace MurderMystery
             soundEffects = new Dictionary<string, SoundEffect>();
             soundEffects.Add("Death", Content.Load<SoundEffect>("Stab"));
             soundEffects.Add("Bell", Content.Load<SoundEffect>("deathBell"));
+            soundEffects.Add("Stairwell", Content.Load<SoundEffect>("Womens_shoes_2"));
+            //Playing a sound effect looks like this. v
+            //soundEffects["Item"].Play();
             SoundEffect.MasterVolume = 0.2f;
         
 
