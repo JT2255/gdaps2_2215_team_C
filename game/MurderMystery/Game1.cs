@@ -192,8 +192,8 @@ namespace MurderMystery
             titleFont = Content.Load<SpriteFont>("titleFont");
 
             // Load music
-            backgroundMusic = Content.Load<Song>("Illusory-Realm-MP3");
-            partyMusic = Content.Load<Song>("highlanders");
+            backgroundMusic = Content.Load<Song>("GameMusic");
+            partyMusic = Content.Load<Song>("PartyMusic");
             MediaPlayer.Play(backgroundMusic);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.1f;
