@@ -172,7 +172,7 @@ namespace MurderMystery
             //time per in-game hour
             totalTime = 120;
             //keep track of seconds
-            currentTime = 60;
+            currentTime = 100;
             //current hour
             hour = 5;
             //correctly guessed murderer
@@ -299,8 +299,16 @@ namespace MurderMystery
                     //accuse button
                     accuseButton.Update();
 
+
                     //process timer and game state
-                    ProcessTimer(gameTime);
+                    if (ernest.BeenTalkedTo && clara.BeenTalkedTo && elizabeth.BeenTalkedTo
+                        && edward.BeenTalkedTo && frank.BeenTalkedTo && edith.BeenTalkedTo
+                        && summer.BeenTalkedTo && james.BeenTalkedTo)
+                    {
+                        
+                        ProcessTimer(gameTime);
+                    }
+
                     ProcessGame(kbState);
                     break;
                 case State.Inventory:
