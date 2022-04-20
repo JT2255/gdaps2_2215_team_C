@@ -50,9 +50,6 @@ namespace MurderMystery
         private State currentState;
         private Rooms currentRoom;
 
-        //Objects
-        private SpriteFont font;
-        private SpriteFont titleFont;
         private Player player;
 
         #region NPCs
@@ -122,6 +119,17 @@ namespace MurderMystery
 
         //text box texture
         private Texture2D dialogueBox;
+        private Texture2D desk;
+        private SpriteFont font;
+        private SpriteFont titleFont;
+
+        //Music
+        private Song mainMenuMusic;
+        private Song backgroundMusic;
+        private Song partyMusic;
+        private Song badEnd;
+        private Dictionary<String, SoundEffect> soundEffects;
+        private bool musicChanged;
 
         //Misc
         private StreamReader reader = null;
@@ -129,17 +137,10 @@ namespace MurderMystery
         private double totalTime;
         private double currentTime;
         private int hour;
-        private List<Rectangle> itemInvPos;
         private List<GameObject> gameObjects;
         private List<NPC> npcs;
         private bool won;
-        private Texture2D desk;
-        private Song mainMenuMusic;
-        private Song backgroundMusic;
-        private Song partyMusic;
-        private Song badEnd;
-        private Dictionary<String, SoundEffect> soundEffects;
-        bool musicChanged;
+        
         #endregion
 
         // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -168,7 +169,6 @@ namespace MurderMystery
             //initialize dialogue box
             dialogueBox = Content.Load<Texture2D>("dialogueBox");
 
-            itemInvPos = new List<Rectangle>();
             //time per in-game hour
             totalTime = 120;
             //keep track of seconds
@@ -261,7 +261,7 @@ namespace MurderMystery
                     ProcessInstructions(kbState);
                     break;
                 case State.Game:
-
+                    #region Music Setup
                     // Plays party music during hour 5
                     if (hour == 5 && !musicChanged)
                     {
@@ -285,6 +285,7 @@ namespace MurderMystery
                         MediaPlayer.Volume = 0.1f;
                         musicChanged = false;
                     }
+                    #endregion
 
                     //the inventory
                     inventoryButton.Update();
@@ -426,7 +427,7 @@ namespace MurderMystery
                         }
                     }                    
 
-                    if (hour == 5)
+                    if (hour == 5) // Start of Game
                     {
                         switch (currentRoom)
                         {

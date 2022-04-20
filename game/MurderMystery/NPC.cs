@@ -239,6 +239,8 @@ namespace MurderMystery
         /// <param name="sb"></param>
         public override void Draw(SpriteBatch sb)
         {
+            // Draw if they are not dead.
+            if(!isDead)
             sb.Draw(texture, position, Color.White);
         }
 
