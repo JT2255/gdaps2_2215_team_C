@@ -172,7 +172,7 @@ namespace MurderMystery
             //time per in-game hour
             totalTime = 60;
             //keep track of seconds
-            currentTime = 50;
+            currentTime = 40;
             //current hour
             hour = 5;
             //correctly guessed murderer
