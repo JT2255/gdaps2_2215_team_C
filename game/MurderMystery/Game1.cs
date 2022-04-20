@@ -205,14 +205,15 @@ namespace MurderMystery
             MediaPlayer.Volume = 0.2f;
 
             //Sound Effects
+            #region Sound Effect Library
             soundEffects = new Dictionary<string, SoundEffect>();
-            soundEffects.Add("Death", Content.Load<SoundEffect>("Stab"));
-            soundEffects.Add("Bell", Content.Load<SoundEffect>("deathBell"));
-            soundEffects.Add("Stairwell", Content.Load<SoundEffect>("Womens_shoes_2"));
+            soundEffects.Add("death", Content.Load<SoundEffect>("Stab"));
+            soundEffects.Add("bell", Content.Load<SoundEffect>("deathBell"));
+            soundEffects.Add("stairs", Content.Load<SoundEffect>("Womens_shoes_2"));
             //Playing a sound effect looks like this. v
             //soundEffects["Item"].Play();
             SoundEffect.MasterVolume = 0.2f;
-        
+            #endregion
 
             // Load in characters
             LoadCharacters();
@@ -275,7 +276,8 @@ namespace MurderMystery
                     if (currentTime >= 115 && hour == 5)
                     {
                         MediaPlayer.Stop();
-                    }    
+
+                    }
 
                     // Plays mystery music after the first death
                     if (hour == 6 && musicChanged)
@@ -299,15 +301,18 @@ namespace MurderMystery
                     //accuse button
                     accuseButton.Update();
 
+                    //queues sounds to played at specific intervals
+                    SoundEffectQueuer();
+
 
                     //process timer and game state
-                    if (ernest.BeenTalkedTo && clara.BeenTalkedTo && elizabeth.BeenTalkedTo
-                        && edward.BeenTalkedTo && frank.BeenTalkedTo && edith.BeenTalkedTo
-                        && summer.BeenTalkedTo && james.BeenTalkedTo)
-                    {
+                    //if (ernest.BeenTalkedTo && clara.BeenTalkedTo && elizabeth.BeenTalkedTo
+                    //    && edward.BeenTalkedTo && frank.BeenTalkedTo && edith.BeenTalkedTo
+                    //    && summer.BeenTalkedTo && james.BeenTalkedTo)
+                    //{
                         
                         ProcessTimer(gameTime);
-                    }
+                    //}
 
                     ProcessGame(kbState);
                     break;
@@ -2139,6 +2144,33 @@ namespace MurderMystery
             accuseButton = new Button("", accuseTexture, font,
                 new Rectangle(630, 250, 150, 50));
             gameObjects.Add(accuseButton);
+        }
+
+        /// <summary>
+        /// Plays some sound effects at specific intervals
+        /// Sound Effect Library can be found in initialize
+        /// </summary>
+        private void SoundEffectQueuer()
+        {
+            //Plays only during the blackout, signifying the death
+            //(Yes, I tried setting it to play at an == time, but it did not work)
+            //Calling any sound in update without a condition will cause them to play on repeat
+            if (currentTime >= 115.3 && currentTime <= 115.31 && !deadAtkins.BeingDrawn)
+            {
+                soundEffects["death"].Play();
+            }
+
+            //Plays once the hour has changed
+            if (currentTime > totalTime)
+            {
+                soundEffects["bell"].Play();
+            }
+
+            //Plays when the user clicks on the stairs
+            if (testStairsButton.BeenClicked)
+            {
+                soundEffects["stairs"].Play();
+            }
         }
 
         /// <summary>
