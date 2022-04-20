@@ -435,6 +435,9 @@ namespace MurderMystery
                                 GraphicsDevice.Clear(Color.Navy);
 
                                 if (currentTime < 115)
+                                    //&& !clara.BeenTalkedTo || !edith.BeenTalkedTo || !elizabeth.BeenTalkedTo
+                                    //|| !summer.BeenTalkedTo || !edward.BeenTalkedTo || !frank.BeenTalkedTo || !james.BeenTalkedTo
+                                    //|| !ernest.BeenTalkedTo)
                                 {
                                     clara.Draw(_spriteBatch);
                                     edith.Draw(_spriteBatch);
@@ -449,48 +452,56 @@ namespace MurderMystery
                                     //show npc dialogue
                                     if (clara.IsTalking)
                                     {
+                                        clara.BeenTalkedTo = true;
                                         clara.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (edith.IsTalking)
                                     {
+                                        edith.BeenTalkedTo = true;
                                         edith.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (elizabeth.IsTalking)
                                     {
+                                        elizabeth.BeenTalkedTo = true;
                                         elizabeth.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (summer.IsTalking)
                                     {
+                                        summer.BeenTalkedTo = true;
                                         summer.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (edward.IsTalking)
                                     {
+                                        edward.BeenTalkedTo = true;
                                         edward.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (frank.IsTalking)
                                     {
+                                        frank.BeenTalkedTo = true;
                                         frank.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (james.IsTalking)
                                     {
+                                        james.BeenTalkedTo = true;
                                         james.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }
 
                                     //show npc dialogue
                                     if (ernest.IsTalking)
                                     {
+                                        ernest.BeenTalkedTo = true;
                                         ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
                                     }                            
                                 }

@@ -18,6 +18,7 @@ namespace MurderMystery
         private bool isMurderer;
         private bool isDead;
         private bool isTalking;
+        private bool beenTalkedTo;
         private List<string> fiveDialogue;
         private List<string> preKnifeDialogue;
         private List<string> postKnifeDialogue;
@@ -62,6 +63,14 @@ namespace MurderMystery
         }
 
         /// <summary>
+        /// Returns whether an npc has been talked to or not
+        /// </summary>
+        public bool BeenTalkedTo
+        {
+            get { return beenTalkedTo; }
+            set { beenTalkedTo = value; }
+        }
+        /// <summary>
         /// Returns the NPC's current dialogue number
         /// and sets the curretn dialogueNum
         /// </summary>
@@ -93,6 +102,7 @@ namespace MurderMystery
             this.position = position;
             this.texture = texture;
             isTalking = false;
+            beenTalkedTo = false;
             dialogueNum = 0;
             fiveDialogue = new List<string>();
             preKnifeDialogue = new List<string>();
