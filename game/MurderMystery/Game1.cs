@@ -2180,6 +2180,7 @@ namespace MurderMystery
         {
             // Reset Timer
             totalTime = 60;
+            currentTime = 40;
             // Reset to default room
             currentRoom = Rooms.Room1;
             // Position of character
