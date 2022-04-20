@@ -170,9 +170,9 @@ namespace MurderMystery
             dialogueBox = Content.Load<Texture2D>("dialogueBox");
 
             //time per in-game hour
-            totalTime = 120;
+            totalTime = 60;
             //keep track of seconds
-            currentTime = 100;
+            currentTime = 50;
             //current hour
             hour = 5;
             //correctly guessed murderer
@@ -273,7 +273,7 @@ namespace MurderMystery
                     }
 
                     // During the first death, music cuts out
-                    if (currentTime >= 115 && hour == 5)
+                    if (currentTime >= 55 && hour == 5)
                     {
                         MediaPlayer.Stop();
 
@@ -306,13 +306,13 @@ namespace MurderMystery
 
 
                     //process timer and game state
-                    //if (ernest.BeenTalkedTo && clara.BeenTalkedTo && elizabeth.BeenTalkedTo
-                    //    && edward.BeenTalkedTo && frank.BeenTalkedTo && edith.BeenTalkedTo
-                    //    && summer.BeenTalkedTo && james.BeenTalkedTo)
-                    //{
+                    if (ernest.BeenTalkedTo && clara.BeenTalkedTo && elizabeth.BeenTalkedTo
+                        && edward.BeenTalkedTo && frank.BeenTalkedTo && edith.BeenTalkedTo
+                        && summer.BeenTalkedTo && james.BeenTalkedTo)
+                    {
                         
                         ProcessTimer(gameTime);
-                    //}
+                    }
 
                     ProcessGame(kbState);
                     break;
@@ -447,7 +447,7 @@ namespace MurderMystery
                             case Rooms.Room1:
                                 GraphicsDevice.Clear(Color.Navy);
 
-                                if (currentTime < 115)
+                                if (currentTime < 55)
                                     //&& !clara.BeenTalkedTo || !edith.BeenTalkedTo || !elizabeth.BeenTalkedTo
                                     //|| !summer.BeenTalkedTo || !edward.BeenTalkedTo || !frank.BeenTalkedTo || !james.BeenTalkedTo
                                     //|| !ernest.BeenTalkedTo)
@@ -1351,7 +1351,7 @@ namespace MurderMystery
                     if (Clicked(doorButton) && items[1].PickedUp)
                     {
                         currentRoom = Rooms.Room7;
-                        player.Center();
+                        player.Left();
                     }
                     else if (Clicked(doorButton))
                     {
@@ -1492,7 +1492,7 @@ namespace MurderMystery
                     {
                         currentRoom = Rooms.Room3;
                         document.IsTalking = false;
-                        player.Center();
+                        player.Left();
                     }
 
                     if (Clicked(document))
@@ -1666,7 +1666,7 @@ namespace MurderMystery
                                 doorButton.BeingDrawn = false;
                                 deadAtkins.BeingDrawn = false;
                                 // During the first death, no one can be clicked
-                                if (currentTime >= 115)
+                                if (currentTime >= 55)
                                 {
                                     clara.BeingDrawn = false;
                                     edith.BeingDrawn = false;
@@ -2155,7 +2155,7 @@ namespace MurderMystery
             //Plays only during the blackout, signifying the death
             //(Yes, I tried setting it to play at an == time, but it did not work)
             //Calling any sound in update without a condition will cause them to play on repeat
-            if (currentTime >= 115.3 && currentTime <= 115.31 && !deadAtkins.BeingDrawn)
+            if (currentTime >= 55.3 && currentTime <= 55.31 && !deadAtkins.BeingDrawn)
             {
                 soundEffects["death"].Play();
             }
@@ -2179,7 +2179,7 @@ namespace MurderMystery
         private void ResetGame() 
         {
             // Reset Timer
-            totalTime = 120;
+            totalTime = 60;
             // Reset to default room
             currentRoom = Rooms.Room1;
             // Position of character
@@ -2193,24 +2193,18 @@ namespace MurderMystery
             }
 
             //reset dialogue positions of all npcs
-            clara.IsTalking = false;
-            edith.IsTalking = false;
-            elizabeth.IsTalking = false;
-            summer.IsTalking = false;
-            edward.IsTalking = false;
-            frank.IsTalking = false;
-            james.IsTalking = false;
-            ernest.IsTalking = false;
-            document.IsTalking = false;
-            clara.DialogueNum = 0;
-            edith.DialogueNum = 0;
-            elizabeth.DialogueNum = 0;
-            summer.DialogueNum = 0;
-            edward.DialogueNum = 0;
-            frank.DialogueNum = 0;
-            james.DialogueNum = 0;
-            ernest.DialogueNum = 0;
+            
+            foreach (NPC n in npcs)
+            {
+                n.BeenTalkedTo = false;
+                n.IsTalking = false;
+                n.DialogueNum = 0;
+            }
+
             document.DialogueNum = 0;
+            document.IsTalking = false;
+            doorButton.DialogueNum = 0;
+            doorButton.IsTalking = false;
             hour = 5;
         }
         #endregion
