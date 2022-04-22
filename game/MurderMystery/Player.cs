@@ -297,7 +297,7 @@ namespace MurderMystery
                     sb.Draw(exclamation, new Rectangle(741, 450, 3, 16), Color.White);
                     break;
                 case 9:
-                    sb.Draw(exclamation, new Rectangle(711, 420, 3, 16), Color.White);
+                    sb.Draw(exclamation, new Rectangle(771, 450, 3, 16), Color.White);
                     break;
                 case 10:
                     sb.Draw(exclamation, new Rectangle(711, 420, 3, 16), Color.White);
