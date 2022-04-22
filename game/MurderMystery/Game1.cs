@@ -115,6 +115,7 @@ namespace MurderMystery
         private Texture2D map4;
         private Texture2D map5;
         private Texture2D map7;
+        private Texture2D exclamation;
         #endregion
 
         //text box texture
@@ -462,6 +463,8 @@ namespace MurderMystery
                                     ernest.Draw(_spriteBatch);
                                     player.Draw(_spriteBatch);
 
+                                    
+
                                     //show npc dialogue
                                     if (clara.IsTalking)
                                     {
@@ -543,6 +546,7 @@ namespace MurderMystery
                                //s _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
 
                                 deadAtkins.Draw(_spriteBatch);
+                                deadAtkins.BeingDrawn = true;
 
                                 // If the ring is not picked up, draw it
                                 if (!items[2].PickedUp)
@@ -744,7 +748,7 @@ namespace MurderMystery
                         }
                     }
 
-                    player.DrawMap(_spriteBatch, map1, map2, map3, map4, map5, map7, currentRoom);
+                    player.DrawMap(_spriteBatch, map1, map2, map3, map4, map5, map7, exclamation, currentRoom, hour);
 
                     break;
                 #endregion
@@ -2089,6 +2093,7 @@ namespace MurderMystery
             map4 = Content.Load<Texture2D>("mapRoom4");
             map5 = Content.Load<Texture2D>("mapRoom5");
             map7 = Content.Load<Texture2D>("mapRoom7");
+            exclamation = Content.Load<Texture2D>("exclamation");
         }
 
         /// <summary>

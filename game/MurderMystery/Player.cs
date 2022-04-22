@@ -262,12 +262,12 @@ namespace MurderMystery
         #endregion
 
         public void DrawMap(SpriteBatch sb, Texture2D map1, Texture2D map2, Texture2D map3,
-            Texture2D map4, Texture2D map5, Texture2D map7, Rooms room)
+            Texture2D map4, Texture2D map5, Texture2D map7, Texture2D exclamation, Rooms room, int hour)
         {
             switch (room)
             {
                 case Rooms.Room1:
-                    sb.Draw(map1, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    sb.Draw(map1, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);                   
                     break;
                 case Rooms.Room2:
                     sb.Draw(map2, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
@@ -283,6 +283,27 @@ namespace MurderMystery
                     break;
                 case Rooms.Room7:
                     sb.Draw(map7, new Rectangle(windowWidth - 100, windowHeight - 110, 100, 100), Color.White);
+                    break;
+                default:
+                    break;
+            }
+
+            switch (hour)
+            {
+                case 7:
+                    sb.Draw(exclamation, new Rectangle(771, 450, 3, 16), Color.White);
+                    break;
+                case 8:
+                    sb.Draw(exclamation, new Rectangle(741, 450, 3, 16), Color.White);
+                    break;
+                case 9:
+                    sb.Draw(exclamation, new Rectangle(711, 420, 3, 16), Color.White);
+                    break;
+                case 10:
+                    sb.Draw(exclamation, new Rectangle(711, 420, 3, 16), Color.White);
+                    break;
+                case 11:
+                    sb.Draw(exclamation, new Rectangle(711, 450, 3, 16), Color.White);
                     break;
                 default:
                     break;
