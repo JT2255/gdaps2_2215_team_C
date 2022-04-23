@@ -95,7 +95,6 @@ namespace MurderMystery
             this.windowHeight = height;
             moveSpeed = 5;
             inventory = new List<Item>();
-            // clues = new Dictionary<bool, string>();
             fps = 6;
             timePerFrame = 1 / fps;
             numOfFrames = 6;
@@ -198,7 +197,7 @@ namespace MurderMystery
         /// <param name="possibleFlip"></param>
         public void DrawStanding(SpriteBatch sb, SpriteEffects possibleFlip)
         {
-            sb.Draw(texture, position, new Rectangle(0, 0, 90, 325), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
+            sb.Draw(texture, position, new Rectangle(0, 0, 135, 487), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
         }
 
         /// <summary>
@@ -208,7 +207,7 @@ namespace MurderMystery
         /// <param name="possibleFlip"></param>
         public void DrawWalking(SpriteBatch sb, SpriteEffects possibleFlip)
         {
-            sb.Draw(texture, position, new Rectangle(90 * frame, 0, 90, 325), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
+            sb.Draw(texture, position, new Rectangle(135 * frame, 0, 135, 487), Color.White, 0, Vector2.Zero, .5f, possibleFlip, 0);
         }
 
         /// <summary>

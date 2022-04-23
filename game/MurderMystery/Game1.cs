@@ -134,6 +134,7 @@ namespace MurderMystery
 
         //Misc
         private StreamReader reader = null;
+        private Texture2D mainRoom;
         private List<Item> items;
         private double totalTime;
         private double currentTime;
@@ -169,6 +170,9 @@ namespace MurderMystery
 
             //initialize dialogue box
             dialogueBox = Content.Load<Texture2D>("dialogueBox");
+
+            //main room texture
+            mainRoom = Content.Load<Texture2D>("MainRoom");
 
             //time per in-game hour
             totalTime = 60;
@@ -446,7 +450,7 @@ namespace MurderMystery
                         switch (currentRoom)
                         {
                             case Rooms.Room1:
-                                GraphicsDevice.Clear(Color.Navy);
+                                _spriteBatch.Draw(mainRoom, new Vector2(0, 0), Color.White);
 
                                 if (currentTime < 55)
                                     //&& !clara.BeenTalkedTo || !edith.BeenTalkedTo || !elizabeth.BeenTalkedTo
@@ -2052,28 +2056,28 @@ namespace MurderMystery
 
             // Initializes the characters and adds them to the gameObjects list
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
-            clara = new NPC("Clara Farley", false, false, new Rectangle(550, 200, 40, 107), claraFarleyTexture);
+            clara = new NPC("Clara Farley", false, false, new Rectangle(620, 200, 60, 160), claraFarleyTexture);
             gameObjects.Add(clara);
             npcs.Add(clara);
-            edith = new NPC("Edith Espinoza", false, false, new Rectangle(500, 200, 40, 109), edithEspinozaTexture);
+            edith = new NPC("Edith Espinoza", false, false, new Rectangle(560, 200, 60, 162), edithEspinozaTexture);
             gameObjects.Add(edith);
             npcs.Add(edith);
-            elizabeth = new NPC("Elizabeth Maxwell", false, false, new Rectangle(450, 200, 40, 107), elizabethMaxwellTexture);
+            elizabeth = new NPC("Elizabeth Maxwell", false, false, new Rectangle(500, 200, 60, 160), elizabethMaxwellTexture);
             gameObjects.Add(elizabeth);
             npcs.Add(elizabeth);
-            summer = new NPC("Summer Hines", true, false, new Rectangle(400, 200, 40, 107), summerHinesTexture);
+            summer = new NPC("Summer Hines", true, false, new Rectangle(440, 200, 60, 160), summerHinesTexture);
             gameObjects.Add(summer);
             npcs.Add(summer);
-            edward = new NPC("Edward Campbell", false, false, new Rectangle(350, 200, 40, 107), edwardCampellTexture);
+            edward = new NPC("Edward Campbell", false, false, new Rectangle(380, 200, 60, 160), edwardCampellTexture);
             gameObjects.Add(edward);
             npcs.Add(edward);
-            frank = new NPC("Frank Espinoza", false, false, new Rectangle(300, 200, 40, 107), frankEspinozaTexture);
+            frank = new NPC("Frank Espinoza", false, false, new Rectangle(320, 200, 60, 160), frankEspinozaTexture);
             gameObjects.Add(frank);
             npcs.Add(frank);
-            ernest = new NPC("Ernest Boyd", false, false, new Rectangle(200, 200, 40, 107), ernestBoydTexture);
+            ernest = new NPC("Ernest Boyd", false, false, new Rectangle(200, 200, 60, 160), ernestBoydTexture);
             gameObjects.Add(ernest);
             npcs.Add(ernest);
-            james = new NPC("James Atkins", false, false, new Rectangle(250, 200, 40, 107), jamesAtkinsTexture);
+            james = new NPC("James Atkins", false, false, new Rectangle(260, 200, 60, 160), jamesAtkinsTexture);
             gameObjects.Add(james);
             npcs.Add(james);
             document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
@@ -2189,7 +2193,7 @@ namespace MurderMystery
             // Reset to default room
             currentRoom = Rooms.Room1;
             // Position of character
-            playerPos = new Vector2(windowWidth / 2, windowHeight - 200);
+            playerPos = new Vector2(windowWidth / 2, windowHeight - 300);
             // Reset all value of character by remaking the character
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             // Reset all items loaded
