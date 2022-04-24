@@ -660,6 +660,9 @@ namespace MurderMystery
                                         Color.White);
                                 }
 
+                                //draw button
+                                doorButton.Draw(_spriteBatch);
+
                                 if (hour < 7)
                                 {
                                     ernest.Draw(_spriteBatch);
@@ -671,9 +674,6 @@ namespace MurderMystery
                                         ernest.Position.Y + ernest.Position.Height, blood.Width, blood.Height),
                                         Color.White);
                                 }
-
-                                //draw button
-                                doorButton.Draw(_spriteBatch);
 
                                 //draw player
                                 player.Draw(_spriteBatch);
@@ -2148,7 +2148,7 @@ namespace MurderMystery
             npcs.Add(james);
             document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
             gameObjects.Add(document);
-            doorButton = new NPC("Door", false, false, new Rectangle(100, 167, 92, 142), doorTexture);
+            doorButton = new NPC("Door", false, false, new Rectangle(80, 139, 138, 213), doorTexture);
             gameObjects.Add(doorButton);
             deadAtkins = new NPC("Dead Atkins", false, false, new Rectangle(windowWidth / 2, windowHeight - 100, 168, 30), corpseTexture);
             gameObjects.Add(deadAtkins);
