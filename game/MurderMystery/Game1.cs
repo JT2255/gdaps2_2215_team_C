@@ -389,9 +389,9 @@ namespace MurderMystery
             {
                 case State.MainMenu:
                     #region Main Menu
-                    
+
                     // Main Menu Background
-                    GraphicsDevice.Clear(Color.Red);
+                    GraphicsDevice.Clear(Color.Silver);
 
                     // Sets the bottom button's new position
                     bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
@@ -421,7 +421,7 @@ namespace MurderMystery
                 case State.Instructions:
                     #region Instructions
                     // Instructions background
-                    GraphicsDevice.Clear(Color.DarkCyan);
+                    GraphicsDevice.Clear(Color.Black);
 
                     // Sets the bottom button's new position
                     bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
@@ -826,7 +826,7 @@ namespace MurderMystery
                     #region Inventory
                     Vector2 startPoint = new Vector2(windowWidth / 8, windowHeight / 8); // Start Point for displaying items
                     //inventory text
-                    GraphicsDevice.Clear(Color.Green);
+                    GraphicsDevice.Clear(Color.SaddleBrown);
                     _spriteBatch.DrawString(font, "You are now in the inventory", new Vector2(0, 0), Color.White);
 
                     //draw exit button
@@ -873,7 +873,7 @@ namespace MurderMystery
                     #region Pause
                     //pause menu text
                     _spriteBatch.DrawString(font, "You are now paused.\nPress ESC to go back to the game.", new Vector2(0, 0), Color.White);
-                    GraphicsDevice.Clear(Color.Cyan);
+                    GraphicsDevice.Clear(Color.DarkGray);
 
                     // Sets the bottom button's new position
                     bottomButton.Position = new Rectangle((GraphicsDevice.Viewport.Width / 2) - menuButtonTexture.Width / 2,
@@ -918,7 +918,7 @@ namespace MurderMystery
                     bottomButton.Draw(_spriteBatch, "");
 
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
-                    GraphicsDevice.Clear(Color.DarkMagenta);
+                    GraphicsDevice.Clear(Color.DarkGray);
                     break;
                     #endregion
                 default:
