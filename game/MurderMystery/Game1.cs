@@ -781,7 +781,7 @@ namespace MurderMystery
                             case Rooms.Room7:
                                 _spriteBatch.Draw(office, new Vector2(0, 0), Color.White);
 
-                                _spriteBatch.Draw(desk, new Rectangle(windowWidth / 2 - 156, windowHeight / 2 - 110, 156, 110), Color.White);
+                                _spriteBatch.Draw(desk, new Rectangle(windowWidth / 2 - 156, 250, 156, 110), Color.White);
                                 doorButton.Draw(_spriteBatch);
 
                                 //draw npc
@@ -2146,7 +2146,7 @@ namespace MurderMystery
             james = new NPC("James Atkins", false, false, new Rectangle(260, 200, 60, 160), jamesAtkinsTexture);
             gameObjects.Add(james);
             npcs.Add(james);
-            document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, windowHeight / 2 - 93, 29, 39), documentTexture);
+            document = new NPC("Document", false, false, new Rectangle(windowWidth / 2 - 50, 270, 29, 39), documentTexture);
             gameObjects.Add(document);
             doorButton = new NPC("Door", false, false, new Rectangle(80, 139, 138, 213), doorTexture);
             gameObjects.Add(doorButton);
