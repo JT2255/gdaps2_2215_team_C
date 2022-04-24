@@ -434,13 +434,7 @@ namespace MurderMystery
                 #endregion
                 case State.Game:
                     #region Game
-                    // Debug Text
-                    _spriteBatch.DrawString(font, $"{hour} PM", new Vector2(0, 0), Color.White);
-
-                    //Draw the pause button and inventory button before switch so that it appears on all screens
-                    pauseButton.Draw(_spriteBatch, "");
-                    inventoryButton.Draw(_spriteBatch, "");
-
+                    
                                      
 
                     if (hour == 5) // Start of Game
@@ -759,6 +753,14 @@ namespace MurderMystery
                             npc.HoverName(_spriteBatch, font, dialogueBox);
                         }
                     }
+
+                    // Debug Text
+                    _spriteBatch.DrawString(font, $"{hour} PM", new Vector2(0, 0), Color.White);
+
+                    //Draw the pause button and inventory button before switch so that it appears on all screens
+                    pauseButton.Draw(_spriteBatch, "");
+                    inventoryButton.Draw(_spriteBatch, "");
+
 
                     break;
                 #endregion
