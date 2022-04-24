@@ -656,7 +656,8 @@ namespace MurderMystery
                                 else 
                                 {
                                     _spriteBatch.Draw(blood,
-                                        new Rectangle(elizabeth.Position.X, elizabeth.Position.Y, blood.Width, blood.Height),
+                                        new Rectangle(elizabeth.Position.X + elizabeth.Position.Width / 2,
+                                        elizabeth.Position.Y + elizabeth.Position.Height, blood.Width, blood.Height),
                                         Color.White);
                                 }
 
@@ -727,8 +728,7 @@ namespace MurderMystery
                                         Color.White);
                                 }
 
-                                //draw player
-                                player.Draw(_spriteBatch);
+                              
 
                                 //draw npc dialogue
                                 if (summer.IsTalking && summer.BeingDrawn)
@@ -757,6 +757,8 @@ namespace MurderMystery
                                     items[1].Draw(_spriteBatch);
                                 }
 
+                                //draw player
+                                player.Draw(_spriteBatch);
 
 
                                 break;
@@ -764,9 +766,7 @@ namespace MurderMystery
                             case Rooms.Room5:
                                 _spriteBatch.Draw(knifeRoom, new Vector2(0, 0), Color.White);
 
-                                //draw player
-                                player.Draw(_spriteBatch);
-
+                                
 
                                 // If the knife is not picked up, draw it
                                 if (!items[0].PickedUp)
@@ -774,6 +774,8 @@ namespace MurderMystery
                                     items[0].Draw(_spriteBatch);
                                 }
 
+                                //draw player
+                                player.Draw(_spriteBatch);
 
 
                                 break;
