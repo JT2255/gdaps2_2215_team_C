@@ -135,6 +135,7 @@ namespace MurderMystery
         //Misc
         private StreamReader reader = null;
         private Texture2D mainRoom;
+        private Texture2D blackSquare;
         private List<Item> items;
         private double totalTime;
         private double currentTime;
@@ -173,6 +174,9 @@ namespace MurderMystery
 
             //main room texture
             mainRoom = Content.Load<Texture2D>("MainRoom");
+
+            //black texture
+            blackSquare = Content.Load<Texture2D>("blackSquare");
 
             //time per in-game hour
             totalTime = 60;
@@ -437,13 +441,7 @@ namespace MurderMystery
                     pauseButton.Draw(_spriteBatch, "");
                     inventoryButton.Draw(_spriteBatch, "");
 
-                    foreach (NPC npc in npcs)
-                    {
-                        if (npc.Hover(mState))
-                        {
-                            npc.HoverName(_spriteBatch, font, dialogueBox);
-                        }
-                    }                    
+                                     
 
                     if (hour == 5) // Start of Game
                     {
@@ -527,7 +525,7 @@ namespace MurderMystery
                                 }
                                 else
                                 {
-                                    GraphicsDevice.Clear(Color.Black);
+                                    _spriteBatch.Draw(blackSquare, new Rectangle(0, 0, windowWidth, windowHeight), Color.White);
                                 }
                                 break;
                             default:
@@ -540,7 +538,7 @@ namespace MurderMystery
                         switch (currentRoom)
                         {
                             case Rooms.Room1:
-                                GraphicsDevice.Clear(Color.Navy);
+                                _spriteBatch.Draw(mainRoom, new Vector2(0, 0), Color.White);
 
                                 if (hour < 8)
                                 {
@@ -753,6 +751,14 @@ namespace MurderMystery
                     }
 
                     player.DrawMap(_spriteBatch, map1, map2, map3, map4, map5, map7, exclamation, currentRoom, hour);
+
+                    foreach (NPC npc in npcs)
+                    {
+                        if (npc.Hover(mState))
+                        {
+                            npc.HoverName(_spriteBatch, font, dialogueBox);
+                        }
+                    }
 
                     break;
                 #endregion
@@ -2084,7 +2090,7 @@ namespace MurderMystery
             gameObjects.Add(document);
             doorButton = new NPC("Door", false, false, new Rectangle(100, 167, 92, 142), doorTexture);
             gameObjects.Add(doorButton);
-            deadAtkins = new NPC("Dead Atkins", false, false, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), corpseTexture);
+            deadAtkins = new NPC("Dead Atkins", false, false, new Rectangle(windowWidth / 2, windowHeight - 100, 168, 30), corpseTexture);
             gameObjects.Add(deadAtkins);
             npcs.Add(deadAtkins);
         }
