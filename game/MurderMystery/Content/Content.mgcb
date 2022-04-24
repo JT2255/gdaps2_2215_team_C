@@ -157,6 +157,18 @@
 /processorParam:TextureFormat=Color
 /build:door.png
 
+#begin DoorRoom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:DoorRoom.png
+
 #begin EdithSprite.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -350,6 +362,18 @@
 /processorParam:TextureFormat=Color
 /build:KeyD.png
 
+#begin KnifeRoom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:KnifeRoom.png
+
 #begin MainRoom.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -458,6 +482,18 @@
 /processorParam:TextureFormat=Color
 /build:npc.png
 
+#begin office.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:office.png
+
 #begin PartyMusic.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
@@ -506,6 +542,18 @@
 /processorParam:Quality=Best
 /build:Stab.wav
 
+#begin StairsRoom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:StairsRoom.png
+
 #begin stairsTest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -517,6 +565,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:stairsTest.png
+
+#begin SummerRoom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SummerRoom.png
 
 #begin SummerSprite.png
 /importer:TextureImporter

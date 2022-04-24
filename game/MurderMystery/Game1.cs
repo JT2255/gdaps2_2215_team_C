@@ -135,6 +135,11 @@ namespace MurderMystery
         //Misc
         private StreamReader reader = null;
         private Texture2D mainRoom;
+        private Texture2D stairsRoom;
+        private Texture2D summerRoom;
+        private Texture2D knifeRoom;
+        private Texture2D doorRoom;
+        private Texture2D office;
         private Texture2D blackSquare;
         private Texture2D blood;
         private List<Item> items;
@@ -173,8 +178,13 @@ namespace MurderMystery
             //initialize dialogue box
             dialogueBox = Content.Load<Texture2D>("dialogueBox");
 
-            //main room texture
+            //room textures
             mainRoom = Content.Load<Texture2D>("MainRoom");
+            stairsRoom = Content.Load<Texture2D>("StairsRoom");
+            summerRoom = Content.Load<Texture2D>("SummerRoom");
+            knifeRoom = Content.Load<Texture2D>("KnifeRoom");
+            doorRoom = Content.Load<Texture2D>("DoorRoom");
+            office = Content.Load<Texture2D>("office");
 
             //black texture
             blackSquare = Content.Load<Texture2D>("blackSquare");
@@ -445,6 +455,7 @@ namespace MurderMystery
                     {
                         switch (currentRoom)
                         {
+                            //The Main Room
                             case Rooms.Room1:
                                 _spriteBatch.Draw(mainRoom, new Vector2(0, 0), Color.White);
 
@@ -535,6 +546,7 @@ namespace MurderMystery
                         // When in game state, check for what room state you are in
                         switch (currentRoom)
                         {
+                            //The Main Room
                             case Rooms.Room1:
                                 _spriteBatch.Draw(mainRoom, new Vector2(0, 0), Color.White);
 
@@ -577,9 +589,10 @@ namespace MurderMystery
                                     }
                                 }
                                 break;
+                            //The Room with the stairs
                             case Rooms.Room2:
 
-                                GraphicsDevice.Clear(Color.DarkOliveGreen);
+                                _spriteBatch.Draw(stairsRoom, new Vector2(0, 0), Color.White);
 
                                 //draw stairs and npc
                                 testStairsButton.Draw(_spriteBatch);
@@ -630,9 +643,10 @@ namespace MurderMystery
                                 }
 
                                 break;
+                            //The room with the door
                             case Rooms.Room3:
 
-                                GraphicsDevice.Clear(Color.Gray);
+                                _spriteBatch.Draw(doorRoom, new Vector2(0, 0), Color.White);
 
                                 // Elizabeth dies at 9
                                 if (hour < 9)
@@ -691,8 +705,9 @@ namespace MurderMystery
                                 }
 
                                 break;
+                            //The room with summer
                             case Rooms.Room4:
-                                GraphicsDevice.Clear(Color.DarkGray);
+                                _spriteBatch.Draw(summerRoom, new Vector2(0, 0), Color.White);
 
                                 //draw stairs and npc
                                 testStairsButton.Draw(_spriteBatch);
@@ -745,8 +760,9 @@ namespace MurderMystery
 
 
                                 break;
+                            //The room with the knife
                             case Rooms.Room5:
-                                GraphicsDevice.Clear(Color.DarkSlateGray);
+                                _spriteBatch.Draw(knifeRoom, new Vector2(0, 0), Color.White);
 
                                 //draw player
                                 player.Draw(_spriteBatch);
@@ -761,8 +777,10 @@ namespace MurderMystery
 
 
                                 break;
+                            //the office
                             case Rooms.Room7:
-                                GraphicsDevice.Clear(Color.Khaki);
+                                _spriteBatch.Draw(office, new Vector2(0, 0), Color.White);
+
                                 _spriteBatch.Draw(desk, new Rectangle(windowWidth / 2 - 156, windowHeight / 2 - 110, 156, 110), Color.White);
                                 doorButton.Draw(_spriteBatch);
 
