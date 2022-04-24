@@ -136,6 +136,7 @@ namespace MurderMystery
         private StreamReader reader = null;
         private Texture2D mainRoom;
         private Texture2D blackSquare;
+        private Texture2D blood;
         private List<Item> items;
         private double totalTime;
         private double currentTime;
@@ -223,6 +224,9 @@ namespace MurderMystery
             //soundEffects["Item"].Play();
             SoundEffect.MasterVolume = 0.2f;
             #endregion
+
+            // Load Textures
+            blood = Content.Load<Texture2D>("Blood");
 
             // Load in characters
             LoadCharacters();
@@ -538,6 +542,15 @@ namespace MurderMystery
                                 {
                                     clara.Draw(_spriteBatch);
                                 }
+                                else 
+                                {
+                                    _spriteBatch.Draw(blood,
+                                        new Rectangle(clara.Position.X + clara.Position.Width/2,
+                                        clara.Position.Y + clara.Position.Height,
+                                        blood.Width,
+                                        blood.Height), 
+                                        Color.White);
+                                }
                                 
                                //s _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
 
@@ -583,7 +596,14 @@ namespace MurderMystery
                                 if (hour < 11)
                                 {
                                     frank.Draw(_spriteBatch);
-                                }                          
+                                }
+                                else 
+                                {
+                                    _spriteBatch.Draw(blood,
+                                        new Rectangle(frank.Position.X + frank.Position.Width / 2,
+                                        frank.Position.Y + frank.Position.Height, blood.Width, blood.Height),
+                                        Color.White);
+                                }
 
                                 //draw player
                                 player.Draw(_spriteBatch);
@@ -619,17 +639,30 @@ namespace MurderMystery
                                 {
                                     elizabeth.Draw(_spriteBatch);
                                 }
+                                else 
+                                {
+                                    _spriteBatch.Draw(blood,
+                                        new Rectangle(elizabeth.Position.X, elizabeth.Position.Y, blood.Width, blood.Height),
+                                        Color.White);
+                                }
 
                                 if (hour < 7)
                                 {
                                     ernest.Draw(_spriteBatch);
                                 }
-                                
-                                //draw player
-                                player.Draw(_spriteBatch);
+                                else 
+                                {
+                                    _spriteBatch.Draw(blood,
+                                        new Rectangle(ernest.Position.X + ernest.Position.Width / 2,
+                                        ernest.Position.Y + ernest.Position.Height, blood.Width, blood.Height),
+                                        Color.White);
+                                }
 
                                 //draw button
                                 doorButton.Draw(_spriteBatch);
+
+                                //draw player
+                                player.Draw(_spriteBatch);
 
                                 //draw npc dialogue
                                 if (elizabeth.IsTalking && elizabeth.BeingDrawn)
@@ -670,6 +703,13 @@ namespace MurderMystery
                                 if (hour < 10)
                                 {
                                     edward.Draw(_spriteBatch);
+                                }
+                                else 
+                                {
+                                    _spriteBatch.Draw(blood,
+                                        new Rectangle(edward.Position.X + edward.Position.Width / 2,
+                                        edward.Position.Y + edward.Position.Height, blood.Width, blood.Height),
+                                        Color.White);
                                 }
 
                                 //draw player
