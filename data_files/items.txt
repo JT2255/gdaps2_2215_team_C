@@ -1,4 +1,4 @@
-Knife,A knife with the letter E engraved on the handle,0,BloodyKnife,700,340,84,15
-Key A,A key for a door,1,KeyA,285,260,56,62
+Knife,A knife with the letter E engraved on the handle,0,BloodyKnife,700,360,84,15
+Key,A key for a door,1,KeyA,295,270,28,31
 Ring,A gold ring with purple gems,2,summersRing,200,390,40,35
 Cloth,A torn cloth with a bloodstain,3,cloth,110,370,60,50
