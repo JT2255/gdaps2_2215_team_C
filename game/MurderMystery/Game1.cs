@@ -50,6 +50,7 @@ namespace MurderMystery
         private State currentState;
         private Rooms currentRoom;
 
+        // Our player object
         private Player player;
 
         #region NPCs
@@ -85,7 +86,7 @@ namespace MurderMystery
         //Textures
         #region Character Textures
         private Texture2D playerTexture;
-       // private Texture2D testNPCTexture;
+        // private Texture2D testNPCTexture;
         private Texture2D claraFarleyTexture;
         private Texture2D edithEspinozaTexture;
         private Texture2D elizabethMaxwellTexture;
@@ -118,19 +119,25 @@ namespace MurderMystery
         private Texture2D exclamation;
         #endregion
 
-        //text box texture
+        #region Misc Textures
         private Texture2D dialogueBox;
         private Texture2D desk;
+        #endregion
+
+        #region Fonts
         private SpriteFont font;
         private SpriteFont titleFont;
+        #endregion
 
         //Music
+        #region Music Fields
         private Song mainMenuMusic;
         private Song backgroundMusic;
         private Song partyMusic;
         private Song badEnd;
         private Dictionary<String, SoundEffect> soundEffects;
         private bool musicChanged;
+        #endregion
 
         //Misc
         private StreamReader reader = null;
@@ -149,7 +156,7 @@ namespace MurderMystery
         private List<GameObject> gameObjects;
         private List<NPC> npcs;
         private bool won;
-        
+
         #endregion
 
         // ~~~ GAME LOOP STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,8 +174,8 @@ namespace MurderMystery
             windowHeight = _graphics.PreferredBackBufferHeight;
             windowWidth = _graphics.PreferredBackBufferWidth;
 
-           // Game starts at the main menu by default
-           currentState = State.MainMenu;
+            // Game starts at the main menu by default
+            currentState = State.MainMenu;
             // Game starts in the first room by default
             currentRoom = Rooms.Room1;
 
@@ -333,7 +340,7 @@ namespace MurderMystery
                         && edward.BeenTalkedTo && frank.BeenTalkedTo && edith.BeenTalkedTo
                         && summer.BeenTalkedTo && james.BeenTalkedTo)
                     {
-                        
+
                         ProcessTimer(gameTime);
                     }
 
@@ -442,14 +449,14 @@ namespace MurderMystery
 
                     //draw button
                     continueButton.Draw(_spriteBatch, "");
-                    _spriteBatch.DrawString(font, "CONTINUE", new Vector2(330,420), Color.Black);
-          
+                    _spriteBatch.DrawString(font, "CONTINUE", new Vector2(330, 420), Color.Black);
+
                     break;
                 #endregion
                 case State.Game:
                     #region Game
-                    
-                                     
+
+
 
                     if (hour == 5) // Start of Game
                     {
@@ -460,9 +467,9 @@ namespace MurderMystery
                                 _spriteBatch.Draw(mainRoom, new Vector2(0, 0), Color.White);
 
                                 if (currentTime < 55)
-                                    //&& !clara.BeenTalkedTo || !edith.BeenTalkedTo || !elizabeth.BeenTalkedTo
-                                    //|| !summer.BeenTalkedTo || !edward.BeenTalkedTo || !frank.BeenTalkedTo || !james.BeenTalkedTo
-                                    //|| !ernest.BeenTalkedTo)
+                                //&& !clara.BeenTalkedTo || !edith.BeenTalkedTo || !elizabeth.BeenTalkedTo
+                                //|| !summer.BeenTalkedTo || !edward.BeenTalkedTo || !frank.BeenTalkedTo || !james.BeenTalkedTo
+                                //|| !ernest.BeenTalkedTo)
                                 {
                                     clara.Draw(_spriteBatch);
                                     edith.Draw(_spriteBatch);
@@ -474,7 +481,7 @@ namespace MurderMystery
                                     ernest.Draw(_spriteBatch);
                                     player.Draw(_spriteBatch);
 
-                                    
+
 
                                     //show npc dialogue
                                     if (clara.IsTalking)
@@ -530,7 +537,7 @@ namespace MurderMystery
                                     {
                                         ernest.BeenTalkedTo = true;
                                         ernest.Speak(_spriteBatch, font, dialogueBox, player, hour, items[0]);
-                                    }                            
+                                    }
                                 }
                                 else
                                 {
@@ -554,17 +561,17 @@ namespace MurderMystery
                                 {
                                     clara.Draw(_spriteBatch);
                                 }
-                                else 
+                                else
                                 {
                                     _spriteBatch.Draw(blood,
-                                        new Rectangle(clara.Position.X + clara.Position.Width/2,
+                                        new Rectangle(clara.Position.X + clara.Position.Width / 2,
                                         clara.Position.Y + clara.Position.Height,
                                         blood.Width,
-                                        blood.Height), 
+                                        blood.Height),
                                         Color.White);
                                 }
-                                
-                               //s _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
+
+                                //s _spriteBatch.Draw(corpseTexture, new Rectangle(windowWidth / 2 - 56, windowHeight / 2 + 40, 112, 20), Color.White);
 
                                 deadAtkins.Draw(_spriteBatch);
                                 deadAtkins.BeingDrawn = true;
@@ -610,7 +617,7 @@ namespace MurderMystery
                                 {
                                     frank.Draw(_spriteBatch);
                                 }
-                                else 
+                                else
                                 {
                                     _spriteBatch.Draw(blood,
                                         new Rectangle(frank.Position.X + frank.Position.Width / 2,
@@ -653,7 +660,7 @@ namespace MurderMystery
                                 {
                                     elizabeth.Draw(_spriteBatch);
                                 }
-                                else 
+                                else
                                 {
                                     _spriteBatch.Draw(blood,
                                         new Rectangle(elizabeth.Position.X + elizabeth.Position.Width / 2,
@@ -668,7 +675,7 @@ namespace MurderMystery
                                 {
                                     ernest.Draw(_spriteBatch);
                                 }
-                                else 
+                                else
                                 {
                                     _spriteBatch.Draw(blood,
                                         new Rectangle(ernest.Position.X + ernest.Position.Width / 2,
@@ -720,7 +727,7 @@ namespace MurderMystery
                                 {
                                     edward.Draw(_spriteBatch);
                                 }
-                                else 
+                                else
                                 {
                                     _spriteBatch.Draw(blood,
                                         new Rectangle(edward.Position.X + edward.Position.Width / 2,
@@ -728,7 +735,8 @@ namespace MurderMystery
                                         Color.White);
                                 }
 
-                              
+                                //draw player
+                                player.Draw(_spriteBatch);
 
                                 //draw npc dialogue
                                 if (summer.IsTalking && summer.BeingDrawn)
@@ -757,8 +765,6 @@ namespace MurderMystery
                                     items[1].Draw(_spriteBatch);
                                 }
 
-                                //draw player
-                                player.Draw(_spriteBatch);
 
 
                                 break;
@@ -766,7 +772,7 @@ namespace MurderMystery
                             case Rooms.Room5:
                                 _spriteBatch.Draw(knifeRoom, new Vector2(0, 0), Color.White);
 
-                                
+
 
                                 // If the knife is not picked up, draw it
                                 if (!items[0].PickedUp)
@@ -837,23 +843,23 @@ namespace MurderMystery
                     // Draws the inventory items
                     // Display Inventory -----
                     // Should format the inventory into a small arrangement of Item objects
-                    for(int i = 0; i < player.Inventory.Count; i++) 
+                    for (int i = 0; i < player.Inventory.Count; i++)
                     {
                         // Label what to use
                         Item thisItem = player.Inventory[i];
                         int itemBoxLength = windowWidth / 12;
                         Vector2 formatPos = startPoint + new Vector2(0, itemBoxLength + 10);
-                        thisItem.Position = new Rectangle((int) formatPos.X +(itemBoxLength - thisItem.Position.Width)/2,
-                            (int) formatPos.Y + (itemBoxLength - thisItem.Position.Height) / 2,
+                        thisItem.Position = new Rectangle((int)formatPos.X + (itemBoxLength - thisItem.Position.Width) / 2,
+                            (int)formatPos.Y + (itemBoxLength - thisItem.Position.Height) / 2,
                             thisItem.Position.Width,
                             thisItem.Position.Height);
 
                         // Draw the Boxes (To be overlapped)
                         ShapeBatch.Box(formatPos.X + itemBoxLength + 10, //TextBox
                             formatPos.Y,
-                            windowWidth * 77/100,
+                            windowWidth * 77 / 100,
                             itemBoxLength,
-                            Color.Black); 
+                            Color.Black);
                         _spriteBatch.Draw(dialogueBox, //ItemBox
                             new Rectangle(
                                 (int)formatPos.X,
@@ -865,7 +871,7 @@ namespace MurderMystery
                         thisItem.Draw(_spriteBatch);
                         _spriteBatch.DrawString(font,
                             thisItem.ToString(),
-                            formatPos + new Vector2(itemBoxLength + 14, (itemBoxLength - font.LineSpacing)/2),
+                            formatPos + new Vector2(itemBoxLength + 14, (itemBoxLength - font.LineSpacing) / 2),
                             Color.White);
                         startPoint = formatPos;
                     }
@@ -922,7 +928,7 @@ namespace MurderMystery
                     _spriteBatch.DrawString(font, "MAIN MENU", new Vector2(330, 230), Color.Black);
                     GraphicsDevice.Clear(Color.DarkGray);
                     break;
-                    #endregion
+                #endregion
                 default:
                     break;
             }
@@ -999,8 +1005,8 @@ namespace MurderMystery
             // Sets our flag
             bool hoveredOver = false;
 
-      
-                // Searches all of the game objects
+
+            // Searches all of the game objects
             foreach (GameObject g in gameObjects)
             {
                 // If we're hovering over any of them, set the flag
@@ -1009,7 +1015,7 @@ namespace MurderMystery
                     hoveredOver = true;
                 }
             }
-                // If the flag has been set
+            // If the flag has been set
             if (hoveredOver)
             {
                 Mouse.SetCursor(MouseCursor.Hand);
@@ -1018,9 +1024,9 @@ namespace MurderMystery
             {
                 Mouse.SetCursor(MouseCursor.Arrow);
             }
-                
-           
-            
+
+
+
             return hoveredOver;
         }
         #endregion
@@ -1084,7 +1090,7 @@ namespace MurderMystery
             }
 
             #region Talking To NPCS
-            
+
             //progress through npc dialogue
             if (clara.IsTalking && SingleKeyPress(Keys.Space, kbState))
             {
@@ -1291,14 +1297,14 @@ namespace MurderMystery
                         ernest.IsTalking = false;
                     }
 
-                   
+
 
                     //if you accuse someone
                     if (accuseButton.BeenClicked && items[0].PickedUp && (clara.IsTalking
                         || ernest.IsTalking))
                     {
                         //if they are murderer, win
-                        if (clara.IsMurderer) 
+                        if (clara.IsMurderer)
                         {
                             won = true;
                         }
@@ -1362,7 +1368,7 @@ namespace MurderMystery
                         {
                             won = true;
                         }
-                        
+
                         //go to end menu
                         currentState = State.EndMenu;
                     }
@@ -1631,26 +1637,32 @@ namespace MurderMystery
 
         private void ProcessTimer(GameTime gameTime)
         {
-                //if current time is greater than the total time per hour, increment the hour 
-                if (currentTime > totalTime)
-                {
-                    hour++;
-                    currentTime = 0;
-                }
-                else
-                {
-                    currentTime += gameTime.ElapsedGameTime.TotalSeconds;
-                }
+            //if current time is greater than the total time per hour, increment the hour 
+            if (currentTime > totalTime)
+            {
+                hour++;
+                currentTime = 0;
+            }
+            else
+            {
+                currentTime += gameTime.ElapsedGameTime.TotalSeconds;
+            }
 
-                //if time hits 12AM, end game
-                if (hour == 12)
-                {
-                    currentState = State.EndMenu;
-                }           
+            //if time hits 12AM, end game
+            if (hour == 12)
+            {
+                currentState = State.EndMenu;
+            }
         }
 
         /// <summary>
         /// Sets whether an item is being drawn for hover logic
+        /// 
+        /// IMPLEMENTATION: Whenever adding any interactable element, make sure
+        /// you add sets to each state of the game
+        /// 
+        /// NOTE: We couldn't find a way to simplify this logic to allow
+        /// things to happen when the mouse is hovering over an object
         /// </summary>
         private void BeingDrawnSets()
         {
@@ -1718,7 +1730,7 @@ namespace MurderMystery
                     exitButton.BeingDrawn = false;
                     pauseButton.BeingDrawn = true;
                     deadAtkins.BeingDrawn = false;
-                    
+
                     switch (currentRoom)
                     {
                         case Rooms.Room1:
@@ -1793,7 +1805,7 @@ namespace MurderMystery
                                     items[2].BeingDrawn = false;
                                 }
                                 doorButton.BeingDrawn = false;
-                            }                           
+                            }
                             break;
 
                         case Rooms.Room2:
@@ -2091,7 +2103,7 @@ namespace MurderMystery
                 }
 
                 // Close the file
-                if (reader != null) 
+                if (reader != null)
                 {
                     reader.Close();
                 }
@@ -2180,7 +2192,7 @@ namespace MurderMystery
             exitTexture = Content.Load<Texture2D>("ExitBox");
             testStairs = Content.Load<Texture2D>("SpiralStaircase");
             accuseTexture = Content.Load<Texture2D>("accuseButtonTexture");
-            
+
             desk = Content.Load<Texture2D>("desk");
 
             // Initializes the buttons
@@ -2253,7 +2265,7 @@ namespace MurderMystery
         /// <summary>
         /// Reset the game, by setting default values and remaking a new player.
         /// </summary>
-        private void ResetGame() 
+        private void ResetGame()
         {
             // Reset Timer
             totalTime = 60;
@@ -2265,13 +2277,13 @@ namespace MurderMystery
             // Reset all value of character by remaking the character
             player = new Player("Char", playerPos, playerTexture, windowHeight, windowWidth);
             // Reset all items loaded
-            foreach(Item a in items) 
+            foreach (Item a in items)
             {
                 a.ResetItem();
             }
 
             //reset dialogue positions of all npcs
-            
+
             foreach (NPC n in npcs)
             {
                 n.BeenTalkedTo = false;
